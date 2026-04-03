@@ -10,7 +10,7 @@ Route::get('/dashboard', function () {
     return view('pages.dashboard');
 });
 
-Route::get('/auth', function () {
+Route::get('/login', function () {
     return view('auth.login');
 });
 

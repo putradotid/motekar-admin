@@ -10,7 +10,7 @@
     <link href="{{ asset('sbadmin2/css/sb-admin-2.min.css') }}" rel="stylesheet">
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-light">
 
 <div class="container">
 
@@ -75,10 +75,6 @@
                         <hr>
 
                         <!-- LINKS -->
-                        <div class="text-center">
-                            <a class="small" href="#">Forgot Password?</a>
-                        </div>
-
                         <div class="text-center">
                             {{-- <a class="small" href="{{ route('register') }}"> --}}
                             <a class="small" href="#">
