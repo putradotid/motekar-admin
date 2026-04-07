@@ -34,23 +34,30 @@
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
                             <form class="user">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                                                Dropdown button
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">Super Admin</a>
-                                                <a class="dropdown-item" href="#">Admin</a>
-                                            </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                                        placeholder="Name">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="hidden" name="role" id="role">
+
+                                    <div class="dropdown w-100">
+                                        <button class="btn btn-light dropdown-toggle w-100 text-left"
+                                            type="button"
+                                            id="dropdownRole"
+                                            data-toggle="dropdown"
+                                            aria-expanded="false">
+                                            Select Role
+                                        </button>
+
+                                        <div class="dropdown-menu w-100">
+                                            <a class="dropdown-item" href="#" onclick="selectRole('admin', 'Admin')">Admin</a>
+                                            <a class="dropdown-item" href="#" onclick="selectRole('user', 'User')">User</a>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="exampleInputEmail"
                                         placeholder="Email Address">
@@ -70,6 +77,9 @@
                                 </a>
                             </form>
                             <div class="text-center">
+                                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                            </div>
+                            <div class="text-center">
                                 <a class="small" href="login.html">Already have an account? Login!</a>
                             </div>
                         </div>
@@ -79,6 +89,13 @@
         </div>
 
     </div>
+
+    <script>
+    function selectRole(value, text) {
+        document.getElementById('role').value = value;
+        document.getElementById('dropdownRole').innerText = text;
+    }
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('sbadmin2/vendor/jquery/jquery.min.js') }}"></script>
