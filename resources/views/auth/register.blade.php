@@ -21,11 +21,11 @@
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image">
+                    <div class="col-lg-5 d-none d-lg-flex justify-content-center align-items-center bg-register-image">
                         <img 
                             src="{{ asset('storage/motekar-logo.png') }}"
-                            class="img-fluid rounded-top"
                             alt="logo"
+                            style="max-width: 400px; height: auto;"
                         />
                     </div>
                     <div class="col-lg-7">
