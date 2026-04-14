@@ -34,12 +34,8 @@ Route::get('/register', function () {
 // Halaman User
 Route::prefix('user')->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('user.dashboard');
-    });
-
     Route::get('/meeting', function () {
-        return view('user.meeting.index');
+        return view('user.meeting');
     });
 
     Route::get('/profile', function () {

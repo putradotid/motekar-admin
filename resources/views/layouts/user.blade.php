@@ -20,6 +20,9 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('/') }}sbadmin2/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Custom styles css -->
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+
 
 </head>
 
@@ -28,10 +31,6 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <!-- Sidebar -->
-        <x-sidebar />
-        <!-- End of Sidebar -->
-
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -39,7 +38,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <x-topbar />
+                @include('components.user.topbar')
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -50,7 +49,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <x-footer />
+            @include('components.user.footer')
             <!-- End of Footer -->
 
         </div>

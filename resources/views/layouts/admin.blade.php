@@ -20,6 +20,8 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('/') }}sbadmin2/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Custom styles css -->
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 
 </head>
 
@@ -50,7 +52,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <x-footer />
+            @include('components.admin.footer')
             <!-- End of Footer -->
 
         </div>

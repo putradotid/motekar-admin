@@ -1,0 +1,82 @@
+/* =========================
+   COLOR SYSTEM - MOTEKAR
+========================= */
+
+:root {
+    --amber-50:  #fffbeb;
+    --amber-100: #fef3c7;
+    --amber-200: #fde68a;
+    --amber-300: #fcd34d;
+    --amber-400: #fbbf24;
+    --amber-500: #f59e0b;
+    --amber-600: #d97706;
+    --amber-700: #b45309;
+    --amber-800: #92400e;
+    --amber-900: #78350f;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+.bg-amber {
+    background-color: var(--amber-600) !important;
+    color: #fff !important;
+}
+
+.bg-amber-light {
+    background-color: var(--amber-100) !important;
+}
+
+/* =========================
+   TEXT
+========================= */
+.text-amber {
+    color: var(--amber-600) !important;
+}
+
+/* =========================
+   BUTTON
+========================= */
+.btn-amber {
+    background-color: var(--amber-600);
+    color: #fff;
+    border: none;
+}
+
+.btn-amber:hover {
+    background-color: var(--amber-700);
+    color: #fff;
+}
+
+/* =========================
+   BORDER
+========================= */
+.border-amber {
+    border-color: var(--amber-600) !important;
+}
+
+/* =========================
+   BADGE
+========================= */
+.badge-amber {
+    background-color: var(--amber-500);
+    color: #fff;
+}
+
+/* =========================
+   CARD ACCENT
+========================= */
+.card-amber {
+    border-left: 4px solid var(--amber-600);
+}
+
+/* =========================
+   LINK
+========================= */
+.link-amber {
+    color: var(--amber-600);
+}
+
+.link-amber:hover {
+    color: var(--amber-700);
+}
