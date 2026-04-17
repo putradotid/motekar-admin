@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="icon" href="{{ asset('storage/motekar-logo.ico') }}" type="image/x-icon">
     <title>Login</title>
 
     <!-- SB Admin CSS -->
@@ -79,8 +79,7 @@
                             <a class="small" href="forgot-password.html">Forgot Password?</a>
                         </div>
                         <div class="text-center">
-                            {{-- <a class="small" href="{{ route('register') }}"> --}}
-                            <a class="small" href="#">
+                            <a class="small" href="{{ route('register') }}">
                                 Create an Account!
                             </a>
                         </div>

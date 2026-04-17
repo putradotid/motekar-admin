@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Motekar</title>
+  <link rel="icon" href="{{ asset('storage/motekar-logo.ico') }}" type="image/x-icon">
   @vite('resources/css/app.css')
   <link rel="stylesheet" href="{{ asset('css/font.css') }}">
 </head>

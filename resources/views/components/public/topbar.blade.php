@@ -16,16 +16,16 @@
 
     <!-- Navigation -->
     <nav class="hidden md:flex items-center gap-6 text-sm text-gray-600">
-      <a href="#" class="hover:text-black transition">Beranda</a>
-      <a href="#" class="hover:text-black transition">Tentang Kami</a>
-      <a href="#" class="hover:text-black transition">Product</a>
-      <a href="#" class="hover:text-black transition">Testimoni</a>
-      <a href="#" class="hover:text-black transition">Tim</a>
-      <a href="#" class="hover:text-black transition">Kontak</a>
+      <a href="{{ route('beranda') }}" class="hover:text-black transition">Beranda</a>
+      <a href="{{ route('tentang-kami') }}" class="hover:text-black transition">Tentang Kami</a>
+      <a href="{{ route('produk-layanan') }}" class="hover:text-black transition">Product</a>
+      <a href="{{ route('testimoni') }}" class="hover:text-black transition">Testimoni</a>
+      <a href="{{ route('tim-kami') }}" class="hover:text-black transition">Tim</a>
+      <a href="{{ route('kontak') }}" class="hover:text-black transition">Kontak</a>
     </nav>
 
     <!-- Button -->
-    <a href="#" 
+    <a href="{{ route('login') }}" 
        class="text-sm px-4 py-1.5 rounded-full border bg-orange-400 text-white hover:bg-orange-500 transition">
       Sign in
     </a>

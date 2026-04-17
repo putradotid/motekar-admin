@@ -13,12 +13,6 @@
     <p class="mt-6 text-gray-600 text-xs md:text-sm">
       Kami membantu perusahaan dan UMKM bertransformasi secara digital melalui pengembangan software, sistem terintegrasi, dan solusi teknologi yang scalable. Solusi teknologi terintegrasi untuk mempercepat pertumbuhan bisnis Anda di era digital.
     </p>
-
-    <div class="mt-8 flex gap-4">
-      <button class="bg-blue-900 text-white px-6 py-3 rounded-full">
-        HUBUGI KAMI
-      </button>
-    </div>
   </div>
 
   <!-- Card kanan -->
@@ -32,16 +26,50 @@
     </div>
   </div>
 
+  <div class="mt-16 flex gap-4 justify-start md:justify-center">
+    <button class="bg-blue-900 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition duration-300">
+      HUBUGI KAMI
+    </button>
+  </div>
+
 </section>
 
-<section class="bg-orange-400 text-white height-auto py-16">
-  <div class="max-w-6xl mx-auto text-center">
-    <span class="text-3xl font-bold">Kenapa Memilih Kami</span>
-    <div class="max-w-4xl mx-auto mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      <img src="{{ asset('storage/hero-logo.png') }}"class="img-fluid rounded-top" alt="logo"/>
-      <img src="{{ asset('storage/hero-logo.png') }}"class="img-fluid rounded-top" alt="logo"/>
-      <img src="{{ asset('storage/hero-logo.png') }}"class="img-fluid rounded-top" alt="logo"/>
-      <img src="{{ asset('storage/hero-logo.png') }}"class="img-fluid rounded-top" alt="logo"/>
+<section class="bg-amber-500 text-white py-20">
+  <div class="max-w-6xl mx-auto text-center px-6">
+
+    <!-- Title -->
+    <h2 class="text-3xl md:text-4xl font-bold">
+      Kenapa Memilih Kami?
+    </h2>
+
+    <!-- Grid -->
+    <div class="mt-12 flex justify-center gap-16">
+
+      <!-- Item -->
+      <div class="flex flex-col items-center">
+        <img src="{{ asset('storage/icon4.png') }}" 
+             class="w-32 h-32 object-contain" />
+        <p class="mt-4 text-sm">Inovatif</p>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <img src="{{ asset('storage/icon3.png') }}" 
+             class="w-32 h-32 object-contain" />
+        <p class="mt-4 text-sm">Solutif</p>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <img src="{{ asset('storage/icon.png') }}" 
+             class="w-32 h-32 object-contain" />
+        <p class="mt-4 text-sm">Produktif</p>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <img src="{{ asset('storage/icon2.png') }}" 
+             class="w-32 h-32 object-contain" />
+        <p class="mt-4 text-sm">Update</p>
+      </div>
+
     </div>
   </div>
 </section>
