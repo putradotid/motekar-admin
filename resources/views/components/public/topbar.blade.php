@@ -20,7 +20,7 @@
       <a href="{{ route('tentang-kami') }}" class="hover:text-black transition">Tentang Kami</a>
       <a href="{{ route('produk-layanan') }}" class="hover:text-black transition">Product</a>
       <a href="{{ route('testimoni') }}" class="hover:text-black transition">Testimoni</a>
-      <a href="{{ route('tim-kami') }}" class="hover:text-black transition">Tim</a>
+      <a href="{{ route('tim-kami') }}" class="hover:text-black transition">Tim Kami</a>
       <a href="{{ route('kontak') }}" class="hover:text-black transition">Kontak</a>
     </nav>
 

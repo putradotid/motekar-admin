@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('content')\
+@section('content')
 {{-- Hero section --}}
 <section class="bg-gray-300 relative mt-10 px-8 py-16 md:py-24">
   <div class="max-w-2xl">
@@ -76,28 +76,28 @@
 </section>
 
 {{-- Section 2 --}}
-<section class="flex px-1 py-16 md:py-16">
+<section class="flex py-16 md:py-16">
 
-  <div class="grid grid-cols-3 gap-4 max-w-6xl mx-auto">
+  <div class="grid grid-cols-3 gap-3 max-w-6xl mx-auto">
 
     <!-- Gambar -->
-    <div class="grid grid-rows-3 gap-4">
+    <div class="grid grid-rows-3">
       
-      <img src="{{ asset('storage/assets/beranda.jpg') }}" 
-          class="w-30 h-30 object-cover">
+      <img src="{{ asset('storage/assets/beranda2.jpg') }}" 
+          class="w-auto h-30 object-cover">
 
-      <img src="{{ asset('storage/assets/beranda.jpg') }}" 
-          class="w-30 h-30 object-cover">
+      <img src="{{ asset('storage/assets/beranda4.jpg') }}" 
+          class="w-auto h-30 object-cover">
           
-      <img src="{{ asset('storage/assets/beranda.jpg') }}" 
-          class="w-30 h-30 object-cover">
+      <img src="{{ asset('storage/assets/beranda4.jpg') }}" 
+          class="w-auto h-30 object-cover">
 
     </div>
 
     <!-- RIGHT SIDE (gambar besar) -->
     <div class="col-span-2">
       <img src="{{ asset('storage/assets/beranda.jpg') }}" 
-          class="w-auto h-150 object-cover">
+          class="w-auto h-120 object-cover">
     </div>
 
   </div>
@@ -198,7 +198,7 @@
 </section>
 
 {{-- Section 5 --}}
-<section class="bg-gray-100 py-16">
+<section class="bg-gray-100 py-16 md:py-24">
   <div class="max-w-3xl mx-auto px-6">
 
     <div class="bg-white rounded-2xl shadow-lg p-10 flex flex-col md:flex-row items-center gap-8">
