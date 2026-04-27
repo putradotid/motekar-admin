@@ -102,6 +102,7 @@
 <script src="{{ asset('sbadmin2/vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('sbadmin2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
+{{-- koneksi api --}}
 <script>
     document.getElementById('loginForm').addEventListener('submit', async function (e) {
         e.preventDefault();
@@ -111,8 +112,8 @@
 
         try {
             const response = await fetch('http://localhost:8000/api/login', {
-                method: 'POST',
-                headers: {
+                method : 'POST',
+                headers : {
                     'Content-Type' : 'application/json',
                     'Accept' : 'application/json'
                 },
