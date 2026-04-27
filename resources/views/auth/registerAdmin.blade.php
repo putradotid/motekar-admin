@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{ asset('storage/motekar-logo.ico') }}" type="image/x-icon">
-    <title>Register</title>
+    <title>Register - Admin</title>
 
     <!-- SB Admin CSS -->
     <link href="{{ asset('sbadmin2/css/sb-admin-2.min.css') }}" rel="stylesheet">
@@ -37,6 +37,25 @@
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="exampleFirstName"
                                         placeholder="Name">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="hidden" name="role" id="role">
+
+                                    <div class="dropdown w-100">
+                                        <button class="btn btn-light dropdown-toggle w-100 text-left"
+                                            type="button"
+                                            id="dropdownRole"
+                                            data-toggle="dropdown"
+                                            aria-expanded="false">
+                                            Select Role
+                                        </button>
+
+                                        <div class="dropdown-menu w-100">
+                                            <a class="dropdown-item" href="#" onclick="selectRole('admin', 'Admin')">Admin</a>
+                                            <a class="dropdown-item" href="#" onclick="selectRole('user', 'User')">User</a>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">

@@ -34,7 +34,7 @@
                         </div>
 
                         <!-- FORM -->
-                        <form method="POST" action="#" class="user">
+                        <form class="user" id="loginForm">
                             @csrf
 
                             <!-- ERROR -->
@@ -47,6 +47,7 @@
                             <!-- EMAIL -->
                             <div class="form-group">
                                 <input type="email"
+                                    id="email"
                                     name="email"
                                     value="{{ old('email') }}"
                                     class="form-control form-control-user"
@@ -57,6 +58,7 @@
                             <!-- PASSWORD -->
                             <div class="form-group">
                                 <input type="password"
+                                    id="password"
                                     name="password"
                                     class="form-control form-control-user"
                                     placeholder="Password"
@@ -99,6 +101,45 @@
 <!-- JS SB Admin -->
 <script src="{{ asset('sbadmin2/vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('sbadmin2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const response = await fetch('http://localhost:8000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Accept' : 'application/json'
+                },
+                body: JSON.stringify({ email, password})
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // simpan token
+                localStorage.setItem('token', data.token);
+
+                // pindah page sesuai role
+                if (data.user.role === 'admin') {
+                    window.location.href = '/admin/dashboard';
+                } else {
+                    window.location.href = '/user/meeting';
+                }
+            } else {
+                alert(data.message || 'Login gagal');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    });
+
+</script>
 
 </body>
 </html>
