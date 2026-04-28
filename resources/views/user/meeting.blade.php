@@ -1,10 +1,10 @@
 @extends('layouts.user')
 
 @section('content')
-<div class="container">
+<div class="container mt-5">
 
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 pt-5">
         <div>
             <h2 class="font-weight-bold">Hi, User!</h2>
             <p class="text-muted">Anda dapat memantau status dan progres request meeting Anda di sini.</p>
