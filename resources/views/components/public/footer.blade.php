@@ -3,7 +3,7 @@
 
     <!-- Left -->
     <div>
-      Copyright by ©putradotid 2026
+      Copyright by &copy;putradotid 2026
     </div>
 
     <!-- Right -->

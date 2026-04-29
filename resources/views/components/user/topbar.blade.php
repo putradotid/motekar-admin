@@ -16,27 +16,32 @@
     <!-- Navbar -->
     <ul class="navbar-nav flex-row mx-auto">
         <li class="nav-item mx-3">
-            <a href="#" class="nav-link text-amber font-weight-bold">
+            <a href="{{ route('user-meeting') }}" class="nav-link {{ request()->routeIs('user-meeting') ? 'text-amber font-weight-bold' : 'text-dark' }}">
                 Request Meeting
             </a>
         </li>
         <li class="nav-item mx-3">
-            <a href="#" class="nav-link text-dark">
+            <a href="{{ route('user-message') }}" class="nav-link {{ request()->routeIs('user-message') ? 'text-amber font-weight-bold' : 'text-dark' }}">
                 Message
             </a>
         </li>
         <li class="nav-item mx-3">
-            <a href="#" class="nav-link text-dark">
+            <a href="{{ route('user-profile') }}" class="nav-link {{ request()->routeIs('user-profile') ? 'text-amber font-weight-bold' : 'text-dark' }}">
                 Profile
             </a>
         </li>
     </ul>
 
     <!-- Logout -->
-    <div>
-        <a href="#" class="btn btn-danger px-4 rounded-pill">
-            Keluar
-        </a>
-    </div>
+    <form id="logoutForm">
+        @csrf
+        <div>
+            <button class="btn btn-danger px-4 rounded" type="submit">
+                <a href="{{ route('beranda') }}" class="text-white">
+                    Keluar
+                </a>
+            </button>
+        </div>
+    </form>
 
 </nav>

@@ -35,13 +35,15 @@ Route::get('/register', function () {
 Route::prefix('user')->group(function () {
     Route::get('/meeting', function () {
         return view('user.meeting');
-    })->name('user.meeting');
+    })->name('user-meeting');
+
     Route::get('/profile', function () {
         return view('user.profile');
-    })->name('user.profile');
+    })->name('user-profile');
+
     Route::get('/message', function () {
         return view('user.message');
-    })->name('user.message');
+    })->name('user-message');
 
 });
 
