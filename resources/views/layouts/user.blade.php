@@ -24,6 +24,8 @@
     <!-- Custom styles css -->
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 
+    {{-- Api Public --}}
+  <script src="{{ asset('js/api-user.js') }}"></script>
 
 </head>
 
@@ -83,6 +85,10 @@
             </div>
         </div>
     </div>
+
+    <script>
+        localStorage.getItem('token');
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('/') }}sbadmin2/vendor/jquery/jquery.min.js"></script>

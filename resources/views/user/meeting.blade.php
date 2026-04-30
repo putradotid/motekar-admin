@@ -81,45 +81,13 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="meetingBody">
                         <tr>
                             <td>Senin, Maret 7</td>
                             <td>Build Website POS</td>
                             <td>Pending</td>
                             <td>Senin, Maret 7</td>
                             <td>10:00 AM</td>
-                            <td><button class="btn btn-sm btn-danger">Cancel</button></td>
-                        </tr>
-                        <tr>
-                            <td>Senin, Maret 8</td>
-                            <td>Media Partnership</td>
-                            <td>Approved</td>
-                            <td>Senin, Maret 8</td>
-                            <td>2:30 PM</td>
-                            <td><button class="btn btn-sm btn-danger">Cancel</button></td>
-                        </tr>
-                        <tr>
-                            <td>Senin, Maret 9</td>
-                            <td>Portal Student</td>
-                            <td>Rescheduled</td>
-                            <td>Senin, Maret 9</td>
-                            <td>11:15 AM</td>
-                            <td><button class="btn btn-sm btn-danger">Cancel</button></td>
-                        </tr>
-                        <tr>
-                            <td>Selasa, Maret 10</td>
-                            <td>Website Feedback</td>
-                            <td>Rescheduled</td>
-                            <td>Selasa, Maret 10</td>
-                            <td>3:15 PM</td>
-                            <td><button class="btn btn-sm btn-danger">Cancel</button></td>
-                        </tr>
-                        <tr>
-                            <td>Jumat, Maret 13</td>
-                            <td>Scraping Big Data</td>
-                            <td>Complete</td>
-                            <td>Jumat, Maret 13</td>
-                            <td>1:00 PM</td>
                             <td><button class="btn btn-sm btn-danger">Cancel</button></td>
                         </tr>
                     </tbody>
@@ -142,4 +110,38 @@
     </div>
 
 </div>
+
+<script src="/js/api.js"></script>
+
+<script>
+async function loadMeetings() {
+    try {
+        const data = await api.get('/my-meetings');
+
+        const tbody = document.getElementById('meetingBody');
+        tbody.innerHTML = '';
+
+        data.forEach(item => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${item.date}</td>
+                    <td>${item.title}</td> <!-- FIX -->
+                    <td>${item.status}</td>
+                    <td>${item.meeting_date ?? '-'}</td>
+                    <td>${item.meeting_time ?? '-'}</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger">Cancel</button>
+                    </td>
+                </tr>
+            `;
+        });
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+// jalan saat page load
+document.addEventListener('DOMContentLoaded', loadMeetings);
+</script>
 @endsection

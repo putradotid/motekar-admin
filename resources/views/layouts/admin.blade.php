@@ -23,6 +23,9 @@
     <!-- Custom styles css -->
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 
+    {{-- Api admin --}}
+    <script src="{{ asset('js/api-admin.js') }}"></script>
+
 </head>
 
 <body id="page-top">
