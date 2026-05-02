@@ -86,10 +86,6 @@
         </div>
     </div>
 
-    <script>
-        localStorage.getItem('token');
-    </script>
-
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('/') }}sbadmin2/vendor/jquery/jquery.min.js"></script>
     <script src="{{ asset('/') }}sbadmin2/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -100,6 +96,9 @@
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('/') }}sbadmin2/js/sb-admin-2.min.js"></script>
 
+    {{-- semua @push load data dari child view masuk sini --}}
+    <script src="{{ asset('js/api-user.js') }}"></script>
+    @stack('scripts')
 </body>
 
 </html>

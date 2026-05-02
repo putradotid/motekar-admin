@@ -44,6 +44,10 @@ Route::prefix('user')->group(function () {
     Route::get('/message', function () {
         return view('user.message');
     })->name('user-message');
+    
+    Route::get('/request-meeting', function () {
+        return view('user.requestMeeting');
+    })->name('request-meeting');
 
 });
 

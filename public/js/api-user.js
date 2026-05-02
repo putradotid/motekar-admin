@@ -34,3 +34,15 @@ const api = {
     get: (url) => apiFetch(url),
     post: (url, body) => apiFetch(url, { method: 'POST', body: JSON.stringify(body) }),
 };
+
+// fungsi logout
+async function handleLogout() {
+    try {
+        await api.post('/logout');
+    } catch (err) {
+        // Tetap logout meski API error
+    } finally {
+        userAuth.removeToken(); // atau adminAuth.removeToken() kalau di layer admin
+        window.location.href = "{{ route('beranda') }}";
+    }
+}

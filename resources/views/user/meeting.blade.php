@@ -9,7 +9,7 @@
             <h2 class="font-weight-bold">Hi, User!</h2>
             <p class="text-muted">Anda dapat memantau status dan progres request meeting Anda di sini.</p>
         </div>
-        <a href="#" class="btn btn-amber px-4">
+        <a href="{{ route('request-meeting') }}" class="btn btn-amber px-4">
             Tambah Meeting
         </a>
     </div>
@@ -83,11 +83,11 @@
                     </thead>
                     <tbody id="meetingBody">
                         <tr>
-                            <td>Senin, Maret 7</td>
-                            <td>Build Website POS</td>
-                            <td>Pending</td>
-                            <td>Senin, Maret 7</td>
-                            <td>10:00 AM</td>
+                            <td> - </td>
+                            <td> - </td>
+                            <td> - </td>
+                            <td> - </td>
+                            <td> - </td>
                             <td><button class="btn btn-sm btn-danger">Cancel</button></td>
                         </tr>
                     </tbody>
@@ -111,7 +111,11 @@
 
 </div>
 
-<script src="/js/api.js"></script>
+@endsection
+
+@push('scripts')
+
+{{-- Load data --}}
 
 <script>
 async function loadMeetings() {
@@ -122,13 +126,24 @@ async function loadMeetings() {
         tbody.innerHTML = '';
 
         data.forEach(item => {
+
+            // split tanggal dan waktu
+            const [date, time] = item.date.split(' ');
+            const shortTime = time ? time.substring(0, 5) : '-';
+
+            // perbaikan format tanggal
+            const createdAt = item.created_at
+                ? item.created_at.replace('T', ' ').substring(0, 19)
+                : '-';
+
+
             tbody.innerHTML += `
                 <tr>
-                    <td>${item.date}</td>
-                    <td>${item.title}</td> <!-- FIX -->
-                    <td>${item.status}</td>
-                    <td>${item.meeting_date ?? '-'}</td>
-                    <td>${item.meeting_time ?? '-'}</td>
+                    <td>${createdAt ?? '-'}</td>
+                    <td>${item.title ?? '-'}</td>
+                    <td>${item.status ?? '-'}</td>
+                    <td>${date ?? '-'}</td>
+                    <td>${shortTime ?? '-'}</td>
                     <td>
                         <button class="btn btn-sm btn-danger">Cancel</button>
                     </td>
@@ -144,4 +159,4 @@ async function loadMeetings() {
 // jalan saat page load
 document.addEventListener('DOMContentLoaded', loadMeetings);
 </script>
-@endsection
+@endpush

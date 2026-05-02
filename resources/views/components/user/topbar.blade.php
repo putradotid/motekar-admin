@@ -33,15 +33,10 @@
     </ul>
 
     <!-- Logout -->
-    <form id="logoutForm">
-        @csrf
-        <div>
-            <button class="btn btn-danger px-4 rounded" type="submit">
-                <a href="{{ route('beranda') }}" class="text-white">
-                    Keluar
-                </a>
-            </button>
-        </div>
-    </form>
+    <div>
+        <button class="btn btn-danger px-4 rounded" onclick="handleLogout()">
+            Keluar
+        </button>
+    </div>
 
 </nav>
