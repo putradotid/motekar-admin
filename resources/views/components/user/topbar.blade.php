@@ -33,10 +33,11 @@
     </ul>
 
     <!-- Logout -->
-    <div>
-        <button class="btn btn-danger px-4 rounded" onclick="handleLogout()">
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="btn btn-danger px-4 rounded">
             Keluar
         </button>
-    </div>
+    </form>
 
 </nav>
