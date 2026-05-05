@@ -10,7 +10,7 @@ class MeetingController extends Controller
 {
     private function apiUrl()
     {
-        return env('API_URL');
+        return config('api.url');
     }
 
     private function token()
@@ -41,6 +41,40 @@ class MeetingController extends Controller
         $meetings = $response->json();
 
         return view('user.meeting', compact('meetings', 'search'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'date' => 'required|date',
+            'time' => 'required'
+        ]);
+
+        // menggabungkan waktu
+        $datetime = $request->date . ' ' . $request->time . ':00';
+
+        $response = Http::withToken($this->token())
+            ->post($this->apiUrl() . '/meetings' ,[
+                'title'       => $request->title,
+                'description' => $request->description,
+                'date'        => $datetime,
+            ]);
+        
+            if ($response->status() === 401) {
+                session()->flush();
+                return redirect()->route('login');
+            }
+            
+            if ($response->failed()) {
+                return back()->withErrors([
+                    'message' => $response->json('message') ?? 'Gagal Mengajukan meeting.'
+                ])->withInput();
+            }
+
+            return redirect()->route('user-meeting')
+                ->with('success', 'Meeting berhasil diajukan!');
+            
     }
 
     public function cancel(int $id)

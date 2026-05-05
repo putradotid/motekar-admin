@@ -7,7 +7,11 @@ use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
 {
-    // ========== Tampilkan halaman login ==========
+    private function apiUrl()
+    {
+        return config('api.url');
+    }
+
     public function showLogin()
     {
         // Kalau sudah login, langsung redirect
@@ -29,7 +33,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $response = Http::post(env('API_URL') . '/login', [
+        $response = Http::post($this->apiUrl() . '/login', [
             'email'    => $request->email,
             'password' => $request->password,
         ]);
@@ -60,7 +64,7 @@ class AuthController extends Controller
     public function logout()
     {
         Http::withToken(session('token'))
-            ->post(env('API_URL') . '/logout');
+            ->post($this->apiUrl() . '/logout');
 
         session()->flush();
 

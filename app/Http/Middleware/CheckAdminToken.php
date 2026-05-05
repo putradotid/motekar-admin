@@ -9,15 +9,15 @@ use Illuminate\Http\Request;
 class CheckAdminToken
 {
     public function handle(Request $request, Closure $next)
-{
-    if (!session('token')) {
-        return redirect()->route('login');
-    }
+    {
+        if (!session('token')) {
+            return redirect()->route('login');
+        }
 
-    if (session('user.role') !== 'admin') {
-        abort(403, 'Akses ditolak.');
-    }
+        if (session('user.role') !== 'admin') {
+            abort(403, 'Akses ditolak.');
+        }
 
-    return $next($request);
-}
+        return $next($request);
+    }
 }

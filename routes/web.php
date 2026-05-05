@@ -36,6 +36,7 @@ Route::get('/register', function () {
 // Halaman User
 Route::middleware(['user.auth'])->prefix('user')->group(function () {
     Route::get('/meeting', [MeetingController::class, 'index'])->name('user-meeting');
+    Route::post('/meeting', [MeetingController::class, 'store'])->name('user-meeting.store');
     Route::delete('/meeting/{id}', [MeetingController::class, 'cancel'])->name('user-meeting.cancel');
 
     Route::get('/profile', function () {
