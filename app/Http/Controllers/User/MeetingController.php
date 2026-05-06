@@ -38,9 +38,14 @@ class MeetingController extends Controller
             return back()->withErrors(['message' => 'Gagal mengambil data meeting.']);
         }
 
-        $meetings = $response->json();
+        // data stats
+        $statsResponse = Http::withToken($this->token())
+        ->get($this->apiUrl() . '/my-meetings/stats');
 
-        return view('user.meeting', compact('meetings', 'search'));
+        $meetings = $response->json();
+        $stats    = $statsResponse->json();
+
+        return view('user.meeting', compact('meetings', 'stats', 'search'));
     }
 
     public function store(Request $request)

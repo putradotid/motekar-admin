@@ -25,7 +25,7 @@
             <div class="card border shadow-sm">
                 <div class="card-body">
                     <small>Pending</small>
-                    <h4>{{ collect($meetings['data'] ?? [])->where('status', 'pending')->count() }}</h4>
+                    <h4>{{ $stats['pending'] ?? 0 }}</h4>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
             <div class="card border shadow-sm">
                 <div class="card-body">
                     <small>Approved</small>
-                    <h4>{{ collect($meetings['data'] ?? [])->where('status', 'approved')->count() }}</h4>
+                    <h4>{{ $stats['approved'] ?? 0 }}</h4>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
             <div class="card border shadow-sm">
                 <div class="card-body">
                     <small>Rejected</small>
-                    <h4>{{ collect($meetings['data'] ?? [])->where('status', 'rejected')->count() }}</h4>
+                    <h4>{{ $stats['rejected'] ?? 0 }}</h4>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
             <div class="card border shadow-sm">
                 <div class="card-body">
                     <small>Completed</small>
-                    <h4>{{ collect($meetings['data'] ?? [])->where('status', 'done')->count() }}</h4>
+                    <h4>{{ $stats['done'] ?? 0 }}</h4>
                 </div>
             </div>
         </div>
@@ -98,12 +98,16 @@
                                 <td>{{ $date ?? '-' }}</td>
                                 <td>{{ $shortTime }}</td>
                                 <td>
-                                    <form method="POST"
-                                          action="{{ route('user-meeting.cancel', $item['id']) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-sm btn-danger">Cancel</button>
-                                    </form>
+                                    @if ($item['status'] !== 'done')
+                                        <form method="POST"
+                                            action="{{ route('user-meeting.cancel', $item['id']) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-sm btn-danger">Cancel</button>
+                                        </form>
+                                    @else
+                                        <button class="btn btn-sm btn-secondary disabled">Cancel</button>                 
+                                    @endif
                                 </td>
                             </tr>
                         @empty
