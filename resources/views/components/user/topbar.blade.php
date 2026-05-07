@@ -33,11 +33,8 @@
     </ul>
 
     <!-- Logout -->
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button type="submit" class="btn btn-danger px-4 rounded">
-            Keluar
-        </button>
-    </form>
+    <button type="submit" class="btn btn-danger px-4 rounded" data-toggle="modal" data-target="#logoutModal">
+        Keluar
+    </button>
 
 </nav>

@@ -58,7 +58,11 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
 
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
-    })->name('admin.dashboard');
+    })->name('admin-dashboard');
+    
+    Route::get('/meeting-request-list', function () {
+        return view('admin.meetingRequest');
+    })->name('admin-meeting-request');
     
     Route::get('/create-admin', function () {
         return view('auth.registerAdmin');
