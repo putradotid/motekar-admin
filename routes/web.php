@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\User\MeetingController;
+use App\Http\Controllers\Admin\MeetingController as AdminMeetingController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman Public
@@ -60,12 +61,14 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
         return view('admin.dashboard');
     })->name('admin-dashboard');
     
-    Route::get('/meeting-request-list', function () {
-        return view('admin.meetingRequest');
-    })->name('admin-meeting-request');
-    
     Route::get('/create-admin', function () {
         return view('auth.registerAdmin');
     })->name('admin.create');
+
+    // Meeting routes
+    Route::get('/meetings',                [AdminMeetingController::class, 'index'])->name('admin.meetings');
+    Route::post('/meetings/{id}/approve',  [AdminMeetingController::class, 'approved'])->name('admin.meetings.approve');
+    Route::post('/meetings/{id}/reject',   [AdminMeetingController::class, 'reject'])->name('admin.meetings.reject');
+    Route::post('/meetings/{id}/done',     [AdminMeetingController::class, 'done'])->name('admin.meetings.done');
 
 });

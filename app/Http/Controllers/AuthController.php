@@ -18,7 +18,7 @@ class AuthController extends Controller
         if (session('token')) {
             $role = session('user.role');
             return $role === 'admin'
-                ? redirect()->route('admin.dashboard')
+                ? redirect()->route('admin-dashboard')
                 : redirect()->route('user-meeting');
         }
 

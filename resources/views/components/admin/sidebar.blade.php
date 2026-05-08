@@ -66,7 +66,7 @@
     <div class="sidebar-heading">Meeting Management</div>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('admin-meeting-request') }}">
+        <a class="nav-link" href="{{ route('admin.meetings') }}">
             <i class="fas fa-fw fa-user-clock"></i>
             <span>Meeting Requests</span>
         </a>
