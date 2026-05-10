@@ -22,14 +22,16 @@ class MeetingController extends Controller
     {
         $page = $request->get('page', 1);
         $search = $request->get('search', '');
-        $status = $request->get('status', '');
+        $date = $request->get('date', '');
         $tab = $request->get('tab', 'all');
+        $status = $tab !== 'all' ? $tab : '';
 
         $response = Http::withToken($this->token())
             ->get($this->apiUrl() . '/admin/meetings', [
                 'page' => $page,
                 'search' => $search,
                 'status' => $status,
+                'date' => $date,
             ]);
         
         if ($response->status() === 401) {
@@ -47,13 +49,13 @@ class MeetingController extends Controller
         $meetings = $response->json();
         $stats = $statsResponse->json();
 
-        return view('admin.meetingRequest', compact('meetings', 'stats', 'search', 'status', 'tab'));
+        return view('admin.meetingRequest', compact('meetings', 'stats', 'search', 'date', 'tab'));
     }
 
-   public function approve(int $id) 
+   public function approved(int $id) 
    {
         $response = Http::withToken($this->token())
-            ->put($this->apiUrl() . '/admin/meetings/' . $id . '/approve');
+            ->put($this->apiUrl() . '/admin/meetings/' . $id . '/approved');
         
         if ($response->status() === 401) {
             session()->flush();

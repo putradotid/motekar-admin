@@ -199,10 +199,6 @@
 
       </div>
 
-      <!-- dekorasi kotak (optional biar mirip design) -->
-      <div class="absolute -top-4 left-10 w-10 h-10 border-2 border-blue-500"></div>
-      <div class="absolute top-1/2 -right-6 w-12 h-12 border-2 border-blue-500"></div>
-
     </div>
 
   </div>

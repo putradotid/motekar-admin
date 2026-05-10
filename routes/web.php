@@ -59,7 +59,7 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
 
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
-    })->name('admin-dashboard');
+    })->name('admin.dashboard');
     
     Route::get('/create-admin', function () {
         return view('auth.registerAdmin');
@@ -67,7 +67,7 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
 
     // Meeting routes
     Route::get('/meetings',                [AdminMeetingController::class, 'index'])->name('admin.meetings');
-    Route::post('/meetings/{id}/approve',  [AdminMeetingController::class, 'approved'])->name('admin.meetings.approve');
+    Route::post('/meetings/{id}/approved',  [AdminMeetingController::class, 'approved'])->name('admin.meetings.approved');
     Route::post('/meetings/{id}/reject',   [AdminMeetingController::class, 'reject'])->name('admin.meetings.reject');
     Route::post('/meetings/{id}/done',     [AdminMeetingController::class, 'done'])->name('admin.meetings.done');
 

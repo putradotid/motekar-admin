@@ -32,7 +32,7 @@
                                 All ({{ $stats['total'] ?? 0 }})
                             </a>
                             <a href="?tab=pending"
-                                class="btn btn-sm {{ ($tab ?? '') == 'pending' ? 'btn-primary' : 'btn-light' }}">
+                                class="btn btn-sm {{ ($tab ?? '') == 'pending' ? 'btn-warning' : 'btn-light' }}">
                                 Pending ({{ $stats['pending'] ?? 0 }})
                             </a>
                             <a href="?tab=approved" 
@@ -41,7 +41,7 @@
                             </a>
                             <a href="?tab=rejected" 
                                 class="btn btn-sm {{ ($tab ?? '') == 'rejected' ? 'btn-danger' : 'btn-light' }}">
-                                Rescheduled ({{ $stats['rejected'] ?? 0 }})
+                                Rejected ({{ $stats['rejected'] ?? 0 }})
                             </a>
                             <a href="?tab=done" 
                                 class="btn btn-sm {{ ($tab ?? '') == 'done' ? 'btn-primary' : 'btn-light' }} ">
@@ -58,22 +58,13 @@
                         <!-- Filter -->
                         <form method="GET" action="{{ route('admin.meetings') }}" 
                             class="d-flex align-items-center mb-3" style="gap: 8px;">
+
                             <input type="hidden" name="tab" value="{{ $tab ?? 'all' }}">
-                            <span class="font-weight-bold mr-1">Status:</span>
-                            <select name="status" class="form-control" style="width: 150px;">
-                                <option value="">All Statuses</option>
-                                <option value="pending" {{ $status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="approved" {{ $status == 'approved' ? 'selected' : '' }}>Approved</option>
-                                <option value="rejected" {{ $status == 'rejected' ? 'selected' : '' }}>Rejected</option>
-                                <option value="done" {{ $status == 'done' ? 'selected' : '' }}>Complete</option>
-                            </select>
+
                             <input type="date" name="date" class="form-control" style="width: 180px; " value="{{ request('date') }}">
                             <input type="text" name="search" class="form-control" placeholder="Search . . ." value="{{ $search }}">
                             <button type="submit" class="btn btn-primary px-4">Filter</button>
                         </form>
-
-                        <!-- Jumlah data -->
-                        <small class="text-muted d-block mb-2">{{ $meetings['total'] ?? 0 }} items</small>
 
                         <!-- Table -->
                         <div class="table-responsive">
@@ -82,6 +73,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Email</th>
+                                        <th>Subject</th>
                                         <th>Date</th>
                                         <th>Time</th>
                                         <th>Status</th>
@@ -97,6 +89,7 @@
                                         <tr class="border-bottom">
                                             <td>{{ $item['user']['name'] ?? '-' }}</td>
                                             <td>{{ $item['user']['email'] ?? '-' }}</td>
+                                            <td>{{ $item['title'] ?? '-' }}</td>
                                             <td>{{ $date ?? '-' }}</td>
                                             <td>{{ $shortTime }}</td>
                                             <td>{{ ucfirst($item['status'] ?? '-') }}</td>
@@ -106,7 +99,7 @@
                                                     {{-- Approved --}}
                                                     @if ($item['status'] == 'pending')
                                                         <form method="POST" 
-                                                            action="{{ route('admin.meetings.approve', $item['id']) }}">
+                                                            action="{{ route('admin.meetings.approved', $item['id']) }}">
                                                             @csrf
                                                             <button class="btn btn-sm btn-success">Approve</button>
                                                         </form>
@@ -141,7 +134,7 @@
                                     
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center text-muted">
+                                            <td colspan="7" class="text-center text-muted">
                                                 Tidak ada data.
                                             </td>
                                         </tr>
@@ -159,21 +152,18 @@
                                 of {{ $meetings['total'] ?? 0 }} request
                             </small>
                             <div>
-                                <a href="?page={{ ($meetings['current_page'] ?? 1) - 1 }}&tab={{ $tab }}&search={{ $search }}&status={{ $status }}" 
+                                <a href="?page={{ ($meetings['current_page'] ?? 1) - 1 }}&tab={{ $tab }}&search={{ $search }}" 
                                     class="btn btn-sm btn-light {{ ($meetings['current_page'] ?? 1) == 1 ? 'disabled' : '' }}">
                                         &lt; Prev
                                 </a>
                                 @for ($i = 1; $i <= ($meetings['last_page'] ?? 1); $i++)
-                                    <a href="?page={{ $i }}
-                                        &tab={{ $tab }}
-                                        &search={{ $search }}
-                                        &status={{ $status }}"
+                                    <a href="?page={{ $i }}&tab={{ $tab }}&search={{ $search }}"
                                        class="btn btn-sm {{ $i == ($meetings['current_page'] ?? 1) ? 'btn-primary' : 'btn-light' }}">
                                         {{ $i }}
                                     </a>
                                 @endfor
                                 
-                                <a href="?page={{ ($meetings['current_page'] ?? 1) + 1 }}&tab={{ $tab }}&search={{ $search }}&status={{ $status }}" 
+                                <a href="?page={{ ($meetings['current_page'] ?? 1) + 1 }}&tab={{ $tab }}&search={{ $search }}" 
                                     class="btn btn-sm btn-light {{ ($meetings['current_page'] ?? 1) == ($meetings['last_page'] ?? 1) ? 'disabled' : '' }}">
                                         Next &gt;
                                 </a>
