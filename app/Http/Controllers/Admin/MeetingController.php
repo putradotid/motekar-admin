@@ -25,12 +25,13 @@ class MeetingController extends Controller
         $date = $request->get('date', '');
         $tab = $request->get('tab', 'all');
         $status = $tab !== 'all' ? $tab : '';
+        $filterStatus = $status ?: ($tab !== 'all' ? $tab : '');
 
         $response = Http::withToken($this->token())
             ->get($this->apiUrl() . '/admin/meetings', [
                 'page' => $page,
                 'search' => $search,
-                'status' => $status,
+                'status' => $filterStatus,
                 'date' => $date,
             ]);
         

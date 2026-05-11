@@ -8,7 +8,7 @@
         <!-- Page Heading -->
         <div class="">
             <h1 class="h3 mb-0 text-gray-800">Meeting Requests</h1>
-            <p class="">Manage and track all meeting requests submitted by user</p>
+            <p class="">Manage and track all meeting requests submitted by user.</p>
         </div>
 
         {{-- allert --}}
@@ -85,13 +85,25 @@
                                         @php
                                             [$date, $time] = explode(' ', ($item['date'] ?? '- -') . ' ');
                                             $shortTime = substr($time ?? '', 0, 5) ?: '-';
+
+                                            $slotMap = [
+                                                '08:00' => '08:00 - 09:00',
+                                                '09:00' => '09:00 - 10:00',
+                                                '10:00' => '10:00 - 11:00',
+                                                '11:00' => '11:00 - 12:00',
+                                                '13:00' => '13:00 - 14:00',
+                                                '14:00' => '14:00 - 15:00',
+                                                '15:00' => '15:00 - 16:00',
+                                                '16:00' => '16:00 - 17:00',
+                                            ];
+                                            $slotLabel = $slotMap[$shortTime] ?? $shortTime;
                                         @endphp
                                         <tr class="border-bottom">
                                             <td>{{ $item['user']['name'] ?? '-' }}</td>
                                             <td>{{ $item['user']['email'] ?? '-' }}</td>
                                             <td>{{ $item['title'] ?? '-' }}</td>
                                             <td>{{ $date ?? '-' }}</td>
-                                            <td>{{ $shortTime }}</td>
+                                            <td>{{ $slotLabel }}</td>
                                             <td>{{ ucfirst($item['status'] ?? '-') }}</td>
                                             <td>
                                                 <div class="d-flex" style="gap: 4px;">

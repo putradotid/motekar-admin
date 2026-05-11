@@ -73,8 +73,17 @@
 
                 <div class="form-group col-md-3">
                     <label>Pilih Jam <span class="text-danger">*</span></label>
-                    <input type="time" name="time" class="form-control"
-                           value="{{ old('time') }}" required>
+                    <select name="time" class="form-control"> {{-- name tetap 'time' --}}
+                        <option value="">Pilih Jam Meeting</option>
+                        <option value="08:00" {{ old('time') == '08:00' ? 'selected' : '' }}>08:00 - 09:00</option>
+                        <option value="09:00" {{ old('time') == '09:00' ? 'selected' : '' }}>09:00 - 10:00</option>
+                        <option value="10:00" {{ old('time') == '10:00' ? 'selected' : '' }}>10:00 - 11:00</option>
+                        <option value="11:00" {{ old('time') == '11:00' ? 'selected' : '' }}>11:00 - 12:00</option>
+                        <option value="13:00" {{ old('time') == '13:00' ? 'selected' : '' }}>13:00 - 14:00</option>
+                        <option value="14:00" {{ old('time') == '14:00' ? 'selected' : '' }}>14:00 - 15:00</option>
+                        <option value="15:00" {{ old('time') == '15:00' ? 'selected' : '' }}>15:00 - 16:00</option>
+                        <option value="16:00" {{ old('time') == '16:00' ? 'selected' : '' }}>16:00 - 17:00</option>
+                    </select>
                 </div>
             </div>
 

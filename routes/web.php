@@ -71,4 +71,11 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     Route::post('/meetings/{id}/reject',   [AdminMeetingController::class, 'reject'])->name('admin.meetings.reject');
     Route::post('/meetings/{id}/done',     [AdminMeetingController::class, 'done'])->name('admin.meetings.done');
 
+    Route::get('/manage-admin', function () {
+        return view('admin.manageAdmin');
+    })->name('admin.manage.admin');
+    
+    Route::get('/manage-user', function () {
+        return view('admin.manageUser');
+    })->name('admin.manage.user');
 });

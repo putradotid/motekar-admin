@@ -92,6 +92,7 @@
 
     <hr class="sidebar-divider">
 
+    <!-- Management Users -->
     <li class="nav-item">
         <a class="nav-link" href="index.html">
             <i class="fas fa-fw fa-photo-video"></i>
@@ -102,13 +103,13 @@
     <hr class="sidebar-divider">
 
     <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ route('admin.manage.user') }}">
             <i class="fas fa-fw fa-user"></i>
             <span>Users</span>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ route('admin.manage.admin') }}">
             <i class="fas fa-fw fa-cog"></i>
             <span>Admin Users</span>
         </a>
