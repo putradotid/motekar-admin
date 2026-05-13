@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\User\MeetingController;
 use App\Http\Controllers\Admin\MeetingController as AdminMeetingController;
@@ -61,9 +62,6 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
     
-    Route::get('/create-admin', function () {
-        return view('auth.registerAdmin');
-    })->name('admin.create');
 
     // Meeting routes
     Route::get('/meetings',                [AdminMeetingController::class, 'index'])->name('admin.meetings');
@@ -71,11 +69,12 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     Route::post('/meetings/{id}/reject',   [AdminMeetingController::class, 'reject'])->name('admin.meetings.reject');
     Route::post('/meetings/{id}/done',     [AdminMeetingController::class, 'done'])->name('admin.meetings.done');
 
-    Route::get('/manage-admin', function () {
-        return view('admin.manageAdmin');
-    })->name('admin.manage.admin');
+    // Manage user
+    Route::get('/manage-user', [ManageUserController::class, 'userList'])->name('admin.manage.user');
+    Route::get('/manage-admin', [ManageUserController::class, 'adminList'])->name('admin.manage.admin');
+    Route::get('/create-admin', [ManageUserController::class, 'showCreate'])->name('admin.create');
+    Route::post('/create-admin', [ManageUserController::class, 'store'])->name('admin.create.post');
+    Route::post('/users/{id}/suspend', [ManageUserController::class, 'suspend'])->name('admin.users.suspend');
+    Route::post('/users/{id}/active', [ManageUserController::class, 'active'])->name('admin.users.active');
     
-    Route::get('/manage-user', function () {
-        return view('admin.manageUser');
-    })->name('admin.manage.user');
 });
