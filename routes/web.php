@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\User\MeetingController;
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Admin\MeetingController as AdminMeetingController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,9 +42,8 @@ Route::middleware(['user.auth'])->prefix('user')->group(function () {
     Route::post('/meeting', [MeetingController::class, 'store'])->name('user-meeting.store');
     Route::delete('/meeting/{id}', [MeetingController::class, 'cancel'])->name('user-meeting.cancel');
 
-    Route::get('/profile', function () {
-        return view('user.profile');
-    })->name('user-profile');
+    Route::get('/profile',  [ProfileController::class, 'index'])->name('user-profile');
+    Route::put('/profile',  [ProfileController::class, 'update'])->name('user-profile.update');
 
     Route::get('/message', function () {
         return view('user.message');

@@ -15,11 +15,18 @@
 
             <h5 class="font-weight-bold mb-4">Informasi Pribadi</h5>
 
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-danger">{{ $errors->first() }}</div>
+            @endif
+
             <div class="row">
 
                 {{-- Foto --}}
                 <div class="col-md-3 text-center">
-                    <img 
+                    <img
                         src="{{ asset('storage/motekar-logo.png') }}"
                         class="rounded-circle mb-3"
                         width="150"
@@ -35,42 +42,48 @@
 
                 {{-- Form --}}
                 <div class="col-md-9">
-                    <form action="" id="updateForm">
+                    <form method="POST" action="{{ route('user-profile.update') }}">
+                        @csrf
+                        @method('PUT')
 
                         <div class="form-group">
-                            <label for="nama">Nama</label>
-                            <input type="text" id="nama" class="form-control" value="Putra">
+                            <label>Nama</label>
+                            <input type="text" name="name" class="form-control"
+                                   value="{{ old('name', $profile['name'] ?? '') }}">
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" class="form-control" value="putra@gmail.com">
+                                <label>Email</label>
+                                <input type="email" name="email" class="form-control"
+                                       value="{{ old('email', $profile['email'] ?? '') }}">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="telepon">Nomor Telepon</label>
-                                <input type="text" id="telepon" class="form-control" value="+62 812 345 678">
+                                <label>Nomor Telepon</label>
+                                <input type="text" name="phone" class="form-control"
+                                       placeholder="+62..."
+                                       value="{{ old('phone', $profile['phone'] ?? '') }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="alamat">Alamat</label>
-                            <input type="text" id="alamat" class="form-control" value="Jl. Jendral soedirman No, 4, Banjarnegara">
+                            <label>Alamat</label>
+                            <input type="text" name="address" class="form-control"
+                                   placeholder="Jl. ..."
+                                   value="{{ old('address', $profile['address'] ?? '') }}">
+                        </div>
+
+                        <div class="mb-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="d-block">Estimasi respon : 1 × 24 jam</span>
+                                <span class="d-block">jam operasional : 09:00 - 17:00</span>
+                            </div>
+                            <button type="submit" class="btn btn-amber px-4">
+                                Simpan Perubahan
+                            </button>
                         </div>
 
                     </form>
-                </div>
-            </div>
-
-            <div class="mb-3 d-flex justify-content-between align-items-center">
-                <div>
-                    <span class="d-block">Estimasi respon : 1 × 24 jam</span>
-                    <span class="d-block">jam operasional : 09:00 - 17:00</span>
-                </div>
-                <div>
-                    <a href="#" class="btn btn-amber px-4">
-                        Simpan Perubahan
-                    </a>
                 </div>
             </div>
 
@@ -80,21 +93,15 @@
     {{-- Card Keamanan Akun --}}
     <div class="card shadow-sm mt-5">
         <div class="card-body">
-
             <h5 class="font-weight-bold p-3">Keamanan Akun</h5>
-
             <div class="d-flex justify-content-between align-items-center m-3">
                 <div class="d-flex align-items-center">
                     <label class="mb-0 mr-3">Password</label>
-                    <input type="password" class="form-control" value="password123" style="width: 250px;">
+                    <input type="password" class="form-control"
+                           value="password123" style="width: 250px;">
                 </div>
-                <div>
-                    <a href="#" class="btn btn-amber px-4">
-                        Ubah Password
-                    </a>
-                </div>
+                <a href="#" class="btn btn-amber px-4">Ubah Password</a>
             </div>
-
         </div>
     </div>
 
