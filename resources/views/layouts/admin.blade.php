@@ -82,6 +82,10 @@
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('/') }}sbadmin2/js/sb-admin-2.min.js"></script>
 
+    {{-- chard --}}
+    <script src="{{ asset('sbadmin2/vendor/chart.js/Chart.min.js') }}"></script>
+    @stack('scripts')
+
 </body>
 
 </html>

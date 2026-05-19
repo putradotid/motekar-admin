@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ManageUserController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\User\MeetingController;
 use App\Http\Controllers\User\ProfileController;
@@ -58,11 +59,8 @@ Route::middleware(['user.auth'])->prefix('user')->group(function () {
 // Halaman Admin
 Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     
-
     // Meeting routes
     Route::get('/meetings',                [AdminMeetingController::class, 'index'])->name('admin.meetings');
     Route::post('/meetings/{id}/approved',  [AdminMeetingController::class, 'approved'])->name('admin.meetings.approved');
