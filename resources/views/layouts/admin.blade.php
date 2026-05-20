@@ -22,9 +22,8 @@
 
     <!-- Custom styles css -->
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    @stack('styles')
 
-    {{-- Api admin --}}
-    <script src="{{ asset('js/api-admin.js') }}"></script>
 
 </head>
 
@@ -84,6 +83,10 @@
 
     {{-- chard --}}
     <script src="{{ asset('sbadmin2/vendor/chart.js/Chart.min.js') }}"></script>
+    
+    {{-- Api admin --}}
+    <script src="{{ asset('js/api-admin.js') }}"></script>
+
     @stack('scripts')
 
 </body>

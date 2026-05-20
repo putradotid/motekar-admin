@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\User\MeetingController;
 use App\Http\Controllers\User\ProfileController;
@@ -60,6 +61,8 @@ Route::middleware(['user.auth'])->prefix('user')->group(function () {
 Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/calendar', [CalendarController::class, 'index'])->name('admin.calendar');
+    Route::get('/calendar/events', [CalendarController::class, 'events'])->name('admin.calendar.events');
     
     // Meeting routes
     Route::get('/meetings',                [AdminMeetingController::class, 'index'])->name('admin.meetings');

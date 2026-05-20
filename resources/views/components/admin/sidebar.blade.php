@@ -72,7 +72,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ route('admin.calendar') }}">
             <i class="fas fa-fw fa-calendar-alt"></i>
             <span>Calendar</span>
         </a>
