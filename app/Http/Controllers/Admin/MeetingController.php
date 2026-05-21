@@ -53,6 +53,25 @@ class MeetingController extends Controller
         return view('admin.meetingRequest', compact('meetings', 'stats', 'search', 'date', 'tab'));
     }
 
+    public function show(int $id)
+    {
+        $response = Http::withToken($this->token())
+            ->get($this->apiUrl() . '/admin/meetings/' . $id);
+        
+        if ($response->status() === 401) {
+            session()->flush();
+            return redirect()->route('login');
+        }
+
+        if ($response->failed()) {
+            return back()->withErrors(['message' => 'Gagal mengambil data meeting.']);
+        }
+
+        $meeting = $response->json();
+
+        return view('admin.meetingDetail', compact('meeting'));
+    }
+
    public function approved(int $id) 
    {
         $response = Http::withToken($this->token())

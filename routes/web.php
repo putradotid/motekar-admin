@@ -65,10 +65,11 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     Route::get('/calendar/events', [CalendarController::class, 'events'])->name('admin.calendar.events');
     
     // Meeting routes
-    Route::get('/meetings',                [AdminMeetingController::class, 'index'])->name('admin.meetings');
-    Route::post('/meetings/{id}/approved',  [AdminMeetingController::class, 'approved'])->name('admin.meetings.approved');
-    Route::post('/meetings/{id}/reject',   [AdminMeetingController::class, 'reject'])->name('admin.meetings.reject');
-    Route::post('/meetings/{id}/done',     [AdminMeetingController::class, 'done'])->name('admin.meetings.done');
+    Route::get('/meetings', [AdminMeetingController::class, 'index'])->name('admin.meetings');
+    Route::get('/meetings/{id}', [AdminMeetingController::class, 'show'])->name('admin.meetings.show');
+    Route::post('/meetings/{id}/approved', [AdminMeetingController::class, 'approved'])->name('admin.meetings.approved');
+    Route::post('/meetings/{id}/reject', [AdminMeetingController::class, 'reject'])->name('admin.meetings.reject');
+    Route::post('/meetings/{id}/done', [AdminMeetingController::class, 'done'])->name('admin.meetings.done');
 
     // Manage user
     Route::get('/manage-user', [ManageUserController::class, 'userList'])->name('admin.manage.user');

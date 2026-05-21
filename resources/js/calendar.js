@@ -28,13 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         },
 
-        // Klik event → tampilkan detail
+        // Pindah ke halaman detail
         eventClick: function(info) {
-            alert(
-                'Meeting: ' + info.event.title + '\n' +
-                'Tanggal: ' + info.event.startStr.substring(0, 10) + '\n' +
-                'Jam: '     + info.event.startStr.substring(11, 16)
-            );
+            window.location.href = '/admin/meetings/' + info.event.id;
         },
 
         // Warna event

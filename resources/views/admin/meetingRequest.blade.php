@@ -101,7 +101,11 @@
                                         <tr class="border-bottom">
                                             <td>{{ $item['user']['name'] ?? '-' }}</td>
                                             <td>{{ $item['user']['email'] ?? '-' }}</td>
-                                            <td>{{ $item['title'] ?? '-' }}</td>
+                                            <td>
+                                                <a href="{{ route('admin.meetings.show', $item['id']) }}">
+                                                    {{ $item['title'] ?? '-' }}
+                                                </a>
+                                            </td>
                                             <td>{{ $date ?? '-' }}</td>
                                             <td>{{ $slotLabel }}</td>
                                             <td>{{ ucfirst($item['status'] ?? '-') }}</td>
