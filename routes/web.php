@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\User\MeetingController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\MessageController as UserMessageController;
+use App\Http\Controllers\Admin\MessageController as AdminMessageController;
 use App\Http\Controllers\Admin\MeetingController as AdminMeetingController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,13 +45,10 @@ Route::middleware(['user.auth'])->prefix('user')->group(function () {
     Route::get('/meeting', [MeetingController::class, 'index'])->name('user-meeting');
     Route::post('/meeting', [MeetingController::class, 'store'])->name('user-meeting.store');
     Route::delete('/meeting/{id}', [MeetingController::class, 'cancel'])->name('user-meeting.cancel');
-
     Route::get('/profile',  [ProfileController::class, 'index'])->name('user-profile');
     Route::put('/profile',  [ProfileController::class, 'update'])->name('user-profile.update');
-
-    Route::get('/message', function () {
-        return view('user.message');
-    })->name('user-message');
+    Route::get('/message',                [UserMessageController::class, 'index'])->name('user-message');
+    Route::post('/message/{meetingId}',   [UserMessageController::class, 'store'])->name('user-message.store');
     
     Route::get('/request-meeting', function () {
         return view('user.requestMeeting');
@@ -79,4 +78,7 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     Route::post('/users/{id}/suspend', [ManageUserController::class, 'suspend'])->name('admin.users.suspend');
     Route::post('/users/{id}/active', [ManageUserController::class, 'active'])->name('admin.users.active');
     
+    // Message
+    Route::get('/messages',              [AdminMessageController::class, 'index'])->name('admin.messages');
+    Route::post('/messages/{meetingId}', [AdminMessageController::class, 'store'])->name('admin.messages.store');
 });
