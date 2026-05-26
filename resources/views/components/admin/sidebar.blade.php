@@ -94,7 +94,7 @@
 
     <!-- Management Users -->
     <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ route('admin.media') }}">
             <i class="fas fa-fw fa-photo-video"></i>
             <span>Media</span>
         </a>

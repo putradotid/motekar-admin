@@ -9,6 +9,7 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\MessageController as UserMessageController;
 use App\Http\Controllers\Admin\MessageController as AdminMessageController;
 use App\Http\Controllers\Admin\MeetingController as AdminMeetingController;
+use App\Http\Controllers\Admin\MediaController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman Public
@@ -81,4 +82,10 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     // Message
     Route::get('/messages',              [AdminMessageController::class, 'index'])->name('admin.messages');
     Route::post('/messages/{meetingId}', [AdminMessageController::class, 'store'])->name('admin.messages.store');
+
+    // Media
+    Route::get('/media',          [MediaController::class, 'index'])->name('admin.media');
+    Route::post('/media',         [MediaController::class, 'store'])->name('admin.media.store');
+    Route::get('/media/{id}',     [MediaController::class, 'show'])->name('admin.media.show');
+    Route::delete('/media/{id}',  [MediaController::class, 'destroy'])->name('admin.media.destroy');
 });

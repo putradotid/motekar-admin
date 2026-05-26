@@ -22,7 +22,6 @@ class MessageController extends Controller
     {
         $meetingId = $request->get('meeting');
 
-        // ✅ Admin ambil semua meeting
         $meetingsResponse = Http::withToken($this->token())
             ->get($this->apiUrl() . '/messages');
 

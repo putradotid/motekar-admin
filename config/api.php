@@ -2,4 +2,5 @@
 
 return [
     'url' => env('API_URL', 'http://127.0.0.1:8000/api'),
+    'base_url' => env('API_BASE_URL', 'http://localhost:8000'),
 ];
