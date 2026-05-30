@@ -132,23 +132,25 @@
                     <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-4">
                         <div class="media-card">
                             {{-- Gambar --}}
-                            <a href="{{ route('admin.media.show', $item['id']) }}">
-                                <img src="{{ config('api.base_url') . $item['url'] }}"
-                                     alt="{{ $item['filename'] }}"
-                                     loading="lazy">
-                            </a>
+                            <img src="{{ rtrim(env('API_BASE_URL', 'http://localhost:8000'), '/') . $item['url'] }}"
+                                alt="{{ $item['filename'] }}"
+                                loading="lazy"
+                                style="cursor: pointer;"
+                                data-id="{{ $item['id'] }}"
+                                data-url="{{ rtrim(env('API_BASE_URL', 'http://localhost:8000'), '/') . $item['url'] }}"
+                                data-filename="{{ $item['filename'] }}"
+                                data-category="{{ $item['category'] }}"
+                                data-size="{{ round($item['size'] / 1024) }}kb"
+                                onclick="showDetail(this)">
 
                             {{-- Tombol hapus --}}
-                            <form method="POST"
-                                  action="{{ route('admin.media.destroy', $item['id']) }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                        class="media-card-delete"
-                                        onclick="return confirm('Hapus gambar ini?')">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </form>
+                            <button type="button"
+                                    class="media-card-delete"
+                                    data-id="{{ $item['id'] }}"
+                                    data-filename="{{ $item['filename'] }}"
+                                    onclick="confirmDelete(this)">
+                                <i class="fas fa-times"></i>
+                            </button>
 
                             {{-- Info --}}
                             <div class="media-card-info">
@@ -257,5 +259,128 @@
         </div>
     </div>
 </div>
+<!-- Modal Detail -->
+<div class="modal fade" id="detailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold" id="detailFilename">Detail Media</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="detailImg" src="" alt=""
+                     style="max-width: 100%; max-height: 400px; object-fit: contain; border-radius: 8px;">
+                <div class="mt-3 text-left">
+                    <table class="table table-borderless table-sm">
+                        <tr>
+                            <td class="text-muted" style="width: 120px;">Filename</td>
+                            <td id="detailName">-</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Kategori</td>
+                            <td id="detailCategory">-</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">Ukuran</td>
+                            <td id="detailSize">-</td>
+                        </tr>
+                        <tr>
+                            <td class="text-muted">URL</td>
+                            <td>
+                                <input type="text" id="detailUrl" class="form-control form-control-sm" readonly>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-danger"
+                        onclick="deleteFromDetail()">
+                    <i class="fas fa-trash mr-1"></i> Hapus
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Delete -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold">Hapus Media</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Yakin ingin menghapus <strong id="deleteFilename"></strong>?
+                Tindakan ini tidak dapat dibatalkan.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <form id="deleteForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash mr-1"></i> Hapus
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
+
+@push('scripts')
+<script>
+    let currentDeleteId = null;
+
+    // ✅ Pakai data attribute — tidak ada masalah quotes
+    function showDetail(img) {
+        const url      = img.dataset.url;
+        const filename = img.dataset.filename;
+        const category = img.dataset.category;
+        const size     = img.dataset.size;
+        const id       = img.dataset.id;
+
+        document.getElementById('detailImg').src                      = url;
+        document.getElementById('detailFilename').textContent         = filename;
+        document.getElementById('detailName').textContent             = filename;
+        document.getElementById('detailCategory').textContent         = category;
+        document.getElementById('detailSize').textContent             = size;
+        document.getElementById('detailUrl').value                    = url;
+        currentDeleteId = id;
+
+        $('#detailModal').modal('show');
+    }
+
+    // ✅ Pakai data attribute — tidak ada masalah quotes
+    function confirmDelete(btn) {
+        const id       = btn.dataset.id;
+        const filename = btn.dataset.filename;
+
+        document.getElementById('deleteFilename').textContent = filename;
+        document.getElementById('deleteForm').action = '/admin/media/' + id;
+
+        $('#deleteModal').modal('show');
+    }
+
+    // Hapus dari modal detail
+    function deleteFromDetail() {
+        const filename = document.getElementById('detailName').textContent;
+
+        $('#detailModal').modal('hide');
+
+        setTimeout(function() {
+            document.getElementById('deleteFilename').textContent = filename;
+            document.getElementById('deleteForm').action = '/admin/media/' + currentDeleteId;
+            $('#deleteModal').modal('show');
+        }, 300);
+    }
+</script>
+@endpush

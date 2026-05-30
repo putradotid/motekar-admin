@@ -48,11 +48,14 @@ class MediaController extends Controller
             'category' => 'required|in:image,icon,team,clients,background',
         ]);
 
+        $file = $request->file('file');
+
         $response = Http::withToken($this->token())
             ->attach(
                 'file',
-                file_get_contents($request->file('file')),
-                $request->file('file')->getClientOriginalName()
+                fopen($file->getRealPath(), 'r'),
+                $file->getClientOriginalName(),
+                ['Content-Type' => $file->getMimeType()]
             )
             ->post($this->apiUrl() . '/admin/media', [
                 'category' => $request->category,

@@ -80,12 +80,11 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     Route::post('/users/{id}/active', [ManageUserController::class, 'active'])->name('admin.users.active');
     
     // Message
-    Route::get('/messages',              [AdminMessageController::class, 'index'])->name('admin.messages');
+    Route::get('/messages',[AdminMessageController::class, 'index'])->name('admin.messages');
     Route::post('/messages/{meetingId}', [AdminMessageController::class, 'store'])->name('admin.messages.store');
 
     // Media
-    Route::get('/media',          [MediaController::class, 'index'])->name('admin.media');
-    Route::post('/media',         [MediaController::class, 'store'])->name('admin.media.store');
-    Route::get('/media/{id}',     [MediaController::class, 'show'])->name('admin.media.show');
-    Route::delete('/media/{id}',  [MediaController::class, 'destroy'])->name('admin.media.destroy');
+    Route::get('/media', [MediaController::class, 'index'])->name('admin.media');
+    Route::post('/media', [MediaController::class, 'store'])->name('admin.media.store');
+    Route::delete('/media/{id}', [MediaController::class, 'destroy'])->name('admin.media.destroy');
 });
