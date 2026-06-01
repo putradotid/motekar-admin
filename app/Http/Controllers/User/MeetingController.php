@@ -59,26 +59,43 @@ class MeetingController extends Controller
         // menggabungkan waktu
         $datetime = $request->date . ' ' . $request->time . ':00';
 
-        $response = Http::withToken($this->token())
-            ->post($this->apiUrl() . '/meetings' ,[
-                'title'       => $request->title,
-                'description' => $request->description,
-                'date'        => $datetime,
-            ]);
-        
-            if ($response->status() === 401) {
-                session()->flush();
-                return redirect()->route('login');
-            }
-            
-            if ($response->failed()) {
-                return back()->withErrors([
-                    'message' => $response->json('message') ?? 'Gagal Mengajukan meeting.'
-                ])->withInput();
-            }
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
 
-            return redirect()->route('user-meeting')
-                ->with('success', 'Meeting berhasil diajukan!');
+            $response = Http::withToken($this->token())
+                ->attach(
+                        'attachment',
+                        fopen($file->getRealPath(), 'r'),
+                        $file->getClientOriginalName()
+                    )
+                ->post($this->apiUrl() . '/meetings' ,[
+                    'title'       => $request->title,
+                    'description' => $request->description,
+                    'date'        => $datetime,
+                ]);
+        } else {
+            $response = Http::withToken($this->token())
+                ->post($this->apiUrl() . '/meetings' ,[
+                    'title'       => $request->title,
+                    'description' => $request->description,
+                    'date'        => $datetime,
+                ]);
+        }
+
+        
+        if ($response->status() === 401) {
+            session()->flush();
+            return redirect()->route('login');
+        }
+        
+        if ($response->failed()) {
+            return back()->withErrors([
+                'message' => $response->json('message') ?? 'Gagal Mengajukan meeting.'
+            ])->withInput();
+        }
+
+        return redirect()->route('user-meeting')
+            ->with('success', 'Meeting berhasil diajukan!');
             
     }
 

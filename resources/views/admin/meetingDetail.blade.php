@@ -89,11 +89,25 @@
                     @if (!empty($meeting['attachment']))
                         <div class="mt-3">
                             <p class="text-muted font-weight-bold mb-1">Lampiran:</p>
-                            <a href="{{ asset('storage/' . $meeting['attachment']) }}"
-                               target="_blank"
-                               class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-paperclip mr-1"></i> Lihat Lampiran
-                            </a>
+                            @php
+                                $ext = pathinfo($meeting['attachment'], PATHINFO_EXTENSION);
+                                $url = rtrim(env('API_BASE_URL', 'http://127.0.0.1:8000'), '/') . '/storage/' . $meeting['attachment'];
+                            @endphp
+
+                            @if (in_array(strtolower($ext), ['jpg', 'jpeg', 'png']))
+                                {{-- Tampilkan gambar --}}
+                                <a href="{{ $url }}" target="_blank">
+                                    <img src="{{ $url }}"
+                                        alt="Lampiran"
+                                        class="img-fluid rounded"
+                                        style="max-height: 300px;">
+                                </a>
+                            @elseif (strtolower($ext) === 'pdf')
+                                {{-- Tampilkan link PDF --}}
+                                <a href="{{ $url }}" target="_blank" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-file-pdf mr-1"></i> Lihat PDF
+                                </a>
+                            @endif
                         </div>
                     @endif
 

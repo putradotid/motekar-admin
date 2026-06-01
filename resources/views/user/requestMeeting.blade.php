@@ -26,7 +26,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{  route('user-meeting.store') }}">
+        <form method="POST" action="{{  route('user-meeting.store') }}" enctype="multipart/form-data">
             @csrf
 
             <!-- beris 1 -->
@@ -98,7 +98,7 @@
             <div class="form-group">
                 <label>Lampiran</label>
                 <input type="file" name="attachment" class="form-control-file border p-2"
-                       accept=".pdf,.jpg,.jpeg,.png">
+                       accept=".pdf,.jpg,.jpeg,.png" enctype="multipart/form-data">
                 <small class="text-muted">
                     Ekstensi file : *.pdf, *.jpg, *.jpeg, *.png & max file 3MB
                 </small>
