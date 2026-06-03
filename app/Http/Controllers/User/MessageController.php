@@ -31,7 +31,6 @@ class MessageController extends Controller
             return redirect()->route('login');
         }
 
-        // ✅ Hapus dd(), langsung assign
         $meetings      = $meetingsResponse->json() ?? [];
         $messages      = [];
         $activeMeeting = null;

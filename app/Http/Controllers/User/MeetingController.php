@@ -53,11 +53,19 @@ class MeetingController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'date' => 'required|date',
-            'time' => 'required'
+            'time_start' => 'required',
+            'time_end'   => 'required',
         ]);
 
         // menggabungkan waktu
-        $datetime = $request->date . ' ' . $request->time . ':00';
+        $datetime = $request->date . ' ' . $request->time_start . ':00';
+
+        $data = [
+            'title'       => $request->title,
+            'description' => $request->description,
+            'date'        => $datetime,
+            'time_end'    => $request->time_end,
+        ];
 
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
@@ -68,20 +76,11 @@ class MeetingController extends Controller
                         fopen($file->getRealPath(), 'r'),
                         $file->getClientOriginalName()
                     )
-                ->post($this->apiUrl() . '/meetings' ,[
-                    'title'       => $request->title,
-                    'description' => $request->description,
-                    'date'        => $datetime,
-                ]);
+                ->post($this->apiUrl() . '/meetings' ,$data);
         } else {
             $response = Http::withToken($this->token())
-                ->post($this->apiUrl() . '/meetings' ,[
-                    'title'       => $request->title,
-                    'description' => $request->description,
-                    'date'        => $datetime,
-                ]);
+                ->post($this->apiUrl() . '/meetings' , $data);
         }
-
         
         if ($response->status() === 401) {
             session()->flush();

@@ -85,18 +85,8 @@
                                         @php
                                             [$date, $time] = explode(' ', ($item['date'] ?? '- -') . ' ');
                                             $shortTime = substr($time ?? '', 0, 5) ?: '-';
-
-                                            $slotMap = [
-                                                '08:00' => '08:00 - 09:00',
-                                                '09:00' => '09:00 - 10:00',
-                                                '10:00' => '10:00 - 11:00',
-                                                '11:00' => '11:00 - 12:00',
-                                                '13:00' => '13:00 - 14:00',
-                                                '14:00' => '14:00 - 15:00',
-                                                '15:00' => '15:00 - 16:00',
-                                                '16:00' => '16:00 - 17:00',
-                                            ];
-                                            $slotLabel = $slotMap[$shortTime] ?? $shortTime;
+                                            $timeEnd = substr($item['time_end'] ?? '', 0, 5) ?: '-';
+                                            $createdAt = isset($item['created_at']) ? substr(str_replace('T', ' ', $item['created_at']), 0, 19) : '-';
                                         @endphp
                                         <tr class="border-bottom">
                                             <td>{{ $item['user']['name'] ?? '-' }}</td>
@@ -107,7 +97,7 @@
                                                 </a>
                                             </td>
                                             <td>{{ $date ?? '-' }}</td>
-                                            <td>{{ $slotLabel }}</td>
+                                            <td>{{ $shortTime }}{{ $timeEnd ? ' - ' . $timeEnd : '' }}</td>
                                             <td>{{ ucfirst($item['status'] ?? '-') }}</td>
                                             <td>
                                                 <div class="d-flex" style="gap: 4px;">
