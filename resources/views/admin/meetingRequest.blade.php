@@ -98,7 +98,16 @@
                                             </td>
                                             <td>{{ $date ?? '-' }}</td>
                                             <td>{{ $shortTime }}{{ $timeEnd ? ' - ' . $timeEnd : '' }}</td>
-                                            <td>{{ ucfirst($item['status'] ?? '-') }}</td>
+                                            <td>
+                                                @if(
+                                                    $item['status'] === 'approved' &&
+                                                    now()->gt(\Carbon\Carbon::parse($item['date']))
+                                                )
+                                                    Done
+                                                @else
+                                                    {{ ucfirst($item['status']) }}
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="d-flex" style="gap: 4px;">
 

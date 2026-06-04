@@ -6,6 +6,7 @@
     <link rel="icon" href="{{ asset('storage/motekar-logo.ico') }}" type="image/x-icon">
     <title>Login</title>
     <link href="{{ asset('sbadmin2/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('sbadmin2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
 </head>
 
 <body class="bg-gradient-light">
@@ -83,6 +84,26 @@
         </div>
     </div>
 </div>
+
+<!-- Back Button-->
+<a
+    href="{{ route('beranda') }}"
+    class="btn rounded-circle shadow"
+    style="
+        background-color:#ff6600;
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        width: 55px;
+        height: 55px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+    "
+>
+    <i class="fas fa-home text-white"></i>
+</a>
 
 <script src="{{ asset('sbadmin2/vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('sbadmin2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

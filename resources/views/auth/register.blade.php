@@ -142,5 +142,9 @@
         })
     </script>
 
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="{{ route('login') }}">
+        <i class="fas fa-angle-up"></i>
+    </a>
 </body>
 </html>

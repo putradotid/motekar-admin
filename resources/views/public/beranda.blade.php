@@ -123,7 +123,6 @@
 
 </section>
 
-
 {{-- Section 3 --}}
 <section class="bg-amber-500 text-white py-14">
   <div class="max-w-6xl mx-auto px-6">
