@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CalendarController;
@@ -87,4 +88,7 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     Route::get('/media', [MediaController::class, 'index'])->name('admin.media');
     Route::post('/media', [MediaController::class, 'store'])->name('admin.media.store');
     Route::delete('/media/{id}', [MediaController::class, 'destroy'])->name('admin.media.destroy');
+
+    // Activity Log
+    Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('admin.activity-logs');
 });
