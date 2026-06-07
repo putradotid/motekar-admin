@@ -10,6 +10,7 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\MessageController as UserMessageController;
 use App\Http\Controllers\Admin\MessageController as AdminMessageController;
 use App\Http\Controllers\Admin\MeetingController as AdminMeetingController;
+use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\MediaController;
 use Illuminate\Support\Facades\Route;
 
@@ -88,6 +89,10 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     Route::get('/media', [MediaController::class, 'index'])->name('admin.media');
     Route::post('/media', [MediaController::class, 'store'])->name('admin.media.store');
     Route::delete('/media/{id}', [MediaController::class, 'destroy'])->name('admin.media.destroy');
+
+    // Setting
+    Route::get('/setting',  [AdminSettingController::class, 'index'])->name('admin.setting');
+    Route::post('/setting', [AdminSettingController::class, 'update'])->name('admin.setting.update');
 
     // Activity Log
     Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('admin.activity-logs');
