@@ -27,9 +27,11 @@
   </div>
 
   <div class="mt-16 flex gap-4 justify-start md:justify-center">
-    <button class="bg-blue-900 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition duration-300">
-      HUBUGI KAMI
-    </button>
+    <a href="{{ route('hubungi-kami') }}">
+      <button class="bg-blue-900 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition duration-300">
+        HUBUGI KAMI
+      </button>
+    </a>
   </div>
 
 </section>

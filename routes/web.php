@@ -33,6 +33,9 @@ Route::get('/testimoni', function () {
 Route::get('/tim-kami', function () {
     return view('public.timkami');
 })->name('tim-kami');
+Route::get('/hubungi-kami', function () {
+    return view('public.contactpublik');
+})->name('hubungi-kami');
 
 // Halaman Auth
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
