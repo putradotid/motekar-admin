@@ -37,20 +37,38 @@
                 Kirim Pesan
             </h2>
 
-            <form action="#" method="POST">
+            <div id="contactAlert" class="mt-4"></div>
+
+            <form id="contactForm">
+
+                <div class="mt-6">
+                    <label class="block mb-2 font-medium">
+                        Nama
+                    </label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        id="contactName"
+                        class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        placeholder="Nama Lengkap"
+                        required>
+                </div>
 
                 <div class="grid md:grid-cols-2 gap-6">
 
                     <div>
                         <label class="block mb-2 font-medium">
-                            Nama
+                            Nomor Telepon
                         </label>
 
                         <input
                             type="text"
-                            name="name"
+                            id="contactPhone"
+                            name="phone"
                             class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                            placeholder="Nama Lengkap">
+                            placeholder="Nomor Telepon"
+                            required>
                     </div>
 
                     <div>
@@ -60,9 +78,11 @@
 
                         <input
                             type="email"
+                            id="contactEmail"
                             name="email"
                             class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                            placeholder="email@gmail.com">
+                            placeholder="email@gmail.com"
+                            required>
                     </div>
 
                 </div>
@@ -74,9 +94,11 @@
 
                     <input
                         type="text"
+                        id="contactSubject"
                         name="subject"
                         class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                        placeholder="Contoh: Konsultasi Website Company Profile">
+                        placeholder="Contoh: Konsultasi Website Company Profile"
+                        required>
                 </div>
 
                 <div class="mt-6">
@@ -87,14 +109,17 @@
                     <textarea
                         rows="6"
                         name="message"
+                        id="contactMessage"
                         class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-400"
-                        placeholder="Tulis pesan Anda di sini..."></textarea>
+                        placeholder="Tulis pesan Anda di sini..."
+                        required></textarea>
                 </div>
 
                 <div class="mt-8 text-center">
 
                     <button
                         type="submit"
+                        id="submitBtn"
                         class="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-10 py-4 rounded-xl transition">
 
                         Kirim Pesan
@@ -110,3 +135,71 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script>
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.log('Submit dipanggil');
+
+    const btn = document.getElementById('submitBtn');
+    const alertBox = document.getElementById('contactAlert');
+
+    btn.disabled = true;
+
+    try {
+
+        const payload = {
+            name: document.getElementById('contactName').value,
+            email: document.getElementById('contactEmail').value,
+            phone: document.getElementById('contactPhone').value,
+            subject: document.getElementById('contactSubject').value,
+            message: document.getElementById('contactMessage').value,
+        };
+
+        const res = await fetch('http://127.0.0.1:8000/api/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+
+            alertBox.innerHTML = `
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                    ${data.message}
+                </div>
+            `;
+
+            this.reset();
+
+        } else {
+
+            alertBox.innerHTML = `
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    ${data.message}
+                </div>
+            `;
+        }
+
+    } catch (err) {
+
+        console.error(err);
+
+    } finally {
+
+        btn.disabled = false;
+
+    }
+
+    return false;
+});
+</script>
+@endpush

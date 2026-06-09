@@ -84,7 +84,7 @@
     <div class="sidebar-heading">Contact Management</div>
 
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('admin.contacts') }}">
             <i class="fas fa-fw fa-address-card"></i>
             <span>Contact Messages</span>
         </a>

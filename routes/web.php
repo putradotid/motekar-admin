@@ -11,6 +11,7 @@ use App\Http\Controllers\User\MessageController as UserMessageController;
 use App\Http\Controllers\Admin\MessageController as AdminMessageController;
 use App\Http\Controllers\Admin\MeetingController as AdminMeetingController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\MediaController;
 use Illuminate\Support\Facades\Route;
 
@@ -99,4 +100,10 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
 
     // Activity Log
     Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('admin.activity-logs');
+
+    // Contact public
+    Route::get('/contacts',              [AdminContactController::class, 'index'])->name('admin.contacts');
+    Route::get('/contacts/{id}',         [AdminContactController::class, 'show'])->name('admin.contacts.show');
+    Route::post('/contacts/{id}/status', [AdminContactController::class, 'updateStatus'])->name('admin.contacts.status');
+    Route::delete('/contacts/{id}',      [AdminContactController::class, 'destroy'])->name('admin.contacts.destroy');
 });

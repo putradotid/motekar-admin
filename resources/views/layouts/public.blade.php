@@ -25,6 +25,8 @@
 @include('components.public.footer')
 <!-- End of Footer -->
 
+@stack('scripts')
+
 <!-- Scroll To Top -->
 <a
     href="#page-top"
