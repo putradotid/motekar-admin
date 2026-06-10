@@ -21,13 +21,21 @@ class AppServiceProvider extends ServiceProvider
     {
         // share notif ke semua view admin
         view()->composer('components.admin.topbar', function ($view) {
+            $notif = [
+                'pending_meetings'  => 0,
+                'unread_messages'   => 0,
+                'latest_unread'     => [],
+                'meetings_today'    => 0,
+            ];
             if (session('token') && session('user.role') === 'admin') {
                 try {
                     $response = \Illuminate\Support\Facades\Http::timeout(5)
                         ->withToken(session('token'))
                         ->get(config('api.url') . '/admin/notifications/count');
 
-                    $notif = $response->successful() ? $response->json() : [];
+                    if ($response->successful()) {
+                        $notif = array_merge($notif, $response->json() ?? []);
+                    }
                 } catch (\Exception $e) {
                     $notif = [];
                 }

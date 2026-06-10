@@ -32,14 +32,78 @@
             </div>
         </li>
 
-        <!-- Nav Item - Alerts -->
+        <!-- Nav Item - Alerts (Meeting) -->
         <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
+            role="button" data-toggle="dropdown">
                 <i class="fas fa-bell fa-fw"></i>
+                @if (($notif['pending_meetings'] ?? 0) > 0)
+                    <span class="badge badge-danger badge-counter">
+                        {{ ($notif['pending_meetings'] ?? 0) > 9 ? '9+' : $notif['pending_meetings'] }}
+                    </span>
+                @endif
+            </a>
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">Notifikasi Meeting</h6>
+
+                {{-- Meeting Pending --}}
+                @if (($notif['pending_meetings'] ?? 0) > 0)
+                    <a class="dropdown-item d-flex align-items-center"
+                    href="{{ route('admin.meetings') }}">
+                        <div class="mr-3">
+                            <div class="icon-circle bg-warning">
+                                <i class="fas fa-user-clock text-white"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="small text-gray-500">Meeting Request Baru</div>
+                            <span class="font-weight-bold">
+                                {{ $notif['pending_meetings'] }} request menunggu persetujuan
+                            </span>
+                        </div>
+                    </a>
+                @endif
+
+                {{-- Meeting Hari Ini --}}
+                @if (($notif['meetings_today'] ?? 0) > 0)
+                    <a class="dropdown-item d-flex align-items-center"
+                    href="{{ route('admin.meetings') }}">
+                        <div class="mr-3">
+                            <div class="icon-circle bg-success">
+                                <i class="fas fa-calendar-check text-white"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="small text-gray-500">Meeting Hari Ini</div>
+                            <span class="font-weight-bold">
+                                {{ $notif['meetings_today'] }} meeting dijadwalkan hari ini
+                            </span>
+                        </div>
+                    </a>
+                @endif
+
+                @if (($notif['pending_meetings'] ?? 0) == 0 && ($notif['meetings_today'] ?? 0) == 0)
+                    <div class="dropdown-item text-center text-muted py-3">
+                        <small>Tidak ada notifikasi baru</small>
+                    </div>
+                @endif
+
+                <a class="dropdown-item text-center small text-gray-500"
+                href="{{ route('admin.meetings') }}">
+                    Lihat Semua Meeting
+                </a>
+            </div>
+        </li>
+
+        <!-- Nav Item - Messages -->
+        <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
+            role="button" data-toggle="dropdown">
+                <i class="fas fa-envelope fa-fw"></i>
                 @if (($notif['unread_messages'] ?? 0) > 0)
                     <span class="badge badge-danger badge-counter">
-                        {{ $notif['unread_messages'] > 9 ? '9+' : $notif['unread_messages'] }}
+                        {{ ($notif['unread_messages'] ?? 0) > 9 ? '9+' : $notif['unread_messages'] }}
                     </span>
                 @endif
             </a>
@@ -57,14 +121,19 @@
                     href="{{ route('admin.messages', ['meeting' => $msg['meeting_id']]) }}">
                         <div class="dropdown-list-image mr-3">
                             <div class="rounded-circle d-flex align-items-center justify-content-center text-white"
-                                style="width:40px;height:40px;background:#FF8C00;font-size:14px;">
-                                {{ strtoupper(substr($msg['sender_name'], 0, 1)) }}
+                                style="width:40px;height:40px;background:#FF8C00;font-size:14px;flex-shrink:0;">
+                                {{ strtoupper(substr($msg['sender_name'] ?? 'U', 0, 1)) }}
                             </div>
                         </div>
-                        <div class="font-weight-bold" style="min-width:0;">
-                            <div class="text-truncate small">{{ $msg['message'] }}</div>
+                        <div style="min-width:0;">
+                            <div class="text-truncate small font-weight-bold">
+                                {{ $msg['message'] }}
+                            </div>
                             <div class="small text-gray-500">
-                                {{ $msg['sender_name'] }} · {{ $msg['time'] }} · {{ $msg['meeting_title'] }}
+                                {{ $msg['sender_name'] }} · {{ $msg['time'] }}
+                            </div>
+                            <div class="small text-muted text-truncate">
+                                {{ $msg['meeting_title'] }}
                             </div>
                         </div>
                     </a>
@@ -79,14 +148,6 @@
                     Lihat Semua Pesan
                 </a>
             </div>
-        </li>
-
-        <!-- Nav Item - Messages -->
-        <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link" href="{{ route('admin.messages') }}">
-                <i class="fas fa-envelope fa-fw"></i>
-            </a>
-            
         </li>
 
         <div class="topbar-divider d-none d-sm-block"></div>
