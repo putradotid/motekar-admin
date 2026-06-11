@@ -37,26 +37,38 @@
                 <div class="space-y-5">
 
                     <div>
+                        <h4 class="font-bold">Nama Perusahaan</h4>
+                        <p class="text-gray-700">
+                            {{ $setting['company_name'] ?? '-' }}
+                        </p>
+                    </div>
+
+                    <div>
                         <h4 class="font-bold">Alamat</h4>
                         <p class="text-gray-700">
-                            CV. Motekar Cipta Teknologi
-                            Perumahan Puri Kencana Blok C No 5,
-                            Cirebon RT 8 RW 1,
-                            Sumbang, Banyumas 53183
+                            {{ $setting['company_address'] ?? '-' }}
                         </p>
                     </div>
 
                     <div>
                         <h4 class="font-bold">Email</h4>
                         <p class="text-gray-700">
-                            motekar@gmail.com
+                            {{ $setting['company_email'] ?? '-' }}
                         </p>
                     </div>
 
                     <div>
                         <h4 class="font-bold">Telepon</h4>
                         <p class="text-gray-700">
-                            (021) 31997486
+                            {{ $setting['company_phone'] ?? '-' }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold">Jam Operasional</h4>
+                        <p class="text-gray-700">
+                            {{ $setting['office_open'] ?? '-' }} -
+                            {{ $setting['office_close'] ?? '-' }} WIB
                         </p>
                     </div>
 
@@ -64,7 +76,8 @@
 
                 {{-- WA Button --}}
                 <a
-                    href="#"
+                    href="https://wa.me/{{ $setting['company_whatsapp'] ?? '#' }}"
+                   target="_blank"
                     class="mt-8 inline-flex items-center gap-4 bg-white px-8 py-4 rounded-2xl shadow-md hover:shadow-lg transition"
                 >
                     <span class="text-4xl">🟢</span>
@@ -82,7 +95,7 @@
 
 </section>
 
-{{-- section 1 --}}
+{{-- Section sosmed --}}
 <section class="bg-amber-500 text-white py-14">
   <div class="max-w-6xl mx-auto px-6">
 
@@ -90,15 +103,15 @@
 
       <!-- Item -->
       <div class="flex flex-col items-center flex-1">
-        <h2 class="">Motekar Cipta Teknologi</h2>
+        <h2 class="">{{ $setting['company_name'] ?? '-' }}</h2>
       </div>
       
       <div class="flex flex-col items-center flex-1">
-        <h2 class="">www.facebook.com/motekarciptateknologi</h2>
+        <h2 class="">{{ $setting['company_facebook'] ?? '-' }}</h2>
       </div>
       
       <div class="flex flex-col items-center flex-1">
-        <h2 class="">@motekarciptateknologi</h2>
+        <h2 class="">{{ $setting['company_twitter'] ?? '-' }}</h2>
       </div>
 
     </div>

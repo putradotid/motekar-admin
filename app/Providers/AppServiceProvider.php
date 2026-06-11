@@ -43,5 +43,19 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('notif', $notif);
             }
         });
+
+        // Setting untuk semua public pages
+        view()->composer(['layouts.public', 'public.*' ], function ($view) {
+            try {
+                $response = \Illuminate\Support\Facades\Http::timeout(5)
+                    ->get(config('api.url') . '/settings');
+
+                $setting = $response->successful() ? $response->json() : [];
+            } catch (\Exception $e) {
+                $setting = [];
+            }
+
+            $view->with('setting', $setting);
+        });
     }
 }
