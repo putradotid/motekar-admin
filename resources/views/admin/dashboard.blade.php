@@ -152,12 +152,14 @@
 
                     {{-- Info singkat --}}
                     <div class="d-flex justify-content-between mb-1">
-                        <small class="text-muted">Visitors Today</small>
-                        <small class="font-weight-bold">210</small>
+                        <small class="text-muted">Meetings Today</small>
+                        <small class="font-weight-bold">
+                            {{ $meetingsToday ?? 0 }}
+                        </small>
                     </div>
                     <div class="d-flex justify-content-between mb-2">
-                        <small class="text-muted">Meetings Today</small>
-                        <small class="font-weight-bold">5</small>
+                        <small class="text-muted">Total Meeting</small>
+                        <small class="font-weight-bold">{{ $stats['total'] ?? 0 }}</small>
                     </div>
 
                     {{-- Chart --}}
@@ -175,7 +177,9 @@
                                         <i class="fas fa-user" style="color:#6366F1;"></i>
                                     </div>
                                     <small class="text-muted">Total User</small>
-                                    <div class="h6 font-weight-bold mb-0 text-dark">{{ $users['total'] ?? 0 }}</div>
+                                    <div class="h6 font-weight-bold mb-0 text-dark">
+                                        {{ $users['total'] ?? 0 }}
+                                    </div>
                                 </a>
                             </div>
                         </div>
@@ -187,7 +191,9 @@
                                         <i class="fas fa-shield-alt" style="color:#8B5CF6;"></i>
                                     </div>
                                     <small class="text-muted">Total Admin</small>
-                                    <div class="h6 font-weight-bold mb-0 text-dark">{{ $admins['total'] ?? 0 }}</div>
+                                    <div class="h6 font-weight-bold mb-0 text-dark">
+                                        {{ $admins['total'] ?? 0 }}
+                                    </div>
                                 </a>
                             </div>
                         </div>

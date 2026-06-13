@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\MessageController as AdminMessageController;
 use App\Http\Controllers\Admin\MeetingController as AdminMeetingController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\HomePageController;
 use App\Http\Controllers\Admin\MediaController;
 use Illuminate\Support\Facades\Route;
 
@@ -66,7 +67,16 @@ Route::middleware(['user.auth'])->prefix('user')->group(function () {
 // Halaman Admin
 Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
 
+    // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+    // website management
+    Route::get('/homepage', [HomePageController::class, 'index'])->name('admin.homepage');
+    Route::post('/homepage',        [HomePageController::class, 'store'])->name('admin.homepage.store');
+    Route::post('/homepage/{id}',   [HomePageController::class, 'update'])->name('admin.homepage.update');
+    Route::delete('/homepage/{id}', [HomePageController::class, 'destroy'])->name('admin.homepage.destroy');
+
+    // Calendar
     Route::get('/calendar', [CalendarController::class, 'index'])->name('admin.calendar');
     Route::get('/calendar/events', [CalendarController::class, 'events'])->name('admin.calendar.events');
     

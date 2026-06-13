@@ -40,6 +40,16 @@ class DashboardController extends Controller
         
         $monthlyResponse = Http::withToken($this->token())
             ->get($this->apiUrl() . '/admin/meetings/monthly');
+
+        // Ambil dari notif yang sudah ada
+        $meetingsToday = 0;
+        try {
+            $notifResponse = Http::timeout(5)->withToken($this->token())
+                ->get($this->apiUrl() . '/admin/notifications/count');
+            $meetingsToday = $notifResponse->json()['meetings_today'] ?? 0;
+        } catch (\Exception $e) {
+            $meetingsToday = 0;
+        }
         
         if ($statsResponse->status() === 401) {
             session()->flush();
@@ -50,8 +60,8 @@ class DashboardController extends Controller
         $recent  = $recentResponse->json();
         $users   = $usersResponse->json();
         $admins  = $adminsResponse->json();
-        $monthly  = $monthlyResponse->json();
+        $monthly = $monthlyResponse->successful() ? ($monthlyResponse->json() ?? []) : [];
 
-        return view('admin.dashboard', compact('stats', 'recent', 'users', 'admins', 'monthly'));
+        return view('admin.dashboard', compact('stats', 'recent', 'users', 'admins', 'monthly', 'meetingsToday'));
     }
 }

@@ -6,9 +6,33 @@
   <link rel="icon" href="{{ asset('storage/motekar-logo.ico') }}" type="image/x-icon">
   @vite('resources/css/app.css')
   <link rel="stylesheet" href="{{ asset('css/font.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
+  {{-- swiper css --}}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 
   {{-- Api Public --}}
   <script src="{{ asset('js/api-public.js') }}"></script>
+
+  <style>
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: #FF8C00 !important;
+        background: rgba(255,255,255,0.8);
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50%;
+        padding: 24px;
+    }
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        font-size: 16px !important;
+        font-weight: bold;
+    }
+    .swiper-pagination-bullet-active {
+        background: #FF8C00 !important;
+    }
+</style>
   
 </head>
 
@@ -24,6 +48,28 @@
 <!-- Footer -->
 @include('components.public.footer')
 <!-- End of Footer -->
+
+{{-- Swiper JS --}}
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+{{-- Init Swiper --}}
+<script>
+    const heroSwiper = new Swiper('.heroSwiper', {
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+    });
+</script>
 
 @stack('scripts')
 

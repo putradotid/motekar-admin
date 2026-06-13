@@ -1,39 +1,94 @@
 @extends('layouts.public')
 
 @section('content')
-{{-- Hero section --}}
-<section class="bg-gray-300 relative mt-10 px-8 py-16 md:py-24">
-  <div class="max-w-2xl">
-    <h1 class="text-4xl md:text-6xl font-bold leading-tight">
-      Where Innovation
-      <br>
-      Meets Execution
-    </h1>
+{{-- Hero Section — Swiper --}}
+<section class="relative mt-10">
 
-    <p class="mt-6 text-gray-600 text-xs md:text-sm">
-      Kami membantu perusahaan dan UMKM bertransformasi secara digital melalui pengembangan software, sistem terintegrasi, dan solusi teknologi yang scalable. Solusi teknologi terintegrasi untuk mempercepat pertumbuhan bisnis Anda di era digital.
-    </p>
-  </div>
+    {{-- Swiper Container --}}
+    <div class="swiper heroSwiper">
+        <div class="swiper-wrapper">
 
-  <!-- Card kanan -->
-  <div class="hidden md:block absolute right-0 top-10">
-    <div class="h-100 w-100 rounded-lg flex items-center justify-center">
-      <img 
-          src="{{ asset('storage/hero-logo.png') }}"
-          class="img-fluid rounded-top"
-          alt="logo"
-      />
-    </div>
-  </div>
+            @forelse ($heroSlides ?? [] as $slide)
+                <div class="swiper-slide">
+                    <div class="relative px-8 py-16 md:py-24 min-h-64"
+                         style="
+                            @if ($slide['background_type'] === 'color')
+                                background-color: {{ $slide['background_value'] }};
+                            @else
+                                background-image: url('{{ $slide['background_value'] }}');
+                                background-size: cover;
+                                background-position: center;
+                            @endif
+                         ">
 
-  <div class="mt-16 flex gap-4 justify-start md:justify-center">
-    <a href="{{ route('hubungi-kami') }}">
-      <button class="bg-blue-900 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition duration-300">
-        HUBUGI KAMI
-      </button>
-    </a>
-  </div>
+                        <div class="max-w-2xl relative z-10">
 
+                            {{-- Icon --}}
+                            @if (!empty($slide['icon_url']))
+                                <img src="{{ $slide['icon_url'] }}"
+                                     class="w-16 h-16 object-contain mb-4" alt="icon">
+                            @endif
+
+                            {{-- Title --}}
+                            <h1 class="text-4xl md:text-6xl font-bold leading-tight">
+                                {{ $slide['title'] }}
+                            </h1>
+
+                            {{-- Description --}}
+                            @if (!empty($slide['description']))
+                                <p class="mt-6 text-gray-600 text-xs md:text-sm">
+                                    {{ $slide['description'] }}
+                                </p>
+                            @endif
+
+                            {{-- Button --}}
+                            @if (!empty($slide['button_text']))
+                                <div class="mt-10">
+                                    <a href="{{ $slide['button_url'] ?? '#' }}">
+                                        <button class="bg-blue-900 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition duration-300">
+                                            {{ $slide['button_text'] }}
+                                        </button>
+                                    </a>
+                                </div>
+                            @endif
+
+                        </div>
+
+                        {{-- Logo kanan --}}
+                        <div class="hidden md:block absolute right-8 top-1/2 -translate-y-1/2">
+                            <img src="{{ asset('storage/hero-logo.png') }}"
+                                alt="logo"
+                                style="width: 420px; height: 280px; object-fit: contain;">
+                        </div>
+
+                    </div>
+                </div>
+            @empty
+                {{-- Fallback kalau tidak ada data --}}
+                <div class="swiper-slide">
+                    <div class="bg-gray-300 relative px-8 py-16 md:py-24">
+                        <div class="max-w-2xl">
+                            <h1 class="text-4xl md:text-6xl font-bold leading-tight">
+                                Where Innovation Meets Execution
+                            </h1>
+                            <p class="mt-6 text-gray-600 text-xs md:text-sm">
+                                Kami membantu perusahaan dan UMKM bertransformasi secara digital.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            @endforelse
+
+            
+          </div>
+          
+          {{-- Navigation --}}
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          
+          {{-- Pagination --}}
+          <div class="swiper-pagination"></div>
+        </div>
 </section>
 
 {{-- Section 1 --}}

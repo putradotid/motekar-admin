@@ -30,7 +30,7 @@
     <div class="sidebar-heading">Website Management</div>
 
     <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ route('admin.homepage') }}">
             <i class="fas fa-fw fa-home"></i>
             <span>Home Page</span>
         </a>

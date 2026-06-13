@@ -19,43 +19,49 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // share notif ke semua view admin
+        // Admin topbar
         view()->composer('components.admin.topbar', function ($view) {
             $notif = [
-                'pending_meetings'  => 0,
-                'unread_messages'   => 0,
-                'latest_unread'     => [],
-                'meetings_today'    => 0,
+                'pending_meetings' => 0,
+                'unread_messages'  => 0,
+                'latest_unread'    => [],
+                'meetings_today'   => 0,
             ];
             if (session('token') && session('user.role') === 'admin') {
                 try {
                     $response = \Illuminate\Support\Facades\Http::timeout(5)
                         ->withToken(session('token'))
                         ->get(config('api.url') . '/admin/notifications/count');
-
                     if ($response->successful()) {
                         $notif = array_merge($notif, $response->json() ?? []);
                     }
-                } catch (\Exception $e) {
-                    $notif = [];
-                }
-
-                $view->with('notif', $notif);
+                } catch (\Exception $e) {}
             }
+            $view->with('notif', $notif);
         });
 
-        // Setting untuk semua public pages
-        view()->composer(['layouts.public', 'public.*' ], function ($view) {
+        // Public pages — gabung setting + heroSlides dalam 1 composer
+        view()->composer(['layouts.public', 'public.*'], function ($view) {
+            // Setting
             try {
-                $response = \Illuminate\Support\Facades\Http::timeout(5)
-                    ->get(config('api.url') . '/settings');
-
-                $setting = $response->successful() ? $response->json() : [];
+                $setting = \Illuminate\Support\Facades\Http::timeout(5)
+                    ->get(config('api.url') . '/settings')
+                    ->json() ?? [];
             } catch (\Exception $e) {
                 $setting = [];
             }
 
+            // Hero Slides
+            try {
+                $heroSlides = \Illuminate\Support\Facades\Http::timeout(5)
+                    ->get(config('api.url') . '/hero-slides')
+                    ->json() ?? [];
+            } catch (\Exception $e) {
+                $heroSlides = [];
+            }
+
             $view->with('setting', $setting);
+            $view->with('heroSlides', $heroSlides);
         });
     }
 }
