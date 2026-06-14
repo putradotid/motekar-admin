@@ -2,14 +2,55 @@
 
 @push('styles')
 <style>
-    .slide-card {
+    .tab-nav {
+        display: flex;
+        gap: 0;
+        border-bottom: 2px solid #e3e6f0;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+    }
+    .tab-nav button {
+        padding: 12px 20px;
+        border: none;
+        background: transparent;
+        font-size: 14px;
+        font-weight: 500;
+        color: #6e707e;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        transition: all 0.3s ease;
+    }
+    .tab-nav button.active {
+        color: #FF8C00;
+        border-bottom-color: #FF8C00;
+        background: #fff8f0;
+    }
+    .tab-nav button:hover:not(.active) {
+        color: #495057;
+    }
+    
+    .tab-content {
+        display: none;
+    }
+    .tab-content.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .section-card {
         border: 1px solid #e3e6f0;
         border-radius: 12px;
         padding: 24px;
         margin-bottom: 20px;
         background: #fff;
     }
-    .slide-card-header {
+    
+    .section-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -17,6 +58,7 @@
         padding-bottom: 12px;
         border-bottom: 1px solid #f0f0f0;
     }
+    
     .bg-preview {
         width: 100%;
         height: 100px;
@@ -27,34 +69,19 @@
         justify-content: center;
         font-size: 12px;
         overflow: hidden;
+        color: #999;
+        background-color: #eee;
     }
-    .tab-nav {
-        display: flex;
-        gap: 4px;
-        border-bottom: 2px solid #e3e6f0;
-        margin-bottom: 24px;
-    }
-    .tab-nav a {
-        padding: 8px 20px;
-        border-radius: 6px 6px 0 0;
-        font-size: 14px;
-        font-weight: 500;
+    
+    .empty-state {
+        text-align: center;
         color: #6e707e;
-        text-decoration: none;
-        border-bottom: 2px solid transparent;
-        margin-bottom: -2px;
+        padding: 40px 20px;
     }
-    .tab-nav a.active {
-        color: #FF8C00;
-        border-bottom-color: #FF8C00;
-        background: #fff8f0;
-    }
-    .color-preview {
-        width: 32px;
-        height: 32px;
-        border-radius: 6px;
-        border: 1px solid #e3e6f0;
-        flex-shrink: 0;
+    .empty-state i {
+        font-size: 48px;
+        margin-bottom: 16px;
+        color: #d1d5db;
     }
 </style>
 @endpush
@@ -67,11 +94,8 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div>
             <h1 class="h3 mb-0 text-gray-800">Edit Home Page</h1>
-            <p class="text-muted small">Edit and manage content displayed on the homepage.</p>
+            <p class="text-muted small">Edit and manage all sections of your homepage.</p>
         </div>
-        <button class="btn btn-amber px-4" data-toggle="modal" data-target="#addSlideModal">
-            <i class="fas fa-plus mr-1"></i> Tambah Hero
-        </button>
     </div>
 
     @if (session('success'))
@@ -80,272 +104,520 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
     @endif
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+    @endif
 
     {{-- Tab Navigation --}}
     <div class="tab-nav">
-        <a href="#" class="active">Hero</a>
-        <a href="#">About</a>
-        <a href="#">Stats</a>
-        <a href="#">Services</a>
-        <a href="#">Call to Action</a>
+        <button class="tab-btn active" onclick="switchTab('hero')">
+            <i class="fas fa-images mr-1"></i> Hero
+        </button>
+        <button class="tab-btn" onclick="switchTab('about')">
+            <i class="fas fa-info-circle mr-1"></i> About
+        </button>
+        <button class="tab-btn" onclick="switchTab('stats')">
+            <i class="fas fa-chart-line mr-1"></i> Stats
+        </button>
+        <button class="tab-btn" onclick="switchTab('services')">
+            <i class="fas fa-cogs mr-1"></i> Services
+        </button>
+        <button class="tab-btn" onclick="switchTab('cta')">
+            <i class="fas fa-bullhorn mr-1"></i> Call to Action
+        </button>
     </div>
 
-    {{-- Hero Slides --}}
-    @forelse ($slides as $index => $slide)
-        <div class="slide-card shadow-sm">
-
-            {{-- Header --}}
-            <div class="slide-card-header">
-                <div class="d-flex align-items-center gap-2">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center text-white mr-2"
-                         style="width:28px;height:28px;background:#FF8C00;font-size:12px;flex-shrink:0;">
-                        {{ $index + 1 }}
-                    </div>
-                    <h6 class="font-weight-bold mb-0">Hero Section {{ $index + 1 }}</h6>
-                    @if (!$slide['is_active'])
-                        <span class="badge badge-secondary ml-2">Nonaktif</span>
-                    @else
-                        <span class="badge badge-success ml-2">Aktif</span>
-                    @endif
-                </div>
-                <form method="POST"
-                      action="{{ route('admin.homepage.destroy', $slide['id']) }}"
-                      class="d-inline">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-outline-danger"
-                            onclick="return confirm('Hapus slide ini?')">
-                        <i class="fas fa-trash mr-1"></i> Hapus
-                    </button>
-                </form>
-            </div>
-
-            {{-- Form langsung terbuka --}}
-            <form method="POST"
-                  action="{{ route('admin.homepage.update', $slide['id']) }}">
-                @csrf
-                <div class="row">
-
-                    {{-- Kiri — konten --}}
-                    <div class="col-md-7">
-                        <div class="form-group">
-                            <label class="font-weight-bold small">Main Title <span class="text-danger">*</span></label>
-                            <input type="text" name="title" class="form-control"
-                                   value="{{ $slide['title'] }}" required
-                                   placeholder="Judul utama hero">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="font-weight-bold small">Subtitle / Deskripsi</label>
-                            <textarea name="description" class="form-control" rows="3"
-                                      placeholder="Deskripsi singkat...">{{ $slide['description'] }}</textarea>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label class="font-weight-bold small">Teks Tombol</label>
-                                <input type="text" name="button_text" class="form-control"
-                                       value="{{ $slide['button_text'] }}"
-                                       placeholder="Contoh: Hubungi Kami">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="font-weight-bold small">URL Tombol</label>
-                                <input type="text" name="button_url" class="form-control"
-                                       value="{{ $slide['button_url'] }}"
-                                       placeholder="/hubungi-kami">
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Kanan — background & preview --}}
-                    <div class="col-md-5">
-
-                        {{-- Preview --}}
-                        <label class="font-weight-bold small">Preview Background</label>
-                        <div class="bg-preview mb-3"
-                             id="preview-{{ $slide['id'] }}"
-                             style="
-                                @if ($slide['background_type'] === 'color')
-                                    background-color: {{ $slide['background_value'] }};
-                                @else
-                                    background-image: url('{{ $slide['background_value'] }}');
-                                    background-size: cover;
-                                    background-position: center;
-                                @endif
-                             ">
-                            <span class="text-muted small"
-                                  id="preview-text-{{ $slide['id'] }}">
-                                {{ $slide['title'] }}
-                            </span>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="font-weight-bold small">Tipe Background</label>
-                            <select name="background_type" class="form-control form-control-sm"
-                                    onchange="toggleBgInput(this, {{ $slide['id'] }})">
-                                <option value="color"  {{ $slide['background_type'] === 'color'  ? 'selected' : '' }}>Warna Solid</option>
-                                <option value="image"  {{ $slide['background_type'] === 'image'  ? 'selected' : '' }}>Gambar (URL)</option>
-                            </select>
-                        </div>
-
-                        {{-- Input warna --}}
-                        <div id="color-input-{{ $slide['id'] }}"
-                             {{ $slide['background_type'] === 'image' ? 'style=display:none' : '' }}>
-                            <label class="font-weight-bold small">Pilih Warna</label>
-                            <div class="d-flex align-items-center" style="gap: 8px;">
-                                <input type="color"
-                                       class="p-0 border-0"
-                                       style="width:38px;height:38px;cursor:pointer;"
-                                       value="{{ $slide['background_type'] === 'color' ? $slide['background_value'] : '#D1D5DB' }}"
-                                       oninput="syncColorEdit(this, {{ $slide['id'] }})">
-                                <input type="text"
-                                       name="background_value"
-                                       id="bg-text-{{ $slide['id'] }}"
-                                       class="form-control form-control-sm"
-                                       value="{{ $slide['background_type'] === 'color' ? $slide['background_value'] : '#D1D5DB' }}"
-                                       oninput="syncTextEdit(this, {{ $slide['id'] }})"
-                                       placeholder="#D1D5DB">
-                            </div>
-                        </div>
-
-                        {{-- Input gambar --}}
-                        <div id="image-input-{{ $slide['id'] }}"
-                             {{ $slide['background_type'] === 'color' ? 'style=display:none' : '' }}>
-                            <label class="font-weight-bold small">URL Gambar</label>
-                            <input type="text"
-                                   name="background_value"
-                                   class="form-control form-control-sm"
-                                   value="{{ $slide['background_type'] === 'image' ? $slide['background_value'] : '' }}"
-                                   placeholder="Salin URL dari Media Library"
-                                   oninput="previewImage(this, {{ $slide['id'] }})">
-                            <small class="text-muted">
-                                <a href="{{ route('admin.media') }}" target="_blank">
-                                    <i class="fas fa-external-link-alt mr-1"></i>Buka Media Library
-                                </a>
-                            </small>
-                        </div>
-
-                        {{-- Status --}}
-                        <div class="form-group mt-3">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input"
-                                       id="active-{{ $slide['id'] }}"
-                                       name="is_active"
-                                       {{ $slide['is_active'] ? 'checked' : '' }}>
-                                <label class="custom-control-label font-weight-bold small"
-                                       for="active-{{ $slide['id'] }}">
-                                    Tampilkan di website
-                                </label>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                {{-- Save button --}}
-                <div class="d-flex justify-content-end mt-2 pt-3 border-top">
-                    <button type="submit" class="btn btn-amber px-5">
-                        <i class="fas fa-save mr-1"></i> Simpan Section {{ $index + 1 }}
-                    </button>
-                </div>
-
-            </form>
-        </div>
-    @empty
-        <div class="text-center text-muted py-5">
-            <i class="fas fa-image fa-3x mb-3 d-block"></i>
-            <p>Belum ada hero section. Klik "Tambah Hero" untuk memulai!</p>
-            <button class="btn btn-amber px-4 mt-2"
-                    data-toggle="modal" data-target="#addSlideModal">
+    {{-- ==================== TAB: HERO ==================== --}}
+    <div id="hero" class="tab-content active">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="font-weight-bold">Hero Sections</h4>
+            <button class="btn btn-amber btn-sm" data-toggle="modal" data-target="#addHeroModal">
                 <i class="fas fa-plus mr-1"></i> Tambah Hero
             </button>
         </div>
-    @endforelse
+
+        @forelse ($slides as $index => $slide)
+            <div class="section-card">
+                <div class="section-header">
+                    <div>
+                        <h6 class="font-weight-bold mb-0">
+                            <span class="badge badge-warning mr-2">{{ $index + 1 }}</span>
+                            {{ $slide['title'] }}
+                        </h6>
+                        @if ($slide['is_active'])
+                            <small class="text-success"><i class="fas fa-check-circle mr-1"></i>Aktif</small>
+                        @else
+                            <small class="text-muted"><i class="fas fa-times-circle mr-1"></i>Nonaktif</small>
+                        @endif
+                    </div>
+                    <form method="POST" action="{{ route('admin.homepage.hero.destroy', $slide['id']) }}" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Hapus?')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <form method="POST" action="{{ route('admin.homepage.hero.update', $slide['id']) }}">
+                    @csrf
+                    @method('PUT')
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="form-group">
+                                <label class="font-weight-bold small">Judul <span class="text-danger">*</span></label>
+                                <input type="text" name="title" class="form-control" value="{{ $slide['title'] }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold small">Deskripsi</label>
+                                <textarea name="description" class="form-control" rows="3">{{ $slide['description'] }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold small">URL Icon (opsional)</label>
+                                <input type="text" name="icon_url" class="form-control form-control-sm" value="{{ $slide['icon_url'] }}" placeholder="dari Media Library">
+                                <small class="text-muted"><a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a></small>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-bold small">Teks Tombol</label>
+                                    <input type="text" name="button_text" class="form-control" value="{{ $slide['button_text'] }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-bold small">URL Tombol</label>
+                                    <input type="text" name="button_url" class="form-control" value="{{ $slide['button_url'] }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="hero-active-{{ $slide['id'] }}" name="is_active" {{ $slide['is_active'] ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="hero-active-{{ $slide['id'] }}">Tampilkan di website</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <label class="font-weight-bold small">Preview</label>
+                            <div class="bg-preview mb-3" id="preview-{{ $slide['id'] }}"
+                                 style="background: {{ $slide['background_type'] === 'color' ? $slide['background_value'] : 'url('.$slide['background_value'].') center/cover' }};">
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold small">Tipe Background</label>
+                                <select name="background_type" class="form-control form-control-sm" onchange="toggleHeroBg(this, {{ $slide['id'] }})">
+                                    <option value="color" {{ $slide['background_type'] === 'color' ? 'selected' : '' }}>Warna</option>
+                                    <option value="image" {{ $slide['background_type'] === 'image' ? 'selected' : '' }}>Gambar</option>
+                                </select>
+                            </div>
+
+                            {{-- Input Warna --}}
+                            <div class="form-group" id="color-input-{{ $slide['id'] }}"
+                                 style="{{ $slide['background_type'] === 'image' ? 'display:none' : '' }}">
+                                <label class="font-weight-bold small">Warna</label>
+                                <input type="color" name="background_value"
+                                       class="form-control p-1" style="height:40px;"
+                                       value="{{ $slide['background_type'] === 'color' ? $slide['background_value'] : '#D1D5DB' }}"
+                                       oninput="syncHeroPreview(this, {{ $slide['id'] }})"
+                                       {{ $slide['background_type'] === 'image' ? 'disabled' : '' }}>
+                            </div>
+
+                            {{-- Input Gambar --}}
+                            <div class="form-group" id="image-input-{{ $slide['id'] }}"
+                                 style="{{ $slide['background_type'] === 'color' ? 'display:none' : '' }}">
+                                <label class="font-weight-bold small">URL Gambar</label>
+                                <input type="text" name="background_value"
+                                       class="form-control form-control-sm"
+                                       value="{{ $slide['background_type'] === 'image' ? $slide['background_value'] : '' }}"
+                                       placeholder="dari Media Library"
+                                       oninput="syncHeroPreviewImage(this, {{ $slide['id'] }})"
+                                       {{ $slide['background_type'] === 'color' ? 'disabled' : '' }}>
+                                <small class="text-muted"><a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-amber btn-sm">
+                            <i class="fas fa-save mr-1"></i> Simpan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        @empty
+            <div class="empty-state">
+                <i class="fas fa-image"></i>
+                <p>Belum ada hero section</p>
+                <button class="btn btn-amber btn-sm mt-3" data-toggle="modal" data-target="#addHeroModal">
+                    <i class="fas fa-plus mr-1"></i> Tambah Hero
+                </button>
+            </div>
+        @endforelse
+    </div>
+
+    {{-- ==================== TAB: ABOUT ==================== --}}
+    <div id="about" class="tab-content">
+        <div class="section-card">
+            <h4 class="font-weight-bold mb-3">About Page</h4>
+
+            @if ($about)
+                <form method="POST" action="{{ route('admin.homepage.about.update', $about['id']) }}">
+                    @csrf
+                    @method('PUT')
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Judul</label>
+                                <input type="text" name="title" class="form-control" value="{{ $about['title'] }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Deskripsi</label>
+                                <textarea name="description" class="form-control" rows="4">{{ $about['description'] }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Visi</label>
+                                <textarea name="vision" class="form-control" rows="3">{{ $about['vision'] }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Misi</label>
+                                <textarea name="mission" class="form-control" rows="3">{{ $about['mission'] }}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">URL Gambar</label>
+                                <input type="text" name="image_url" class="form-control form-control-sm" value="{{ $about['image_url'] }}" placeholder="dari Media Library">
+                                <small class="text-muted"><a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a></small>
+                            </div>
+                            @if ($about['image_url'])
+                                <img src="{{ $about['image_url'] }}" alt="about" class="img-fluid rounded mt-2">
+                            @endif
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-amber btn-sm">
+                            <i class="fas fa-save mr-1"></i> Simpan
+                        </button>
+                    </div>
+                </form>
+            @else
+                <form method="POST" action="{{ route('admin.homepage.about.store') }}">
+                    @csrf
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Judul</label>
+                                <input type="text" name="title" class="form-control" placeholder="Judul halaman about" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Deskripsi</label>
+                                <textarea name="description" class="form-control" rows="4" placeholder="Deskripsi perusahaan..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Visi</label>
+                                <textarea name="vision" class="form-control" rows="3" placeholder="Visi perusahaan..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Misi</label>
+                                <textarea name="mission" class="form-control" rows="3" placeholder="Misi perusahaan..."></textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="font-weight-bold">URL Gambar</label>
+                                <input type="text" name="image_url" class="form-control form-control-sm" placeholder="dari Media Library">
+                                <small class="text-muted"><a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-amber btn-sm">
+                            <i class="fas fa-save mr-1"></i> Buat
+                        </button>
+                    </div>
+                </form>
+            @endif
+        </div>
+    </div>
+
+    {{-- ==================== TAB: STATS ==================== --}}
+    <div id="stats" class="tab-content">
+        <div class="section-card">
+            <h4 class="font-weight-bold mb-3">Statistik</h4>
+
+            @if ($stats)
+                <form method="POST" action="{{ route('admin.homepage.stats.update', $stats['id']) }}">
+                    @csrf
+                    @method('PUT')
+                    <div class="row">
+                        @for ($i = 1; $i <= 4; $i++)
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Label {{ $i }}</label>
+                                    <input type="text" name="label_{{ $i }}" class="form-control" value="{{ $stats['label_'.$i] }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Nilai {{ $i }}</label>
+                                    <input type="text" name="value_{{ $i }}" class="form-control" value="{{ $stats['value_'.$i] }}" placeholder="contoh: 190+">
+                                </div>
+                            </div>
+                        @endfor
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-amber btn-sm">
+                            <i class="fas fa-save mr-1"></i> Simpan
+                        </button>
+                    </div>
+                </form>
+            @else
+                <form method="POST" action="{{ route('admin.homepage.stats.store') }}">
+                    @csrf
+                    <div class="row">
+                        @for ($i = 1; $i <= 4; $i++)
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Label {{ $i }}</label>
+                                    <input type="text" name="label_{{ $i }}" class="form-control" placeholder="Klien Terlayani" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-bold">Nilai {{ $i }}</label>
+                                    <input type="text" name="value_{{ $i }}" class="form-control" placeholder="190+">
+                                </div>
+                            </div>
+                        @endfor
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-amber btn-sm">
+                            <i class="fas fa-save mr-1"></i> Buat
+                        </button>
+                    </div>
+                </form>
+            @endif
+        </div>
+    </div>
+
+    {{-- ==================== TAB: SERVICES ==================== --}}
+    <div id="services" class="tab-content">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="font-weight-bold">Layanan / Produk</h4>
+            <button class="btn btn-amber btn-sm" data-toggle="modal" data-target="#addServiceModal">
+                <i class="fas fa-plus mr-1"></i> Tambah Layanan
+            </button>
+        </div>
+
+        @forelse ($services as $service)
+            <div class="section-card">
+                <div class="section-header">
+                    <div>
+                        <h6 class="font-weight-bold mb-0">{{ $service['name'] }}</h6>
+                        <small class="text-muted">{{ $service['description'], 60 }}</small>
+                    </div>
+                    <form method="POST" action="{{ route('admin.homepage.services.destroy', $service['id']) }}" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Hapus?')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <form method="POST" action="{{ route('admin.homepage.services.update', $service['id']) }}">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group">
+                        <label class="font-weight-bold small">Nama Layanan</label>
+                        <input type="text" name="name" class="form-control" value="{{ $service['name'] }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold small">Deskripsi</label>
+                        <textarea name="description" class="form-control" rows="2">{{ $service['description'] }}</textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-bold small">URL Icon</label>
+                            <input type="text" name="icon_url" class="form-control form-control-sm" value="{{ $service['icon_url'] }}" placeholder="dari Media Library">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-bold small">Urutan</label>
+                            <input type="number" name="order" class="form-control form-control-sm" value="{{ $service['order'] }}" min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="service-active-{{ $service['id'] }}" name="is_active" {{ $service['is_active'] ? 'checked' : '' }}>
+                            <label class="custom-control-label" for="service-active-{{ $service['id'] }}">Tampilkan</label>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-amber btn-sm">
+                            <i class="fas fa-save mr-1"></i> Simpan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        @empty
+            <div class="empty-state">
+                <i class="fas fa-cogs"></i>
+                <p>Belum ada layanan</p>
+                <button class="btn btn-amber btn-sm mt-3" data-toggle="modal" data-target="#addServiceModal">
+                    <i class="fas fa-plus mr-1"></i> Tambah Layanan
+                </button>
+            </div>
+        @endforelse
+    </div>
+
+    {{-- ==================== TAB: CTA ==================== --}}
+    <div id="cta" class="tab-content">
+        <div class="section-card">
+            <h4 class="font-weight-bold mb-3">Call to Action</h4>
+
+            @if ($cta)
+                <form method="POST" action="{{ route('admin.homepage.cta.update', $cta['id']) }}">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group">
+                        <label class="font-weight-bold">Judul</label>
+                        <input type="text" name="title" class="form-control" value="{{ $cta['title'] }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Deskripsi</label>
+                        <textarea name="description" class="form-control" rows="3">{{ $cta['description'] }}</textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-bold">Teks Tombol</label>
+                            <input type="text" name="button_text" class="form-control" value="{{ $cta['button_text'] }}">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-bold">URL Tombol</label>
+                            <input type="text" name="button_url" class="form-control" value="{{ $cta['button_url'] }}">
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-amber btn-sm">
+                            <i class="fas fa-save mr-1"></i> Simpan
+                        </button>
+                    </div>
+                </form>
+            @else
+                <form method="POST" action="{{ route('admin.homepage.cta.store') }}">
+                    @csrf
+                    <div class="form-group">
+                        <label class="font-weight-bold">Judul</label>
+                        <input type="text" name="title" class="form-control" placeholder="Anda Berminat?" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Deskripsi</label>
+                        <textarea name="description" class="form-control" rows="3" placeholder="Deskripsi call to action..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-bold">Teks Tombol</label>
+                            <input type="text" name="button_text" class="form-control" placeholder="Hubungi Kami">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-bold">URL Tombol</label>
+                            <input type="text" name="button_url" class="form-control" placeholder="/hubungi-kami">
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-amber btn-sm">
+                            <i class="fas fa-save mr-1"></i> Buat
+                        </button>
+                    </div>
+                </form>
+            @endif
+        </div>
+    </div>
 
 </div>
 </div>
 
-{{-- Modal Tambah --}}
-<div class="modal fade" id="addSlideModal" tabindex="-1">
+{{-- Modal Tambah Hero --}}
+<div class="modal fade" id="addHeroModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title font-weight-bold">Tambah Hero Section</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <form method="POST" action="{{ route('admin.homepage.store') }}">
+            <form method="POST" action="{{ route('admin.homepage.hero.store') }}">
                 @csrf
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-7">
-                            <div class="form-group">
-                                <label class="font-weight-bold small">Main Title <span class="text-danger">*</span></label>
-                                <input type="text" name="title" class="form-control"
-                                       placeholder="Judul utama" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold small">Subtitle</label>
-                                <textarea name="description" class="form-control" rows="3"
-                                          placeholder="Deskripsi..."></textarea>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label class="font-weight-bold small">Teks Tombol</label>
-                                    <input type="text" name="button_text" class="form-control"
-                                           placeholder="Hubungi Kami">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label class="font-weight-bold small">URL Tombol</label>
-                                    <input type="text" name="button_url" class="form-control"
-                                           placeholder="/hubungi-kami">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold small">Urutan</label>
-                                <input type="number" name="order" class="form-control"
-                                       value="{{ count($slides) + 1 }}" min="1">
-                            </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Judul</label>
+                        <input type="text" name="title" class="form-control" placeholder="Judul hero" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Deskripsi</label>
+                        <textarea name="description" class="form-control" rows="3" placeholder="Deskripsi..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-bold">Teks Tombol</label>
+                            <input type="text" name="button_text" class="form-control" placeholder="Hubungi Kami">
                         </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label class="font-weight-bold small">Tipe Background</label>
-                                <select name="background_type" class="form-control"
-                                        onchange="toggleNewBg(this)">
-                                    <option value="color">Warna Solid</option>
-                                    <option value="image">Gambar (URL)</option>
-                                </select>
-                            </div>
-                            <div id="new-color-input">
-                                <label class="font-weight-bold small">Pilih Warna</label>
-                                <div class="d-flex align-items-center" style="gap: 8px;">
-                                    <input type="color" class="p-0 border-0"
-                                           style="width:38px;height:38px;"
-                                           value="#D1D5DB"
-                                           oninput="document.getElementById('new-bg-text').value=this.value">
-                                    <input type="text" name="background_value"
-                                           id="new-bg-text" class="form-control"
-                                           value="#D1D5DB" placeholder="#D1D5DB">
-                                </div>
-                            </div>
-                            <div id="new-image-input" style="display:none;">
-                                <label class="font-weight-bold small">URL Gambar</label>
-                                <input type="text" name="background_value"
-                                       class="form-control"
-                                       placeholder="Salin URL dari Media Library">
-                                <small class="text-muted">
-                                    <a href="{{ route('admin.media') }}" target="_blank">
-                                        Buka Media Library
-                                    </a>
-                                </small>
-                            </div>
+                        <div class="form-group col-md-6">
+                            <label class="font-weight-bold">URL Tombol</label>
+                            <input type="text" name="button_url" class="form-control" placeholder="/hubungi-kami">
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Tipe Background</label>
+                        <select id="new-hero-bg-type" name="background_type" class="form-control" onchange="toggleNewHeroBg(this)">
+                            <option value="color">Warna Solid</option>
+                            <option value="image">Gambar (URL)</option>
+                        </select>
+                    </div>
+                    <div id="new-hero-color" class="form-group">
+                        <label class="font-weight-bold">Warna</label>
+                        <input type="color" name="background_value" id="new-hero-color-input" class="form-control p-1" style="height:40px;" value="#D1D5DB">
+                    </div>
+                    <div id="new-hero-image" class="form-group" style="display:none;">
+                        <label class="font-weight-bold">URL Gambar</label>
+                        <input type="text" name="background_value_image" id="new-hero-image-input" class="form-control" placeholder="dari Media Library">
+                        <small class="text-muted"><a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a></small>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-amber px-4">
-                        <i class="fas fa-plus mr-1"></i> Tambah
-                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-amber btn-sm" onclick="return prepareNewHeroSubmit()">Tambah</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{-- Modal Tambah Service --}}
+<div class="modal fade" id="addServiceModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold">Tambah Layanan</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form method="POST" action="{{ route('admin.homepage.services.store') }}">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Nama Layanan</label>
+                        <input type="text" name="name" class="form-control" placeholder="Nama layanan" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Deskripsi</label>
+                        <textarea name="description" class="form-control" rows="3" placeholder="Deskripsi layanan..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">URL Icon</label>
+                        <input type="text" name="icon_url" class="form-control" placeholder="dari Media Library">
+                        <small class="text-muted"><a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a></small>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Urutan</label>
+                        <input type="number" name="order" class="form-control" value="0" min="0">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-amber btn-sm">Tambah</button>
                 </div>
             </form>
         </div>
@@ -356,43 +628,92 @@
 
 @push('scripts')
 <script>
-    // Toggle bg type saat edit
-    function toggleBgInput(select, id) {
+    function switchTab(tabName) {
+        // Hide all tabs
+        document.querySelectorAll('.tab-content').forEach(el => {
+            el.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-btn').forEach(el => {
+            el.classList.remove('active');
+        });
+        
+        // Show selected tab
+        document.getElementById(tabName).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    // ===== Toggle background type pada form edit hero (existing slide) =====
+    function toggleHeroBg(select, id) {
         const colorInput = document.getElementById('color-input-' + id);
         const imageInput = document.getElementById('image-input-' + id);
-        colorInput.style.display = select.value === 'color' ? 'block' : 'none';
-        imageInput.style.display = select.value === 'image' ? 'block' : 'none';
-    }
-
-    // Sync color picker → text input + preview
-    function syncColorEdit(picker, id) {
-        document.getElementById('bg-text-' + id).value = picker.value;
-        document.getElementById('preview-' + id).style.backgroundColor = picker.value;
-        document.getElementById('preview-' + id).style.backgroundImage = 'none';
-    }
-
-    // Sync text input → preview
-    function syncTextEdit(input, id) {
+        const colorField = colorInput.querySelector('input');
+        const imageField = imageInput.querySelector('input');
         const preview = document.getElementById('preview-' + id);
-        preview.style.backgroundColor = input.value;
-        preview.style.backgroundImage = 'none';
+
+        if (select.value === 'color') {
+            colorInput.style.display = 'block';
+            imageInput.style.display = 'none';
+            colorField.disabled = false;
+            imageField.disabled = true;
+
+            preview.style.background = colorField.value;
+        } else {
+            colorInput.style.display = 'none';
+            imageInput.style.display = 'block';
+            colorField.disabled = true;
+            imageField.disabled = false;
+
+            if (imageField.value) {
+                preview.style.background = 'url(' + imageField.value + ') center/cover';
+            } else {
+                preview.style.background = '#eee';
+            }
+        }
     }
 
-    // Preview gambar dari URL
-    function previewImage(input, id) {
+    // Update preview saat warna diubah (edit slide)
+    function syncHeroPreview(input, id) {
+        document.getElementById('preview-' + id).style.background = input.value;
+    }
+
+    // Update preview saat URL gambar diubah (edit slide)
+    function syncHeroPreviewImage(input, id) {
         const preview = document.getElementById('preview-' + id);
-        preview.style.backgroundImage = 'url(' + input.value + ')';
-        preview.style.backgroundSize  = 'cover';
-        preview.style.backgroundPosition = 'center';
-        preview.style.backgroundColor = 'transparent';
+        if (input.value) {
+            preview.style.background = 'url(' + input.value + ') center/cover';
+        } else {
+            preview.style.background = '#eee';
+        }
     }
 
-    // Toggle bg type di modal tambah
-    function toggleNewBg(select) {
-        document.getElementById('new-color-input').style.display =
-            select.value === 'color' ? 'block' : 'none';
-        document.getElementById('new-image-input').style.display =
-            select.value === 'image' ? 'block' : 'none';
+    // ===== Toggle background type pada modal tambah hero baru =====
+    function toggleNewHeroBg(select) {
+        const colorWrap = document.getElementById('new-hero-color');
+        const imageWrap = document.getElementById('new-hero-image');
+
+        if (select.value === 'color') {
+            colorWrap.style.display = 'block';
+            imageWrap.style.display = 'none';
+        } else {
+            colorWrap.style.display = 'none';
+            imageWrap.style.display = 'block';
+        }
+    }
+
+    // Pastikan hanya 1 field background_value yang terkirim saat submit modal tambah
+    function prepareNewHeroSubmit() {
+        const type = document.getElementById('new-hero-bg-type').value;
+        const colorField = document.getElementById('new-hero-color-input');
+        const imageField = document.getElementById('new-hero-image-input');
+
+        if (type === 'color') {
+            colorField.setAttribute('name', 'background_value');
+            imageField.removeAttribute('name');
+        } else {
+            imageField.setAttribute('name', 'background_value');
+            colorField.removeAttribute('name');
+        }
+        return true;
     }
 </script>
 @endpush

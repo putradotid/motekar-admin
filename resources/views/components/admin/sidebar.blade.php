@@ -36,7 +36,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ route('admin.tentang-kami') }}">
             <i class="fas fa-fw fa-building"></i>
             <span>Tentang Kami</span>
         </a>

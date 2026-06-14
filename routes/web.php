@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\HomePageController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\TentangKamiController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman Public
@@ -70,11 +71,37 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-    // website management
+    // website management — Homepage
     Route::get('/homepage', [HomePageController::class, 'index'])->name('admin.homepage');
-    Route::post('/homepage',        [HomePageController::class, 'store'])->name('admin.homepage.store');
-    Route::post('/homepage/{id}',   [HomePageController::class, 'update'])->name('admin.homepage.update');
-    Route::delete('/homepage/{id}', [HomePageController::class, 'destroy'])->name('admin.homepage.destroy');
+
+    // Hero
+    Route::post('/homepage/hero',           [HomePageController::class, 'storeHero'])->name('admin.homepage.hero.store');
+    Route::put('/homepage/hero/{id}',       [HomePageController::class, 'updateHero'])->name('admin.homepage.hero.update');
+    Route::delete('/homepage/hero/{id}',    [HomePageController::class, 'destroyHero'])->name('admin.homepage.hero.destroy');
+
+    // About
+    Route::post('/homepage/about',          [HomePageController::class, 'storeAbout'])->name('admin.homepage.about.store');
+    Route::put('/homepage/about/{id}',      [HomePageController::class, 'updateAbout'])->name('admin.homepage.about.update');
+
+    // Stats
+    Route::post('/homepage/stats',          [HomePageController::class, 'storeStats'])->name('admin.homepage.stats.store');
+    Route::put('/homepage/stats/{id}',      [HomePageController::class, 'updateStats'])->name('admin.homepage.stats.update');
+
+    // Services
+    Route::post('/homepage/services',       [HomePageController::class, 'storeService'])->name('admin.homepage.services.store');
+    Route::put('/homepage/services/{id}',   [HomePageController::class, 'updateService'])->name('admin.homepage.services.update');
+    Route::delete('/homepage/services/{id}',[HomePageController::class, 'destroyService'])->name('admin.homepage.services.destroy');
+
+    // CTA
+    Route::post('/homepage/cta',            [HomePageController::class, 'storeCta'])->name('admin.homepage.cta.store');
+    Route::put('/homepage/cta/{id}',        [HomePageController::class, 'updateCta'])->name('admin.homepage.cta.update');
+    
+
+    // Tentang Kami
+    Route::get('/tentang-kami',  [TentangKamiController::class, 'index'])->name('admin.tentang-kami');
+    Route::post('/tentang-kami', [TentangKamiController::class, 'store'])->name('admin.tentang-kami.store');
+    Route::put('/tentang-kami/{id}', [TentangKamiController::class, 'update'])->name('admin.tentang-kami.update');
+
 
     // Calendar
     Route::get('/calendar', [CalendarController::class, 'index'])->name('admin.calendar');

@@ -1,4 +1,4 @@
-<header class="fixed top-0 left-0 right-0  z-50 bg-white flex items-center justify-between px-6 py-3">
+<header class="fixed top-0 left-0 right-0  z-50 bg-white flex items-center justify-between px-6 py-2">
 
   <!-- Logo -->
   <div class="flex items-center">
@@ -12,7 +12,7 @@
   </div>
 
   <!-- Right -->
-  <div class="flex items-center gap-6">
+  <div class="flex items-center gap-16">
 
     <!-- Navigation -->
     <nav class="hidden md:flex items-center gap-6 text-sm text-gray-600">

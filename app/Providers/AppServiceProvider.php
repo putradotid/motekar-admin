@@ -40,28 +40,34 @@ class AppServiceProvider extends ServiceProvider
             $view->with('notif', $notif);
         });
 
-        // Public pages — gabung setting + heroSlides dalam 1 composer
+        // Homepage data untuk public pages
         view()->composer(['layouts.public', 'public.*'], function ($view) {
-            // Setting
             try {
-                $setting = \Illuminate\Support\Facades\Http::timeout(5)
-                    ->get(config('api.url') . '/settings')
-                    ->json() ?? [];
+                $response = \Illuminate\Support\Facades\Http::timeout(5)
+                    ->get(config('api.url') . '/homepage');
+                
+                $homepageData = $response->successful() ? ($response->json() ?? []) : [];
             } catch (\Exception $e) {
-                $setting = [];
+                $homepageData = [];
             }
 
-            // Hero Slides
-            try {
-                $heroSlides = \Illuminate\Support\Facades\Http::timeout(5)
-                    ->get(config('api.url') . '/hero-slides')
-                    ->json() ?? [];
-            } catch (\Exception $e) {
-                $heroSlides = [];
-            }
+            $view->with('heroSlides', $homepageData['hero'] ?? [])
+                ->with('about', $homepageData['about'])
+                ->with('stats', $homepageData['stats'])
+                ->with('services', $homepageData['services'] ?? [])
+                ->with('cta', $homepageData['cta']);
+        });
 
-            $view->with('setting', $setting);
-            $view->with('heroSlides', $heroSlides);
+        // Tentang Kami data untuk halaman public tentang kami
+        view()->composer('public.tentangkami', function ($view) {
+            try {
+                $response = \Illuminate\Support\Facades\Http::timeout(5)
+                    ->get(config('api.url') . '/tentang-kami-page');
+                $aboutUs = $response->successful() ? $response->json() : null;
+            } catch (\Exception $e) {
+                $aboutUs = null;
+            }
+            $view->with('aboutUs', $aboutUs);
         });
     }
 }
