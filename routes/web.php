@@ -14,7 +14,9 @@ use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\HomePageController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\ProdukLayananController;
 use App\Http\Controllers\Admin\TentangKamiController;
+use App\Http\Controllers\Admin\TestimoniController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman Public
@@ -73,35 +75,60 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
 
     // website management — Homepage
     Route::get('/homepage', [HomePageController::class, 'index'])->name('admin.homepage');
-
     // Hero
     Route::post('/homepage/hero',           [HomePageController::class, 'storeHero'])->name('admin.homepage.hero.store');
     Route::put('/homepage/hero/{id}',       [HomePageController::class, 'updateHero'])->name('admin.homepage.hero.update');
     Route::delete('/homepage/hero/{id}',    [HomePageController::class, 'destroyHero'])->name('admin.homepage.hero.destroy');
-
     // About
     Route::post('/homepage/about',          [HomePageController::class, 'storeAbout'])->name('admin.homepage.about.store');
     Route::put('/homepage/about/{id}',      [HomePageController::class, 'updateAbout'])->name('admin.homepage.about.update');
-
     // Stats
     Route::post('/homepage/stats',          [HomePageController::class, 'storeStats'])->name('admin.homepage.stats.store');
     Route::put('/homepage/stats/{id}',      [HomePageController::class, 'updateStats'])->name('admin.homepage.stats.update');
-
     // Services
     Route::post('/homepage/services',       [HomePageController::class, 'storeService'])->name('admin.homepage.services.store');
     Route::put('/homepage/services/{id}',   [HomePageController::class, 'updateService'])->name('admin.homepage.services.update');
     Route::delete('/homepage/services/{id}',[HomePageController::class, 'destroyService'])->name('admin.homepage.services.destroy');
-
     // CTA
     Route::post('/homepage/cta',            [HomePageController::class, 'storeCta'])->name('admin.homepage.cta.store');
     Route::put('/homepage/cta/{id}',        [HomePageController::class, 'updateCta'])->name('admin.homepage.cta.update');
     
-
     // Tentang Kami
     Route::get('/tentang-kami',  [TentangKamiController::class, 'index'])->name('admin.tentang-kami');
     Route::post('/tentang-kami', [TentangKamiController::class, 'store'])->name('admin.tentang-kami.store');
     Route::put('/tentang-kami/{id}', [TentangKamiController::class, 'update'])->name('admin.tentang-kami.update');
 
+    // Produk & Layanan
+    Route::get('/produk-layanan', [ProdukLayananController::class, 'index'])->name('admin.produk-layanan');
+    // Hero
+    Route::post('/produk-layanan/hero', [ProdukLayananController::class, 'storeHero'])->name('admin.produk-layanan.hero.store');
+    Route::put('/produk-layanan/hero/{id}', [ProdukLayananController::class, 'updateHero'])->name('admin.produk-layanan.hero.update');
+    // Products
+    Route::post('/produk-layanan/products', [ProdukLayananController::class, 'storeProduct'])->name('admin.produk-layanan.products.store');
+    Route::put('/produk-layanan/products/{id}', [ProdukLayananController::class, 'updateProduct'])->name('admin.produk-layanan.products.update');
+    Route::delete('/produk-layanan/products/{id}', [ProdukLayananController::class, 'destroyProduct'])->name('admin.produk-layanan.products.destroy');
+    // Services
+    Route::post('/produk-layanan/services', [ProdukLayananController::class, 'storeService'])->name('admin.produk-layanan.services.store');
+    Route::put('/produk-layanan/services/{id}', [ProdukLayananController::class, 'updateService'])->name('admin.produk-layanan.services.update');
+    Route::delete('/produk-layanan/services/{id}', [ProdukLayananController::class, 'destroyService'])->name('admin.produk-layanan.services.destroy');
+
+    // Testimoni
+    Route::get('/testimoni', [TestimoniController::class, 'index'])->name('admin.testimoni');
+    // Hero
+    Route::post('/testimoni/hero', [TestimoniController::class, 'storeHero'])->name('admin.testimoni.hero.store');
+    Route::put('/testimoni/hero/{id}', [TestimoniController::class, 'updateHero'])->name('admin.testimoni.hero.update');
+    // Featured Customers
+    Route::post('/testimoni/featured-customers', [TestimoniController::class, 'storeFeaturedCustomer'])->name('admin.testimoni.featured.store');
+    Route::put('/testimoni/featured-customers/{id}', [TestimoniController::class, 'updateFeaturedCustomer'])->name('admin.testimoni.featured.update');
+    Route::delete('/testimoni/featured-customers/{id}', [TestimoniController::class, 'destroyFeaturedCustomer'])->name('admin.testimoni.featured.destroy');
+    // Testimonials
+    Route::post('/testimoni/testimonials', [TestimoniController::class, 'storeTestimonial'])->name('admin.testimoni.testimonials.store');
+    Route::put('/testimoni/testimonials/{id}', [TestimoniController::class, 'updateTestimonial'])->name('admin.testimoni.testimonials.update');
+    Route::delete('/testimoni/testimonials/{id}', [TestimoniController::class, 'destroyTestimonial'])->name('admin.testimoni.testimonials.destroy');
+    // Client & Partners
+    Route::post('/testimoni/partners', [TestimoniController::class, 'storePartner'])->name('admin.testimoni.partners.store');
+    Route::put('/testimoni/partners/{id}', [TestimoniController::class, 'updatePartner'])->name('admin.testimoni.partners.update');
+    Route::delete('/testimoni/partners/{id}', [TestimoniController::class, 'destroyPartner'])->name('admin.testimoni.partners.destroy');
 
     // Calendar
     Route::get('/calendar', [CalendarController::class, 'index'])->name('admin.calendar');

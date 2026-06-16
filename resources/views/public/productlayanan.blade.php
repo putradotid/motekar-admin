@@ -11,15 +11,15 @@
 
     <div class="max-w-2xl mx-auto text-center">
         <h1 class="text-3xl md:text-5xl font-bold leading-tight">
-            Produk Kami
+            {{ $plHero['title'] ?? 'Produk Kami' }}
         </h1>
 
         <p class="mt-6 text-gray-600 text-sm md:text-base">
-            Produk kami dirancang untuk menjawab tantangan industri modern melalui solusi digital yang inovatif, aman, dan scalable.
-        </p>
+            {{ $plHero['description'] ?? 'Produk kami dirancang untuk menjawab tantangan industri modern melalui solusi digital yang inovatif, aman, dan scalable.' }}
     </div>
 </section>
 
+{{-- Produk Kami --}}
 <section class="py-20 bg-white">
 
     <div class="container mx-auto px-6">
@@ -30,41 +30,52 @@
 
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-            {{-- Product Card --}}
-            <div class="bg-white shadow-lg">
+            @forelse ($plProducts as $product)
+                <div class="bg-white shadow-lg cursor-pointer hover:shadow-2xl transition"
+                     onclick="document.getElementById('modal-product-{{ $product['id'] }}').classList.remove('hidden')">
 
-                <div class="bg-blue-700 text-white text-center py-4">
-                    <h3 class="text-2xl font-bold">
-                        Software
-                    </h3>
+                    <div class="bg-blue-700 text-white text-center py-4">
+                        <h3 class="text-2xl font-bold">
+                            {{ $product['title'] }}
+                        </h3>
+                    </div>
+
+                    <div class="p-6">
+                        @if (!empty($product['image_url']))
+                            <img src="{{ $product['image_url'] }}" class="w-full h-40 object-contain mb-6">
+                        @else
+                            <div class="w-full h-40 bg-gray-100 mb-6 flex items-center justify-center text-gray-400 text-sm">
+                                Tidak ada gambar
+                            </div>
+                        @endif
+
+                        <h4 class="font-bold text-3xl mb-4">
+                            {{ $product['title'] }}
+                        </h4>
+
+                        <p class="text-gray-600">
+                            {{ $product['description'] }}
+                        </p>
+
+                        @if (!empty($product['detail_description']))
+                            <p class="text-amber-500 text-xs font-semibold mt-3 hover:underline">
+                                Lihat Selengkapnya
+                            </p>
+                        @endif
+                    </div>
+
                 </div>
+            @empty
+                <p class="text-gray-500 col-span-4 text-center">Belum ada produk.</p>
+            @endforelse
 
-                <div class="p-6">
-
-                    <img
-                        src="{{ asset('storage/assets/software.png') }}"
-                        class="w-full h-40 object-contain mb-6"
-                    >
-
-                    <h4 class="font-bold text-3xl mb-4">
-                        Software
-                    </h4>
-
-                    <p class="text-gray-600">
-                        Pengembangan aplikasi perangkat lunak.
-                    </p>
-
-                </div>
-
-            </div>
-
-            {{-- Copy untuk produk lain --}}
         </div>
 
     </div>
 
 </section>
 
+{{-- Layanan Kami --}}
 <section class="relative bg-[#F6DD8F] py-24 overflow-hidden">
 
     <div class="container mx-auto px-6">
@@ -75,43 +86,38 @@
 
         <div class="grid lg:grid-cols-2 gap-6">
 
-            {{-- Card --}}
-            <div class="bg-white p-6 flex items-start gap-4 shadow">
+            @forelse ($plServices as $service)
+                <div class="bg-white p-6 flex items-start gap-4 shadow cursor-pointer hover:shadow-xl transition"
+                     onclick="document.getElementById('modal-service-{{ $service['id'] }}').classList.remove('hidden')">
 
-                <img
-                    src="{{ asset('storage/assets/service-icon.png') }}"
-                    class="w-16 h-16"
-                >
+                    @if (!empty($service['icon_url']))
+                        <img src="{{ $service['icon_url'] }}" class="w-16 h-16 object-contain">
+                    @else
+                        <div class="w-16 h-16 bg-gray-100 flex items-center justify-center text-gray-400 text-xs rounded">
+                            Icon
+                        </div>
+                    @endif
 
-                <div>
+                    <div>
+                        <h3 class="font-bold text-2xl mb-2">
+                            {{ $service['title'] }}
+                        </h3>
 
-                    <h3 class="font-bold text-2xl mb-2">
-                        Pemrograman Kecerdasan Artifisial
-                    </h3>
+                        <p class="text-gray-600">
+                            {{ $service['description'] }}
+                        </p>
 
-                    <p class="text-gray-600">
-                        Membangun solusi cerdas untuk otomasi dan analisis data.
-                    </p>
+                        @if (!empty($service['detail_description']))
+                            <p class="text-amber-600 text-xs font-semibold mt-2 hover:underline">
+                                Lihat Selengkapnya
+                            </p>
+                        @endif
+                    </div>
 
                 </div>
-
-            </div>
-
-            <div class="bg-white p-6 flex items-start gap-4 shadow">
-                ...
-            </div>
-
-            <div class="bg-white p-6 flex items-start gap-4 shadow">
-                ...
-            </div>
-
-            <div class="bg-white p-6 flex items-start gap-4 shadow">
-                ...
-            </div>
-
-            <div class="bg-white p-6 flex items-start gap-4 shadow">
-                ...
-            </div>
+            @empty
+                <p class="text-gray-500 col-span-2 text-center">Belum ada layanan.</p>
+            @endforelse
 
         </div>
 
@@ -119,6 +125,7 @@
 
 </section>
 
+{{-- Call to Action --}}
 <section class="py-24 bg-white">
 
     <div class="container mx-auto px-6">
@@ -128,7 +135,6 @@
             <div class="flex flex-col lg:flex-row justify-between items-center gap-8">
 
                 <div>
-
                     <h2 class="text-5xl font-bold mb-4">
                         Anda Berminat?
                     </h2>
@@ -136,10 +142,9 @@
                     <p class="text-gray-600">
                         Mari ciptakan produk yang menjadi solusi untuk negeri bersama kami.
                     </p>
-
                 </div>
 
-                <a
+                <a                
                     href="{{ route('kontak') }}"
                     class="bg-orange-500 hover:bg-orange-600 text-white px-10 py-4 rounded-xl font-semibold"
                 >
@@ -153,4 +158,51 @@
     </div>
 
 </section>
+
+{{-- ==================== MODAL POPUP PRODUK ==================== --}}
+@foreach ($plProducts as $product)
+    @if (!empty($product['detail_description']))
+        <div id="modal-product-{{ $product['id'] }}" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
+            <div class="bg-white rounded-2xl shadow-lg max-w-lg w-full p-8 relative">
+                <button type="button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
+                        onclick="document.getElementById('modal-product-{{ $product['id'] }}').classList.add('hidden')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                @if (!empty($product['image_url']))
+                    <img src="{{ $product['image_url'] }}" class="w-full h-40 object-contain mb-4">
+                @endif
+
+                <h3 class="text-xl font-bold text-gray-800 mb-3">{{ $product['title'] }}</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">{{ $product['detail_description'] }}</p>
+            </div>
+        </div>
+    @endif
+@endforeach
+
+{{-- ==================== MODAL POPUP LAYANAN ==================== --}}
+@foreach ($plServices as $service)
+    @if (!empty($service['detail_description']))
+        <div id="modal-service-{{ $service['id'] }}" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
+            <div class="bg-white rounded-2xl shadow-lg max-w-lg w-full p-8 relative">
+                <button type="button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
+                        onclick="document.getElementById('modal-service-{{ $service['id'] }}').classList.add('hidden')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                @if (!empty($service['icon_url']))
+                    <img src="{{ $service['icon_url'] }}" class="w-16 h-16 object-contain mb-4">
+                @endif
+
+                <h3 class="text-xl font-bold text-gray-800 mb-3">{{ $service['title'] }}</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">{{ $service['detail_description'] }}</p>
+            </div>
+        </div>
+    @endif
+@endforeach
+
 @endsection

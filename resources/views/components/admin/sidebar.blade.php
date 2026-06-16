@@ -42,13 +42,13 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ route('admin.produk-layanan') }}">
             <i class="fas fa-fw fa-th-large"></i>
             <span>Produk & Layanan</span>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ route('admin.testimoni') }}">
             <i class="fas fa-fw fa-star"></i>
             <span>Testimoni</span>
         </a>

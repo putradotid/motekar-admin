@@ -14,75 +14,130 @@
 
     <div class="container max-w-2xl mx-auto text-center">
         <h1 class="text-3xl md:text-5xl font-bold leading-tight">
-            Pelanggan Kami
+            {{ $tHero['title'] ?? 'Pelanggan Kami' }}
         </h1>
 
         <p class="mt-6 text-gray-600 text-sm md:text-base">
-            Beberapa pelanggan yang pernah bekerja sama dengan kami
+            {{ $tHero['description'] ?? 'Beberapa pelanggan yang pernah bekerja sama dengan kami' }}
         </p>
     </div>
 
+    {{-- Grid Featured Customers --}}
+    @if (count($featuredCustomers) > 0)
+        <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
+            @foreach ($featuredCustomers as $customer)
+                <div class="flex flex-col items-center text-center">
+                    @if (!empty($customer['photo']))
+                        <img src="{{ $customer['photo'] }}" alt="{{ $customer['name'] }}"
+                            class="w-40 h-52 object-cover shadow-lg mb-3">
+                    @else
+                        <div class="w-40 h-52 bg-amber-300 flex items-center justify-center text-white text-sm mb-3">
+                            Tidak ada foto
+                        </div>
+                    @endif
+                    <h3 class="font-bold text-lg">{{ $customer['name'] }}</h3>
+                    @if (!empty($customer['designation']))
+                        <p class="text-gray-600 text-sm italic">{{ $customer['designation'] }}</p>
+                    @endif
+                </div>
+            @endforeach
+        </div>
+    @endif
+
 </section>
 
+{{-- Testimonials --}}
 <section class="bg-orange-500 py-24">
-
     <div class="container mx-auto px-6">
 
-        <div class="grid lg:grid-cols-[80px_280px_1fr_80px] items-center gap-10">
+        @if(count($testimonials) > 0)
 
-            {{-- Prev --}}
-            <div class="flex justify-center">
-                <button class="text-white text-6xl hover:opacity-80">
-                    &#8249;
-                </button>
-            </div>
+            <div class="swiper testimoniSwiper relative">
 
-            {{-- Photo --}}
-            <div>
-                <img
-                    src="{{ asset('storage/assets/testimoni.jpg') }}"
-                    alt="Client"
-                    class="w-full h-[420px] object-cover"
-                >
-            </div>
+                <div class="swiper-wrapper">
 
-            {{-- Content --}}
-            <div class="text-white">
+                    @foreach($testimonials as $item)
 
-                <h2 class="text-5xl font-bold mb-8 leading-tight">
-                    PT Motekar Cipta Teknologi memberikan solusi yang benar-benar sesuai dengan kebutuhan bisnis kami.
-                </h2>
+                        <div class="swiper-slide">
 
-                <p class="text-xl leading-relaxed mb-10">
-                    Tim mereka sangat profesional dalam memahami kebutuhan sistem yang kami butuhkan dan mampu menerjemahkannya menjadi platform digital yang efisien dan mudah digunakan.
-                    Proses pengerjaan terstruktur, komunikatif, dan hasilnya meningkatkan produktivitas operasional perusahaan kami secara signifikan.
-                </p>
+                            <div class="grid lg:grid-cols-[80px_280px_1fr_80px] items-center gap-10">
 
-                <div>
-                    <h4 class="font-bold text-2xl">
-                        Andi Pratama
-                    </h4>
+                                {{-- Prev --}}
+                                <div class="flex justify-center">
+                                    <button class="testimoni-prev text-white text-6xl hover:opacity-80">
+                                        &#8249;
+                                    </button>
+                                </div>
 
-                    <p class="text-orange-100">
-                        @andipratama
-                    </p>
+                                {{-- Photo --}}
+                                <div>
+                                    @if(!empty($item['photo']))
+                                        <img
+                                            src="{{ $item['photo'] }}"
+                                            alt="{{ $item['name'] }}"
+                                            class="w-full h-[420px] object-cover"
+                                        >
+                                    @else
+                                        <div class="w-full h-[420px] bg-orange-400 flex items-center justify-center text-white">
+                                            Tidak ada foto
+                                        </div>
+                                    @endif
+                                </div>
+
+                                {{-- Content --}}
+                                <div class="text-white">
+
+                                    <h2 class="text-5xl font-bold mb-8 leading-tight">
+                                        {{ $item['title'] }}
+                                    </h2>
+
+                                    <p class="text-xl leading-relaxed mb-10">
+                                        {{ $item['description'] }}
+                                    </p>
+
+                                    <div>
+                                        <h4 class="font-bold text-2xl">
+                                            {{ $item['name'] }}
+                                        </h4>
+
+                                        @if(!empty($item['social_handle']))
+                                            <p class="text-orange-100">
+                                                {{ $item['social_handle'] }}
+                                            </p>
+                                        @endif
+                                    </div>
+
+                                </div>
+
+                                {{-- Next --}}
+                                <div class="flex justify-center">
+                                    <button class="testimoni-next text-white text-6xl hover:opacity-80">
+                                        &#8250;
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    @endforeach
+
                 </div>
 
             </div>
 
-            {{-- Next --}}
-            <div class="flex justify-center">
-                <button class="text-white text-6xl hover:opacity-80">
-                    &#8250;
-                </button>
+        @else
+
+            <div class="text-center text-white">
+                Belum ada testimoni.
             </div>
 
-        </div>
+        @endif
 
     </div>
-
 </section>
 
+{{-- Partners --}}
 <section class="bg-white py-24">
 
     <div class="container mx-auto px-6">
@@ -91,41 +146,53 @@
             Client & Partners
         </h2>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12 items-center">
+        @if (count($partners) > 0)
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12 items-center">
 
-            <img
-                src="{{ asset('storage/assets/client1.png') }}"
-                alt="client"
-                class="h-20 mx-auto object-contain grayscale hover:grayscale-0 transition"
-            >
-
-            <img
-                src="{{ asset('storage/assets/client2.png') }}"
-                alt="client"
-                class="h-20 mx-auto object-contain grayscale hover:grayscale-0 transition"
-            >
-
-            <img
-                src="{{ asset('storage/assets/client3.png') }}"
-                alt="client"
-                class="h-20 mx-auto object-contain grayscale hover:grayscale-0 transition"
-            >
-
-            <img
-                src="{{ asset('storage/assets/client4.png') }}"
-                alt="client"
-                class="h-20 mx-auto object-contain grayscale hover:grayscale-0 transition"
-            >
-
-            <img
-                src="{{ asset('storage/assets/client5.png') }}"
-                alt="client"
-                class="h-20 mx-auto object-contain grayscale hover:grayscale-0 transition"
-            >
-
-        </div>
+                @foreach ($partners as $partner)
+                    <div class="flex items-center justify-center">
+                        <img src="{{ $partner['logo_image'] }}"
+                             alt="{{ $partner['name'] ?? 'Partner' }}"
+                             class="max-h-16 object-contain grayscale hover:grayscale-0 transition">
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <p class="text-gray-500 text-center">Belum ada client & partner.</p>
+        @endif
 
     </div>
 
 </section>
 @endsection
+
+@push('scripts')
+<style>
+    .testimoni-prev,
+    .testimoni-next {
+        color: #fff !important;
+    }
+    .testimoni-prev::after,
+    .testimoni-next::after {
+        font-size: 24px !important;
+        font-weight: bold;
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (document.querySelector('.testimoniSwiper')) {
+            new Swiper('.testimoniSwiper', {
+                loop: true,
+                autoplay: {
+                    delay: 6000,
+                    disableOnInteraction: false,
+                },
+                navigation: {
+                    nextEl: '.testimoni-next',
+                    prevEl: '.testimoni-prev',
+                },
+            });
+        }
+    });
+</script>
+@endpush
