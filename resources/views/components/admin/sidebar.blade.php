@@ -54,7 +54,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ route('admin.tim-kami') }}">
             <i class="fas fa-fw fa-users"></i>
             <span>Tim Kami</span>
         </a>

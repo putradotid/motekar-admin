@@ -176,6 +176,17 @@
                                 <textarea name="description" class="form-control" rows="3">{{ $slide['description'] }}</textarea>
                             </div>
                             <div class="form-group">
+                                <label class="font-weight-bold small">URL Icon <small class="text-muted">(opsional)</small></label>
+                                <input type="text" name="icon_url" class="form-control form-control-sm"
+                                    value="{{ $slide['icon_url'] ?? '' }}"
+                                    placeholder="dari Media Library">
+                                <small class="text-muted">
+                                    <a href="{{ route('admin.media') }}" target="_blank">
+                                        <i class="fas fa-external-link-alt mr-1"></i>Buka Media Library
+                                    </a>
+                                </small>
+                            </div>
+                            <div class="form-group">
                                 <label class="font-weight-bold small">URL Icon (opsional)</label>
                                 <input type="text" name="icon_url" class="form-control form-control-sm" value="{{ $slide['icon_url'] }}" placeholder="dari Media Library">
                                 <small class="text-muted"><a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a></small>
@@ -549,6 +560,14 @@
                     <div class="form-group">
                         <label class="font-weight-bold">Deskripsi</label>
                         <textarea name="description" class="form-control" rows="3" placeholder="Deskripsi..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">URL Icon <small class="text-muted">(opsional)</small></label>
+                        <input type="text" name="icon_url" class="form-control"
+                            placeholder="dari Media Library">
+                        <small class="text-muted">
+                            <a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a>
+                        </small>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">

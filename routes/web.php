@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\ProdukLayananController;
 use App\Http\Controllers\Admin\TentangKamiController;
 use App\Http\Controllers\Admin\TestimoniController;
+use App\Http\Controllers\Admin\TimKamiController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman Public
@@ -129,6 +130,16 @@ Route::middleware(['admin.auth'])->prefix('admin')->group(function () {
     Route::post('/testimoni/partners', [TestimoniController::class, 'storePartner'])->name('admin.testimoni.partners.store');
     Route::put('/testimoni/partners/{id}', [TestimoniController::class, 'updatePartner'])->name('admin.testimoni.partners.update');
     Route::delete('/testimoni/partners/{id}', [TestimoniController::class, 'destroyPartner'])->name('admin.testimoni.partners.destroy');
+
+    // Tim Kami
+    Route::get('/tim-kami',  [TimKamiController::class, 'index'])->name('admin.tim-kami');
+    // Hero
+    Route::post('/tim-kami/hero',     [TimKamiController::class, 'storeHero'])->name('admin.tim-kami.hero.store');
+    Route::put('/tim-kami/hero/{id}', [TimKamiController::class, 'updateHero'])->name('admin.tim-kami.hero.update');
+    // Members
+    Route::post('/tim-kami/members',        [TimKamiController::class, 'storeMember'])->name('admin.tim-kami.members.store');
+    Route::put('/tim-kami/members/{id}',    [TimKamiController::class, 'updateMember'])->name('admin.tim-kami.members.update');
+    Route::delete('/tim-kami/members/{id}', [TimKamiController::class, 'destroyMember'])->name('admin.tim-kami.members.destroy');
 
     // Calendar
     Route::get('/calendar', [CalendarController::class, 'index'])->name('admin.calendar');

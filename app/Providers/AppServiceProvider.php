@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Homepage data untuk public pages
-        view()->composer(['layouts.public', 'public.*'], function ($view) {
+        view()->composer(['layouts.public', 'public.*', 'public.kontak'], function ($view) {
             try {
                 $response = \Illuminate\Support\Facades\Http::timeout(5)
                     ->get(config('api.url') . '/homepage');
@@ -51,9 +51,19 @@ class AppServiceProvider extends ServiceProvider
                 $homepageData = [];
             }
 
+            // fetch setting data
+            try {
+                $settingResponse = \Illuminate\Support\Facades\Http::timeout(5)
+                    ->get(config('api.url') . '/settings');
+                $setting = $settingResponse->successful() ? ($settingResponse->json() ?? []) : [];
+            } catch (\Exception $e) {
+                $setting = [];
+            }
+
             $view->with('heroSlides', $homepageData['hero'] ?? [])
                 ->with('about', $homepageData['about'])
                 ->with('stats', $homepageData['stats'])
+                ->with('setting', $setting)
                 ->with('services', $homepageData['services'] ?? [])
                 ->with('cta', $homepageData['cta']);
         });
@@ -102,7 +112,23 @@ class AppServiceProvider extends ServiceProvider
                 ->with('testimonials', $data['testimonials'] ?? [])
                 ->with('partners', $data['partners'] ?? []);
         });
+        
+        // Tim Kami page
+        view()->composer('public.timkami', function ($view) {
+            try {
+                $response = \Illuminate\Support\Facades\Http::timeout(5)
+                    ->get(config('api.url') . '/tim-kami-page');
 
+                $data = $response->successful() ? ($response->json() ?? []) : [];
+            } catch (\Exception $e) {
+                $data = [];
+            }
+
+            $view->with('tkHero', $data['hero'] ?? null)  
+                ->with('tkLeaders', $data['leaders'] ?? [])
+                ->with('tkClientSupport', $data['client_support'] ?? [])
+                ->with('tkDevelopers', $data['developers'] ?? []);
+        });
 
     }
 }
