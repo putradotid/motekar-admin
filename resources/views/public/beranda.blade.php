@@ -135,89 +135,66 @@
 {{-- Section About --}}
 <section class="flex flex-col md:flex-row py-16">
 
-  <div class="grid grid-cols-3 gap-3 max-w-xl mx-auto">
+    {{-- Grid 6 Gambar --}}
+    <div class="grid grid-cols-3 gap-3 max-w-xl mx-auto">
 
-    <!-- gambar kiri -->
-    <div class="col-span-1 grid grid-rows-3 gap-4">
-      <img src="{{ $about['image_url'] ?? asset('storage/assets/beranda2.jpg') }}" 
-           class="w-full h-full object-cover">
+        <div class="col-span-1 grid grid-rows-3 gap-4">
+            <img src="{{ $about['image_1'] ?? asset('storage/assets/beranda2.jpg') }}"
+                 class="w-full h-full object-cover">
+            <img src="{{ $about['image_2'] ?? asset('storage/assets/beranda4.jpg') }}"
+                 class="w-full h-full object-cover">
+            <div class="grid grid-cols-2 gap-2">
+                <img src="{{ $about['image_3'] ?? asset('storage/assets/beranda3.jpg') }}"
+                     class="w-full h-full object-cover">
+                <img src="{{ $about['image_4'] ?? asset('storage/assets/beranda5.jpg') }}"
+                     class="w-full h-full object-cover">
+            </div>
+        </div>
 
-      <img src="{{ asset('storage/assets/beranda4.jpg') }}" 
-           class="w-full h-full object-cover">
+        <div class="col-span-2">
+            <img src="{{ $about['image_url'] ?? asset('storage/assets/beranda.jpg') }}"
+                 class="w-full h-full object-cover">
+        </div>
 
-      <div class="grid grid-cols-2 gap-2">
-        <img src="{{ asset('storage/assets/beranda3.jpg') }}" 
-             class="w-full h-full object-cover">
-        <img src="{{ asset('storage/assets/beranda5.jpg') }}" 
-             class="w-full h-full object-cover">
-      </div>
     </div>
 
-    <!-- KANAN (gambar besar) -->
-    <div class="col-span-2">
-      <img src="{{ asset('storage/assets/beranda.jpg') }}" 
-           class="w-full h-full object-cover">
+    {{-- Teks --}}
+    <div class="max-w-2xl px-8 mt-8 md:mt-0">
+        <span class="text-amber-500 font-bold">Tentang Kami</span>
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+            {{ $about['title'] ?? 'Mitra Strategis dalam Transformasi Digital' }}
+        </h1>
+        <p class="mt-6 text-gray-600 text-xs md:text-sm">
+            {{ $about['description'] ?? 'PT Motekar Cipta Teknologi adalah perusahaan yang bergerak di bidang teknologi informasi, industri digital, aktivitas profesional dan teknis, serta pendidikan. Kami berkomitmen menghadirkan solusi teknologi yang inovatif, berorientasi pada kebutuhan pengguna, dan berkelanjutan. Dengan dukungan tim profesional dan kolaborasi strategis, kami membantu organisasi meningkatkan efisiensi, produktivitas, dan daya saing melalui implementasi sistem dan platform digital yang tepat guna. Kami senantiasa mengikuti perkembangan teknologi terkini untuk memastikan setiap solusi yang kami kembangkan relevan dan adaptif terhadap perubahan. Melalui pendekatan yang terstruktur dan berbasis kualitas, kami berupaya memberikan nilai tambah yang nyata bagi setiap mitra dan klien kami.' }}
+        </p>
+        <div class="mt-6 flex gap-4">
+            <a href="/tentang-kami">
+                <button class="bg-blue-900 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition duration-300">
+                    LIHAT SELENGKAPNYA
+                </button>
+            </a>
+        </div>
     </div>
-
-  </div>
-
-  <!-- TEKS -->
-  <div class="max-w-2xl px-8 mt-8 md:mt-0">
-    <span class="text-amber-500 font-bold">{{ $about['title'] ?? 'Tentang Kami' }}</span>
-    <h1 class="text-4xl md:text-5xl font-bold leading-tight">
-      {{ $about['subtitle'] ?? 'Mitra Strategis dalam Transformasi Digital' }}
-    </h1>
-    <p class="mt-6 text-gray-600 text-xs md:text-sm">
-      {{ $about['description'] ?? 'PT Motekar Cipta Teknologi adalah perusahaan yang bergerak di bidang teknologi informasi, industri digital, aktivitas profesional dan teknis, serta pendidikan. Kami berkomitmen menghadirkan solusi teknologi yang inovatif, berorientasi pada kebutuhan pengguna, dan berkelanjutan. Dengan dukungan tim profesional dan kolaborasi strategis, kami membantu organisasi meningkatkan efisiensi, produktivitas, dan daya saing melalui implementasi sistem dan platform digital yang tepat guna. Kami senantiasa mengikuti perkembangan teknologi terkini untuk memastikan setiap solusi yang kami kembangkan relevan dan adaptif terhadap perubahan. Melalui pendekatan yang terstruktur dan berbasis kualitas, kami berupaya memberikan nilai tambah yang nyata bagi setiap mitra dan klien kami.' }}
-    </p>
-    <div class="mt-6 flex gap-4">
-      <button class="bg-blue-900 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition duration-300">
-        LIHAT LAYANAN
-      </button>
-    </div>
-  </div>
 
 </section>
 
 {{-- Section Stats --}}
+@if (count($stats ?? []) > 0)
 <section class="bg-amber-500 text-white py-14">
-  <div class="max-w-6xl mx-auto px-6">
-
-    <div class="flex justify-between text-center">
-
-      <!-- Item -->
-      <div class="flex flex-col items-center flex-1">
-        <h2 class="text-4xl md:text-6xl font-bold">{{ $stats['value_1'] }}</h2>
-        <p class="mt-2 text-xs md:text-sm font-semibold tracking-wide">
-          {{ $stats['label_1'] ?? 'KLIEN TERLAYANI' }}
-        </p>
-      </div>
-
-      <div class="flex flex-col items-center flex-1">
-        <h2 class="text-4xl md:text-6xl font-bold">{{ $stats['value_2'] }}</h2>
-        <p class="mt-2 text-xs md:text-sm font-semibold tracking-wide">
-          {{ $stats['label_2'] ?? 'PROYEK SELESAI' }}
-        </p>
-      </div>
-
-      <div class="flex flex-col items-center flex-1">
-        <h2 class="text-4xl md:text-6xl font-bold">{{ $stats['value_3'] }}</h2>
-        <p class="mt-2 text-xs md:text-sm font-semibold tracking-wide">
-          {{ $stats['label_3'] ?? 'TENAGA PROFESIONAL' }}
-        </p>
-      </div>
-
-      <div class="flex flex-col items-center flex-1">
-        <h2 class="text-4xl md:text-6xl font-bold">{{ $stats['value_4'] ?? '50+' }}</h2>
-        <p class="mt-2 text-xs md:text-sm font-semibold tracking-wide">
-          {{ $stats['label_4'] ?? 'MITRA & KOLABORASI' }}
-        </p>
-      </div>
-
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="flex justify-between text-center flex-wrap gap-8">
+            @foreach ($stats as $stat)
+                <div class="flex flex-col items-center flex-1 min-w-min">
+                    <h2 class="text-4xl md:text-6xl font-bold">{{ $stat['value'] }}+</h2>
+                    <p class="mt-2 text-xs md:text-sm font-semibold tracking-wide uppercase">
+                        {{ $stat['label'] }}
+                    </p>
+                </div>
+            @endforeach
+        </div>
     </div>
-
-  </div>
 </section>
+@endif
 
 {{-- Section Layanan --}}
 <section class="py-16 md:py-24">

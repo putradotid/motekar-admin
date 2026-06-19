@@ -27,7 +27,7 @@ class HomePageController extends Controller
         return view('admin.homepage', [
             'slides'   => $data['hero'] ?? [],
             'about'    => $data['about'] ?? null,
-            'stats'    => $data['stats'] ?? null,
+            'stats'    => $data['stats'] ?? [], 
             'services' => $data['services'] ?? [],
             'cta'      => $data['cta'] ?? null,
         ]);
@@ -88,10 +88,20 @@ class HomePageController extends Controller
     public function updateAbout(Request $request, int $id)
     {
         Http::withToken($this->token())
-            ->put($this->apiUrl() . '/admin/homepage/about/' . $id, $request->all());
+            ->put($this->apiUrl() . '/admin/homepage/about/' . $id, [
+                'title'       => $request->title,
+                'description' => $request->description,
+                'image_url'   => $request->image_url,
+                'image_1'     => $request->image_1,
+                'image_2'     => $request->image_2,
+                'image_3'     => $request->image_3,
+                'image_4'     => $request->image_4,
+                'image_5'     => $request->image_5,
+                'image_6'     => $request->image_6,
+            ]);
 
         return redirect()->route('admin.homepage')
-                         ->with('success', 'About page berhasil diupdate.');
+                        ->with('success', 'About page berhasil diupdate.');
     }
 
     // ==================== STATS ====================
