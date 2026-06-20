@@ -410,7 +410,7 @@
     {{-- ==================== TAB: SERVICES ==================== --}}
     <div id="services" class="tab-content">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="font-weight-bold">Layanan / Produk</h4>
+            <h5 class="font-weight-bold mb-0">Layanan / Produk</h5>
             <button class="btn btn-amber btn-sm" data-toggle="modal" data-target="#addServiceModal">
                 <i class="fas fa-plus mr-1"></i> Tambah Layanan
             </button>
@@ -421,7 +421,11 @@
                 <div class="section-header">
                     <div>
                         <h6 class="font-weight-bold mb-0">{{ $service['name'] }}</h6>
-                        <small class="text-muted">{{ \Illuminate\Support\Str::limit($service['description'] ?? '', 60) }}</small>
+                        @if ($service['is_active'])
+                            <small class="text-success"><i class="fas fa-check-circle mr-1"></i>Aktif</small>
+                        @else
+                            <small class="text-muted"><i class="fas fa-times-circle mr-1"></i>Nonaktif</small>
+                        @endif
                     </div>
                     <form method="POST" action="{{ route('admin.homepage.services.destroy', $service['id']) }}" class="d-inline">
                         @csrf
@@ -435,37 +439,38 @@
                 <form method="POST" action="{{ route('admin.homepage.services.update', $service['id']) }}">
                     @csrf
                     @method('PUT')
+
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="form-group">
                                 <label class="font-weight-bold small">Nama Layanan</label>
                                 <input type="text" name="name" class="form-control"
-                                       value="{{ $service['name'] }}" required>
+                                    value="{{ $service['name'] }}" required>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold small">Deskripsi</label>
-                                <textarea name="description" class="form-control" rows="2">{{ $service['description'] }}</textarea>
+                                <textarea name="description" class="form-control" rows="3">{{ $service['description'] }}</textarea>
                             </div>
 
-                            {{-- 4 Foto Collage --}}
+                            {{-- 4 Foto --}}
                             <label class="font-weight-bold small">4 Foto Collage</label>
                             <div class="row mt-2">
                                 @for ($i = 1; $i <= 4; $i++)
                                     <div class="col-md-6 mb-3">
                                         <label class="small text-muted">Foto {{ $i }}</label>
                                         <div class="img-preview mb-1"
-                                             id="service-img-{{ $service['id'] }}-{{ $i }}"
-                                             style="height:80px;{{ !empty($service['image_'.$i]) ? 'background-image:url(\''.$service['image_'.$i].'\');background-size:cover;background-position:center;' : '' }}">
+                                            id="service-img-{{ $service['id'] }}-{{ $i }}"
+                                            style="height:80px;{{ !empty($service['image_'.$i]) ? 'background-image:url(\''.$service['image_'.$i].'\');background-size:cover;background-position:center;' : '' }}">
                                             @if (empty($service['image_'.$i]))
                                                 <small>Belum ada</small>
                                             @endif
                                         </div>
                                         <input type="text"
-                                               name="image_{{ $i }}"
-                                               class="form-control form-control-sm"
-                                               value="{{ $service['image_'.$i] ?? '' }}"
-                                               placeholder="URL dari Media Library"
-                                               oninput="updateServiceImg(this, {{ $service['id'] }}, {{ $i }})">
+                                            name="image_{{ $i }}"
+                                            class="form-control form-control-sm"
+                                            value="{{ $service['image_'.$i] ?? '' }}"
+                                            placeholder="URL dari Media Library"
+                                            oninput="updateServiceImg(this, {{ $service['id'] }}, {{ $i }})">
                                     </div>
                                 @endfor
                             </div>
@@ -479,39 +484,40 @@
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-bold small">Urutan</label>
                                     <input type="number" name="order" class="form-control form-control-sm"
-                                           value="{{ $service['order'] }}" min="0">
+                                        value="{{ $service['order'] }}" min="0">
                                 </div>
                                 <div class="form-group col-md-8 d-flex align-items-end">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" class="custom-control-input"
-                                               id="service-active-{{ $service['id'] }}"
-                                               name="is_active"
-                                               {{ $service['is_active'] ? 'checked' : '' }}>
+                                            id="service-active-{{ $service['id'] }}"
+                                            name="is_active"
+                                            {{ $service['is_active'] ? 'checked' : '' }}>
                                         <label class="custom-control-label"
-                                               for="service-active-{{ $service['id'] }}">Tampilkan</label>
+                                            for="service-active-{{ $service['id'] }}">Tampilkan</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {{-- Icon --}}
                         <div class="col-lg-4">
-                            <label class="font-weight-bold small">URL Icon <small class="text-muted">(opsional)</small></label>
-                            <div class="img-preview mb-1"
-                                 id="service-icon-{{ $service['id'] }}"
-                                 style="height:100px;{{ !empty($service['icon_url']) ? 'background-image:url(\''.$service['icon_url'].'\');background-size:contain;background-repeat:no-repeat;background-position:center;' : '' }}">
-                                @if (empty($service['icon_url']))
-                                    <small>Belum ada icon</small>
-                                @endif
+                            <div class="form-group">
+                                <label class="font-weight-bold small">URL Icon (opsional)</label>
+                                <div class="img-preview mb-1"
+                                    id="service-icon-{{ $service['id'] }}"
+                                    style="{{ !empty($service['icon_url']) ? 'background-image:url(\''.$service['icon_url'].'\');background-size:contain;background-repeat:no-repeat;background-position:center;' : '' }}">
+                                    @if (empty($service['icon_url']))
+                                        <small>Belum ada icon</small>
+                                    @endif
+                                </div>
+                                <input type="text" name="icon_url"
+                                    class="form-control form-control-sm"
+                                    value="{{ $service['icon_url'] ?? '' }}"
+                                    placeholder="URL dari Media Library"
+                                    oninput="updatePreview(this, 'service-icon-{{ $service['id'] }}')">
+                                <small class="text-muted">
+                                    <a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a>
+                                </small>
                             </div>
-                            <input type="text" name="icon_url"
-                                   class="form-control form-control-sm mt-1"
-                                   value="{{ $service['icon_url'] ?? '' }}"
-                                   placeholder="dari Media Library"
-                                   oninput="updatePreview(this, 'service-icon-{{ $service['id'] }}')">
-                            <small class="text-muted">
-                                <a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a>
-                            </small>
                         </div>
                     </div>
 
@@ -526,7 +532,8 @@
             <div class="empty-state">
                 <i class="fas fa-cogs"></i>
                 <p>Belum ada layanan</p>
-                <button class="btn btn-amber btn-sm mt-3" data-toggle="modal" data-target="#addServiceModal">
+                <button class="btn btn-amber btn-sm mt-3"
+                        data-toggle="modal" data-target="#addServiceModal">
                     <i class="fas fa-plus mr-1"></i> Tambah Layanan
                 </button>
             </div>

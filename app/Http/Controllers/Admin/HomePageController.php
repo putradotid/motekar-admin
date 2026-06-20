@@ -127,19 +127,38 @@ class HomePageController extends Controller
     public function storeService(Request $request)
     {
         Http::withToken($this->token())
-            ->post($this->apiUrl() . '/admin/homepage/services', $request->all());
+            ->post($this->apiUrl() . '/admin/homepage/services', [
+                'name'        => $request->name,
+                'description' => $request->description,
+                'icon_url'    => $request->icon_url,
+                'image_1'     => $request->image_1,
+                'image_2'     => $request->image_2,
+                'image_3'     => $request->image_3,
+                'image_4'     => $request->image_4,
+                'order'       => $request->order ?? 0,
+            ]);
 
         return redirect()->route('admin.homepage')
-                         ->with('success', 'Layanan berhasil ditambahkan.');
+                        ->with('success', 'Layanan berhasil ditambahkan.');
     }
 
     public function updateService(Request $request, int $id)
     {
         Http::withToken($this->token())
-            ->put($this->apiUrl() . '/admin/homepage/services/' . $id, $request->all());
+            ->put($this->apiUrl() . '/admin/homepage/services/' . $id, [
+                'name'        => $request->name,
+                'description' => $request->description,
+                'icon_url'    => $request->icon_url,
+                'image_1'     => $request->image_1,
+                'image_2'     => $request->image_2,
+                'image_3'     => $request->image_3,
+                'image_4'     => $request->image_4,
+                'order'       => $request->order ?? 0,
+                'is_active'   => $request->has('is_active') ? 1 : 0,
+            ]);
 
         return redirect()->route('admin.homepage')
-                         ->with('success', 'Layanan berhasil diupdate.');
+                        ->with('success', 'Layanan berhasil diupdate.');
     }
 
     public function destroyService(Request $request, int $id)
