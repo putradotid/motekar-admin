@@ -409,135 +409,63 @@
 
     {{-- ==================== TAB: SERVICES ==================== --}}
     <div id="services" class="tab-content">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="font-weight-bold mb-0">Layanan / Produk</h5>
-            <button class="btn btn-amber btn-sm" data-toggle="modal" data-target="#addServiceModal">
-                <i class="fas fa-plus mr-1"></i> Tambah Layanan
-            </button>
-        </div>
+        <div class="section-card">
+            <h5 class="font-weight-bold mb-1">Section Layanan</h5>
+            <p class="text-muted small mb-4">
+                Judul, deskripsi, dan 4 gambar collage untuk section layanan di beranda.
+            </p>
 
-        @forelse ($services as $service)
-            <div class="section-card">
-                <div class="section-header">
-                    <div>
-                        <h6 class="font-weight-bold mb-0">{{ $service['name'] }}</h6>
-                        @if ($service['is_active'])
-                            <small class="text-success"><i class="fas fa-check-circle mr-1"></i>Aktif</small>
-                        @else
-                            <small class="text-muted"><i class="fas fa-times-circle mr-1"></i>Nonaktif</small>
-                        @endif
-                    </div>
-                    <form method="POST" action="{{ route('admin.homepage.services.destroy', $service['id']) }}" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Hapus?')">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </form>
+            @php $ss = $service_section; @endphp
+
+            <form method="POST"
+                action="{{ $ss ? route('admin.homepage.services.update', $ss['id']) : route('admin.homepage.services.store') }}">
+                @csrf
+                @if ($ss) @method('PUT') @endif
+
+                <div class="form-group">
+                    <label class="font-weight-bold small">Judul</label>
+                    <input type="text" name="title" class="form-control"
+                        value="{{ $ss['title'] ?? 'Solusi & Layanan Kami' }}" required>
+                </div>
+                <div class="form-group">
+                    <label class="font-weight-bold small">Deskripsi</label>
+                    <textarea name="description" class="form-control" rows="3">{{ $ss['description'] ?? '' }}</textarea>
                 </div>
 
-                <form method="POST" action="{{ route('admin.homepage.services.update', $service['id']) }}">
-                    @csrf
-                    @method('PUT')
-
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="form-group">
-                                <label class="font-weight-bold small">Nama Layanan</label>
-                                <input type="text" name="name" class="form-control"
-                                    value="{{ $service['name'] }}" required>
+                <label class="font-weight-bold small">4 Foto Collage</label>
+                <div class="row mt-2">
+                    @for ($i = 1; $i <= 4; $i++)
+                        <div class="col-md-6 mb-3">
+                            <label class="small text-muted">Foto {{ $i }}</label>
+                            <div class="img-preview mb-1"
+                                id="ss-img-preview-{{ $i }}"
+                                style="height:100px;{{ !empty($ss['image_'.$i]) ? 'background-image:url(\''.$ss['image_'.$i].'\');background-size:cover;background-position:center;' : '' }}">
+                                @if (empty($ss['image_'.$i]))
+                                    <small>Belum ada</small>
+                                @endif
                             </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold small">Deskripsi</label>
-                                <textarea name="description" class="form-control" rows="3">{{ $service['description'] }}</textarea>
-                            </div>
-
-                            {{-- 4 Foto --}}
-                            <label class="font-weight-bold small">4 Foto Collage</label>
-                            <div class="row mt-2">
-                                @for ($i = 1; $i <= 4; $i++)
-                                    <div class="col-md-6 mb-3">
-                                        <label class="small text-muted">Foto {{ $i }}</label>
-                                        <div class="img-preview mb-1"
-                                            id="service-img-{{ $service['id'] }}-{{ $i }}"
-                                            style="height:80px;{{ !empty($service['image_'.$i]) ? 'background-image:url(\''.$service['image_'.$i].'\');background-size:cover;background-position:center;' : '' }}">
-                                            @if (empty($service['image_'.$i]))
-                                                <small>Belum ada</small>
-                                            @endif
-                                        </div>
-                                        <input type="text"
-                                            name="image_{{ $i }}"
-                                            class="form-control form-control-sm"
-                                            value="{{ $service['image_'.$i] ?? '' }}"
-                                            placeholder="URL dari Media Library"
-                                            oninput="updateServiceImg(this, {{ $service['id'] }}, {{ $i }})">
-                                    </div>
-                                @endfor
-                            </div>
-                            <small class="text-muted mb-3 d-block">
-                                <a href="{{ route('admin.media') }}" target="_blank">
-                                    <i class="fas fa-external-link-alt mr-1"></i>Buka Media Library
-                                </a>
-                            </small>
-
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label class="font-weight-bold small">Urutan</label>
-                                    <input type="number" name="order" class="form-control form-control-sm"
-                                        value="{{ $service['order'] }}" min="0">
-                                </div>
-                                <div class="form-group col-md-8 d-flex align-items-end">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input"
-                                            id="service-active-{{ $service['id'] }}"
-                                            name="is_active"
-                                            {{ $service['is_active'] ? 'checked' : '' }}>
-                                        <label class="custom-control-label"
-                                            for="service-active-{{ $service['id'] }}">Tampilkan</label>
-                                    </div>
-                                </div>
-                            </div>
+                            <input type="text" name="image_{{ $i }}"
+                                class="form-control form-control-sm"
+                                value="{{ $ss['image_'.$i] ?? '' }}"
+                                placeholder="URL dari Media Library"
+                                oninput="updateSsImg(this, {{ $i }})">
                         </div>
+                    @endfor
+                </div>
 
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label class="font-weight-bold small">URL Icon (opsional)</label>
-                                <div class="img-preview mb-1"
-                                    id="service-icon-{{ $service['id'] }}"
-                                    style="{{ !empty($service['icon_url']) ? 'background-image:url(\''.$service['icon_url'].'\');background-size:contain;background-repeat:no-repeat;background-position:center;' : '' }}">
-                                    @if (empty($service['icon_url']))
-                                        <small>Belum ada icon</small>
-                                    @endif
-                                </div>
-                                <input type="text" name="icon_url"
-                                    class="form-control form-control-sm"
-                                    value="{{ $service['icon_url'] ?? '' }}"
-                                    placeholder="URL dari Media Library"
-                                    oninput="updatePreview(this, 'service-icon-{{ $service['id'] }}')">
-                                <small class="text-muted">
-                                    <a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a>
-                                </small>
-                            </div>
-                        </div>
-                    </div>
+                <small class="text-muted d-block mb-3">
+                    <a href="{{ route('admin.media') }}" target="_blank">
+                        <i class="fas fa-external-link-alt mr-1"></i>Buka Media Library
+                    </a>
+                </small>
 
-                    <div class="text-right mt-2">
-                        <button type="submit" class="btn btn-amber btn-sm">
-                            <i class="fas fa-save mr-1"></i> Simpan
-                        </button>
-                    </div>
-                </form>
-            </div>
-        @empty
-            <div class="empty-state">
-                <i class="fas fa-cogs"></i>
-                <p>Belum ada layanan</p>
-                <button class="btn btn-amber btn-sm mt-3"
-                        data-toggle="modal" data-target="#addServiceModal">
-                    <i class="fas fa-plus mr-1"></i> Tambah Layanan
-                </button>
-            </div>
-        @endforelse
+                <div class="text-right">
+                    <button type="submit" class="btn btn-amber btn-sm">
+                        <i class="fas fa-save mr-1"></i> Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     {{-- ==================== TAB: CTA ==================== --}}
@@ -846,6 +774,19 @@
         } else {
             preview.style.backgroundImage = 'none';
             preview.textContent = 'Belum ada gambar';
+        }
+    }
+
+    function updateSsImg(input, index) {
+        const preview = document.getElementById('ss-img-preview-' + index);
+        if (input.value) {
+            preview.style.backgroundImage = "url('" + input.value + "')";
+            preview.style.backgroundSize = 'cover';
+            preview.style.backgroundPosition = 'center';
+            preview.textContent = '';
+        } else {
+            preview.style.backgroundImage = 'none';
+            preview.textContent = 'Belum ada';
         }
     }
 </script>

@@ -28,7 +28,7 @@ class HomePageController extends Controller
             'slides'   => $data['hero'] ?? [],
             'about'    => $data['about'] ?? null,
             'stats'    => $data['stats'] ?? [], 
-            'services' => $data['services'] ?? [],
+            'service_section' => $data['service_section'] ?? null,
             'cta'      => $data['cta'] ?? null,
         ]);
     }

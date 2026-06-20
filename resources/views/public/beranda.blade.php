@@ -198,42 +198,29 @@
 
 {{-- Section Layanan --}}
 <section class="py-16 md:py-24">
-  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
-
-    <!-- TEXT -->
-    <div class="flex-1 flex flex-col justify-start">
-      <span class="text-amber-500 font-bold">Layanan Kami</span>
-      <h1 class="text-4xl md:text-5xl font-bold leading-tight">
-        {{ $service['name'] ?? 'Solusi & Layanan Kami' }}
-      </h1>
-
-      <p class="mt-6 text-gray-600 text-sm md:text-base">
-        {{ $service['description'] ?? 'Kami menyediakan layanan pengembangan dan konsultasi teknologi yang dirancang untuk menjawab kebutuhan industri modern.' }}
-      </p>
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
+        <div class="flex-1 flex flex-col justify-start">
+            <span class="text-amber-500 font-bold">Layanan Kami</span>
+            <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+                {{ $service_section['title'] ?? 'Solusi & Layanan Kami' }}
+            </h1>
+            <p class="mt-6 text-gray-600 text-sm md:text-base">
+                {{ $service_section['description'] ?? 'Kami menyediakan layanan pengembangan dan konsultasi teknologi.' }}
+            </p>
+        </div>
+        <div class="flex-1 flex justify-center">
+            <div class="grid grid-cols-2 gap-4 w-80 md:w-105">
+                <img src="{{ $service_section['image_1'] ?? asset('storage/assets/beranda5.jpg') }}"
+                     class="w-full aspect-square object-cover">
+                <img src="{{ $service_section['image_2'] ?? asset('storage/assets/beranda2.jpg') }}"
+                     class="w-full aspect-square object-cover">
+                <img src="{{ $service_section['image_3'] ?? asset('storage/assets/beranda3.jpg') }}"
+                     class="w-full aspect-square object-cover">
+                <img src="{{ $service_section['image_4'] ?? asset('storage/assets/beranda4.jpg') }}"
+                     class="w-full aspect-square object-cover">
+            </div>
+        </div>
     </div>
-
-    <!-- IMAGE COLLAGE -->
-    <div class="flex-1 flex justify-center">
-
-      <div class="grid grid-cols-2 gap-4 w-80 md:w-105">
-
-        <img src="{{ $service['image_1'] ?? asset('storage/assets/beranda5.jpg') }}"
-        class="w-full aspect-square object-cover">
-
-      <img src="{{ asset('storage/assets/beranda2.jpg') }}"
-        class="w-full aspect-square object-cover">
-
-      <img src="{{ asset('storage/assets/beranda3.jpg') }}"
-        class="w-full aspect-square object-cover">
-
-      <img src="{{ asset('storage/assets/beranda4.jpg') }}"
-        class="w-full aspect-square object-cover">
-
-      </div>
-
-    </div>
-
-  </div>
 </section>
 
 {{-- Section CTA --}}

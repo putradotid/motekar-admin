@@ -64,7 +64,7 @@ class AppServiceProvider extends ServiceProvider
                 ->with('about', $homepageData['about'])
                 ->with('stats', $homepageData['stats'])
                 ->with('setting', $setting)
-                ->with('services', $homepageData['services'] ?? [])
+                ->with('service_section', $homepageData['service_section'] ?? null)
                 ->with('cta', $homepageData['cta']);
         });
 
