@@ -259,7 +259,8 @@
         </div>
     </div>
 </div>
-<!-- Modal Detail -->
+
+{{-- modal detail --}}
 <div class="modal fade" id="detailModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

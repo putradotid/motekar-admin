@@ -1,5 +1,22 @@
 @extends('layouts.public')
 
+@push('styles')
+<style>
+    .heroSwiper,
+    .heroSwiper .swiper-wrapper,
+    .heroSwiper .swiper-slide {
+        height: auto !important;
+    }
+
+    .heroSwiper .swiper-slide > div {
+        min-height: 480px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+</style>
+@endpush
+
 @section('content')
 {{-- Hero Section — Swiper --}}
 <section class="relative mt-16">
@@ -10,14 +27,16 @@
 
             @forelse ($heroSlides ?? [] as $slide)
                 <div class="swiper-slide">
-                    <div class="relative px-24 py-24 md:py-24 min-h-64"
+                    <div class="relative px-24 py-24 md:py-32"
                          style="
+                            min-height: 480px;
                             @if ($slide['background_type'] === 'color')
                                 background-color: {{ $slide['background_value'] }};
                             @else
                                 background-image: url('{{ $slide['background_value'] }}');
                                 background-size: cover;
                                 background-position: center;
+                                background-repeat: no-repeat;
                             @endif
                          ">
 
@@ -64,9 +83,9 @@
                     </div>
                 </div>
             @empty
-                {{-- Fallback kalau tidak ada data --}}
                 <div class="swiper-slide">
-                    <div class="bg-gray-300 relative px-8 py-16 md:py-24">
+                    <div class="bg-gray-300 relative px-8 py-16 md:py-24"
+                         style="min-height: 480px;">
                         <div class="max-w-2xl">
                             <h1 class="text-4xl md:text-6xl font-bold leading-tight">
                                 Where Innovation Meets Execution
@@ -79,57 +98,15 @@
                 </div>
             @endforelse
 
-            
-          </div>
-          
-          {{-- Navigation --}}
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-          
-          {{-- Pagination --}}
-          <div class="swiper-pagination"></div>
         </div>
-</section>
 
-{{-- Section Core Value --}}
-<section class="bg-amber-500 text-white py-6">
-  <div class="max-w-6xl mx-auto text-center">
+        {{-- Navigation --}}
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
 
-    <!-- Title -->
-    <h2 class="text-3xl md:text-4xl font-bold">
-      Kenapa Memilih Kami?
-    </h2>
-
-    <!-- Grid -->
-    <div class="flex justify-center gap-28 mt-8 flex-wrap">
-
-      <!-- Item -->
-      <div class="flex flex-col items-center">
-        <img src="{{ asset('storage/icon4.png') }}" 
-             class="w-18 h-18 object-contain" />
-        <p class="mt-4 text-sm">Inovatif</p>
-      </div>
-
-      <div class="flex flex-col items-center">
-        <img src="{{ asset('storage/icon3.png') }}" 
-             class="w-18 h-18 object-contain" />
-        <p class="mt-4 text-sm">Solutif</p>
-      </div>
-
-      <div class="flex flex-col items-center">
-        <img src="{{ asset('storage/icon.png') }}" 
-             class="w-18 h-18 object-contain" />
-        <p class="mt-4 text-sm">Produktif</p>
-      </div>
-
-      <div class="flex flex-col items-center">
-        <img src="{{ asset('storage/icon2.png') }}" 
-             class="w-18 h-18 object-contain" />
-        <p class="mt-4 text-sm">Update</p>
-      </div>
-
+        {{-- Pagination --}}
+        <div class="swiper-pagination"></div>
     </div>
-  </div>
 </section>
 
 {{-- Section About --}}
@@ -223,43 +200,29 @@
     </div>
 </section>
 
-{{-- Section CTA --}}
+{{-- CTA Section --}}
 <section class="bg-gray-100 py-16 md:py-24">
-  <div class="max-w-3xl mx-auto px-6">
-
-    <div class="bg-white rounded-2xl shadow-lg p-10">
-      <div class="flex flex-col md:flex-row items-center gap-8">
-        
-        <!-- IMAGE -->
-        <div class="w-24 md:w-32 flex">
-          <img src="{{ asset('storage/hero-logo.png') }}" 
-               class="w-full object-contain" />
+    <div class="max-w-3xl mx-auto px-6">
+        <div class="bg-white rounded-2xl shadow-lg p-10 flex flex-col md:flex-row items-center gap-8">
+            <div class="w-24 md:w-32 flex flex-shrink-0">
+                <img src="{{ $cta['icon_url'] ?? asset('storage/hero-logo.png') }}"
+                     class="w-full object-contain">
+            </div>
+            <div class="flex-1 text-center md:text-left">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900">
+                    {{ $cta['title'] ?? 'Butuh Konsultasi Teknologi?' }}
+                </h2>
+                <p class="mt-4 text-gray-600 text-sm md:text-base leading-relaxed">
+                    {{ $cta['description'] ?? 'Diskusikan kebutuhan sistem atau solusi digital Anda bersama tim kami.' }}
+                </p>
+                <div class="mt-6">
+                    <a href="{{ $cta['button_url'] ?? '#' }}"
+                       class="inline-block bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-lg font-semibold transition">
+                        {{ $cta['button_text'] ?? 'Jadwalkan Meeting' }}
+                    </a>
+                </div>
+            </div>
         </div>
-  
-        <!-- CONTENT -->
-        <div class="flex-1 text-center md:text-left">
-  
-          <h2 class="text-2xl md:text-3xl font-bold text-gray-900">
-            {{ $cta['title'] ?? 'Butuh Konsultasi Teknologi?' }}
-          </h2>
-  
-          <p class="mt-4 text-gray-600 text-sm md:text-base leading-relaxed max-w-xl">
-            {{ $cta['description'] ?? 'Diskusikan kebutuhan sistem atau solusi digital Anda bersama tim kami untuk menemukan solusi teknologi yang tepat bagi bisnis.' }}
-          </p>
-  
-        </div>
-      </div>
-      
-      <div class="w-full md:w-auto flex justify-center">
-        <div class="mt-6">
-          <a href="{{ $cta['button_url'] ?? '#' }}" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-lg font-semibold transition">
-            {{ $cta['button_text'] ?? 'Jadwalkan Meeting' }}
-          </a>
-        </div>
-      
     </div>
-    
-
-  </div>
 </section>
 @endsection

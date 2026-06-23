@@ -61,11 +61,11 @@ class AppServiceProvider extends ServiceProvider
             }
 
             $view->with('heroSlides', $homepageData['hero'] ?? [])
-                ->with('about', $homepageData['about'])
-                ->with('stats', $homepageData['stats'])
+                ->with('about', $homepageData['about'] ?? null)
+                ->with('stats', $homepageData['stats'] ?? [])
                 ->with('setting', $setting)
                 ->with('service_section', $homepageData['service_section'] ?? null)
-                ->with('cta', $homepageData['cta']);
+                ->with('cta', $homepageData['cta'] ?? null);
         });
 
         // Tentang Kami data untuk halaman public tentang kami

@@ -89,17 +89,17 @@
 
     <div class="chat-wrapper">
 
-        {{-- ========== SIDEBAR KIRI ========== --}}
+        {{-- sidebar --}}
         <div class="bg-white border-right d-flex flex-column"
              style="width: 320px; flex-shrink: 0;">
 
-            {{-- Header --}}
+            {{-- header --}}
             <div class="p-3 border-bottom">
                 <h5 class="font-weight-bold mb-3">Messages</h5>
                 <input type="text" class="form-control" placeholder="Cari pesan...">
             </div>
 
-            {{-- Contact List --}}
+            {{-- contact list --}}
             <div style="overflow-y: auto; flex: 1;">
                 @forelse ($meetings ?? [] as $meeting)
                     <a href="{{ route('admin.messages', ['meeting' => $meeting['id']]) }}"
@@ -123,7 +123,7 @@
 
         </div>
 
-        {{-- ========== PANEL CHAT KANAN ========== --}}
+        {{-- panel chat --}}
         <div class="d-flex flex-column bg-light" style="flex: 1; min-width: 0;">
 
             @if (isset($activeMeeting) && $activeMeeting)

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Motekar</title>
   <link rel="icon" href="{{ asset('storage/motekar-logo.ico') }}" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   @vite('resources/css/app.css')
   <link rel="stylesheet" href="{{ asset('css/font.css') }}">
   <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
@@ -13,6 +14,8 @@
 
   {{-- Api Public --}}
   <script src="{{ asset('js/api-public.js') }}"></script>
+
+  @stack('styles')
 
   <style>
     .swiper-button-next,

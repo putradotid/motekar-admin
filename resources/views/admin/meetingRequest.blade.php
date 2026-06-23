@@ -2,10 +2,8 @@
 
 @section('content')
 <div id="content">
-    <!-- Begin Page Content -->
     <div class="container-fluid">
 
-        <!-- Page Heading -->
         <div class="">
             <h1 class="h3 mb-0 text-gray-800">Meeting Requests</h1>
             <p class="">Manage and track all meeting requests submitted by user.</p>
@@ -24,7 +22,7 @@
             <div class="col-xl-12 col-lg-12">
                 <div class="card shadow mb-4">
 
-                    <!-- Tab Bar -->
+                    <!-- tab bar -->
                     <div class="card-header py-2 d-flex align-items-center justify-content-between flex-wrap" style="gap: 8px;">
                         <div class="d-flex flex-wrap" style="gap: 4px;">
                             <a href="?tab=all"
@@ -159,7 +157,7 @@
                             </table>
                         </div>
 
-                        <!-- Pagination -->
+                        <!-- pagination -->
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <small>
                                 Showing {{ $meetings['from'] ?? 0 }} 

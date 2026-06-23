@@ -183,7 +183,13 @@ class HomePageController extends Controller
     public function updateCta(Request $request, int $id)
     {
         Http::withToken($this->token())
-            ->put($this->apiUrl() . '/admin/homepage/cta/' . $id, $request->all());
+        ->put($this->apiUrl() . '/admin/homepage/cta/' . $id, [
+            'title'       => $request->title,
+            'description' => $request->description,
+            'button_text' => $request->button_text,
+            'button_url'  => $request->button_url,
+            'icon_url'    => $request->icon_url,
+        ]);
 
         return redirect()->route('admin.homepage')
                          ->with('success', 'Call to Action berhasil diupdate.');

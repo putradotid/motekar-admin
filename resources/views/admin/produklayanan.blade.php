@@ -26,21 +26,14 @@
         border-bottom-color: #FF8C00;
         background: #fff8f0;
     }
-    .tab-nav button:hover:not(.active) {
-        color: #495057;
-    }
+    .tab-nav button:hover:not(.active) { color: #495057; }
 
-    .tab-content {
-        display: none;
-    }
+    .tab-content { display: none; }
     .tab-content.active {
         display: block;
         animation: fadeIn 0.3s ease;
     }
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     .section-card {
         border: 1px solid #e3e6f0;
@@ -56,21 +49,6 @@
         margin-bottom: 20px;
         padding-bottom: 12px;
         border-bottom: 1px solid #f0f0f0;
-    }
-    .img-preview {
-        width: 100%;
-        height: 100px;
-        border-radius: 8px;
-        border: 1px solid #e3e6f0;
-        background-size: cover;
-        background-position: center;
-        background-color: #f8f9fc;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #999;
-        font-size: 12px;
-        margin-bottom: 12px;
     }
     .empty-state {
         text-align: center;
@@ -123,27 +101,25 @@
         </button>
     </div>
 
-    {{-- ==================== TAB: HERO (Section 1) ==================== --}}
+    {{-- ==================== TAB: HERO ==================== --}}
     <div id="hero" class="tab-content active">
         <div class="section-card">
             <h5 class="font-weight-bold mb-3">Section 1 — Judul Halaman</h5>
-
             <form method="POST"
                   action="{{ $hero ? route('admin.produk-layanan.hero.update', $hero['id']) : route('admin.produk-layanan.hero.store') }}">
                 @csrf
-                @if ($hero)
-                    @method('PUT')
-                @endif
+                @if ($hero) @method('PUT') @endif
 
                 <div class="form-group">
                     <label class="font-weight-bold small">Judul <span class="text-danger">*</span></label>
-                    <input type="text" name="title" class="form-control" value="{{ $hero['title'] ?? 'Produk Kami' }}" required>
+                    <input type="text" name="title" class="form-control"
+                           value="{{ $hero['title'] ?? 'Produk Kami' }}" required>
                 </div>
                 <div class="form-group">
                     <label class="font-weight-bold small">Deskripsi</label>
-                    <textarea name="description" class="form-control" rows="3" placeholder="Deskripsi singkat halaman...">{{ $hero['description'] ?? '' }}</textarea>
+                    <textarea name="description" class="form-control" rows="3"
+                              placeholder="Deskripsi singkat halaman...">{{ $hero['description'] ?? '' }}</textarea>
                 </div>
-
                 <div class="text-right">
                     <button type="submit" class="btn btn-amber btn-sm">
                         <i class="fas fa-save mr-1"></i> {{ $hero ? 'Simpan' : 'Buat' }}
@@ -153,7 +129,7 @@
         </div>
     </div>
 
-    {{-- ==================== TAB: PRODUCTS (Section 2) ==================== --}}
+    {{-- ==================== TAB: PRODUCTS ==================== --}}
     <div id="products" class="tab-content">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="font-weight-bold mb-0">Section 2 — Produk Kami</h5>
@@ -173,10 +149,13 @@
                             <small class="text-muted"><i class="fas fa-times-circle mr-1"></i>Nonaktif</small>
                         @endif
                     </div>
-                    <form method="POST" action="{{ route('admin.produk-layanan.products.destroy', $product['id']) }}" class="d-inline">
+                    <form method="POST"
+                          action="{{ route('admin.produk-layanan.products.destroy', $product['id']) }}"
+                          class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Hapus?')">
+                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('Hapus produk ini?')">
                             <i class="fas fa-trash"></i>
                         </button>
                     </form>
@@ -189,41 +168,51 @@
                         <div class="col-lg-8">
                             <div class="form-group">
                                 <label class="font-weight-bold small">Judul</label>
-                                <input type="text" name="title" class="form-control" value="{{ $product['title'] }}" required>
+                                <input type="text" name="title" class="form-control"
+                                       value="{{ $product['title'] }}" required>
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-bold small">Deskripsi Singkat <small class="text-muted">(tampil di card)</small></label>
+                                <label class="font-weight-bold small">
+                                    Deskripsi Singkat
+                                    <small class="text-muted">(tampil di card)</small>
+                                </label>
                                 <textarea name="description" class="form-control" rows="2">{{ $product['description'] }}</textarea>
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-bold small">Deskripsi Lengkap <small class="text-muted">(tampil di popup)</small></label>
+                                <label class="font-weight-bold small">
+                                    Deskripsi Lengkap
+                                    <small class="text-muted">(tampil di popup saat diklik)</small>
+                                </label>
                                 <textarea name="detail_description" class="form-control" rows="3">{{ $product['detail_description'] }}</textarea>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-bold small">Urutan</label>
-                                    <input type="number" name="order" class="form-control form-control-sm" value="{{ $product['order'] }}" min="0">
+                                    <input type="number" name="order" class="form-control form-control-sm"
+                                           value="{{ $product['order'] }}" min="0">
                                 </div>
                                 <div class="form-group col-md-8 d-flex align-items-end">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="product-active-{{ $product['id'] }}" name="is_active" {{ $product['is_active'] ? 'checked' : '' }}>
-                                        <label class="custom-control-label" for="product-active-{{ $product['id'] }}">Tampilkan</label>
+                                        <input type="checkbox" class="custom-control-input"
+                                               id="product-active-{{ $product['id'] }}"
+                                               name="is_active"
+                                               {{ $product['is_active'] ? 'checked' : '' }}>
+                                        <label class="custom-control-label"
+                                               for="product-active-{{ $product['id'] }}">Tampilkan</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-lg-4">
-                            <label class="font-weight-bold small">Gambar</label>
-                            <div class="img-preview" id="product-preview-{{ $product['id'] }}"
-                                 style="{{ !empty($product['image_url']) ? 'background-image:url(\''.$product['image_url'].'\')' : '' }}">
-                                @if (empty($product['image_url']))
-                                    Belum ada gambar
-                                @endif
-                            </div>
-                            <input type="text" name="image_url" class="form-control form-control-sm"
-                                   value="{{ $product['image_url'] }}" placeholder="dari Media Library"
-                                   oninput="updatePreview(this, 'product-preview-{{ $product['id'] }}')">
-                            <small class="text-muted"><a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a></small>
+                            {{-- ✅ Gambar Produk — media picker --}}
+                            @include('layouts.partials.media-input', [
+                                'name'    => 'image_url',
+                                'value'   => $product['image_url'] ?? '',
+                                'label'   => 'Gambar Produk',
+                                'inputId' => 'product-image-' . $product['id'],
+                                'height'  => '120px',
+                            ])
                         </div>
                     </div>
                     <div class="text-right mt-2">
@@ -244,7 +233,7 @@
         @endforelse
     </div>
 
-    {{-- ==================== TAB: SERVICES (Section 3) ==================== --}}
+    {{-- ==================== TAB: SERVICES ==================== --}}
     <div id="services" class="tab-content">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="font-weight-bold mb-0">Section 3 — Layanan Kami</h5>
@@ -264,10 +253,13 @@
                             <small class="text-muted"><i class="fas fa-times-circle mr-1"></i>Nonaktif</small>
                         @endif
                     </div>
-                    <form method="POST" action="{{ route('admin.produk-layanan.services.destroy', $service['id']) }}" class="d-inline">
+                    <form method="POST"
+                          action="{{ route('admin.produk-layanan.services.destroy', $service['id']) }}"
+                          class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Hapus?')">
+                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('Hapus layanan ini?')">
                             <i class="fas fa-trash"></i>
                         </button>
                     </form>
@@ -280,41 +272,51 @@
                         <div class="col-lg-8">
                             <div class="form-group">
                                 <label class="font-weight-bold small">Judul</label>
-                                <input type="text" name="title" class="form-control" value="{{ $service['title'] }}" required>
+                                <input type="text" name="title" class="form-control"
+                                       value="{{ $service['title'] }}" required>
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-bold small">Deskripsi Singkat <small class="text-muted">(tampil di card)</small></label>
+                                <label class="font-weight-bold small">
+                                    Deskripsi Singkat
+                                    <small class="text-muted">(tampil di card)</small>
+                                </label>
                                 <textarea name="description" class="form-control" rows="2">{{ $service['description'] }}</textarea>
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-bold small">Deskripsi Lengkap <small class="text-muted">(tampil di popup)</small></label>
+                                <label class="font-weight-bold small">
+                                    Deskripsi Lengkap
+                                    <small class="text-muted">(tampil di popup saat diklik)</small>
+                                </label>
                                 <textarea name="detail_description" class="form-control" rows="3">{{ $service['detail_description'] }}</textarea>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-bold small">Urutan</label>
-                                    <input type="number" name="order" class="form-control form-control-sm" value="{{ $service['order'] }}" min="0">
+                                    <input type="number" name="order" class="form-control form-control-sm"
+                                           value="{{ $service['order'] }}" min="0">
                                 </div>
                                 <div class="form-group col-md-8 d-flex align-items-end">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="service-active-{{ $service['id'] }}" name="is_active" {{ $service['is_active'] ? 'checked' : '' }}>
-                                        <label class="custom-control-label" for="service-active-{{ $service['id'] }}">Tampilkan</label>
+                                        <input type="checkbox" class="custom-control-input"
+                                               id="service-active-{{ $service['id'] }}"
+                                               name="is_active"
+                                               {{ $service['is_active'] ? 'checked' : '' }}>
+                                        <label class="custom-control-label"
+                                               for="service-active-{{ $service['id'] }}">Tampilkan</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-lg-4">
-                            <label class="font-weight-bold small">Icon</label>
-                            <div class="img-preview" id="service-preview-{{ $service['id'] }}"
-                                 style="{{ !empty($service['icon_url']) ? 'background-image:url(\''.$service['icon_url'].'\')' : '' }}">
-                                @if (empty($service['icon_url']))
-                                    Belum ada icon
-                                @endif
-                            </div>
-                            <input type="text" name="icon_url" class="form-control form-control-sm"
-                                   value="{{ $service['icon_url'] }}" placeholder="dari Media Library"
-                                   oninput="updatePreview(this, 'service-preview-{{ $service['id'] }}')">
-                            <small class="text-muted"><a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a></small>
+                            {{-- ✅ Icon Layanan — media picker --}}
+                            @include('layouts.partials.media-input', [
+                                'name'    => 'icon_url',
+                                'value'   => $service['icon_url'] ?? '',
+                                'label'   => 'Icon Layanan',
+                                'inputId' => 'service-icon-' . $service['id'],
+                                'height'  => '120px',
+                            ])
                         </div>
                     </div>
                     <div class="text-right mt-2">
@@ -351,24 +353,33 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="font-weight-bold">Judul</label>
-                        <input type="text" name="title" class="form-control" placeholder="Nama produk" required>
+                        <input type="text" name="title" class="form-control"
+                               placeholder="Nama produk" required>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold">Deskripsi Singkat</label>
-                        <textarea name="description" class="form-control" rows="2" placeholder="Tampil di card..."></textarea>
+                        <textarea name="description" class="form-control" rows="2"
+                                  placeholder="Tampil di card..."></textarea>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold">Deskripsi Lengkap</label>
-                        <textarea name="detail_description" class="form-control" rows="3" placeholder="Tampil di popup..."></textarea>
+                        <textarea name="detail_description" class="form-control" rows="3"
+                                  placeholder="Tampil di popup..."></textarea>
                     </div>
-                    <div class="form-group">
-                        <label class="font-weight-bold">URL Gambar</label>
-                        <input type="text" name="image_url" class="form-control" placeholder="dari Media Library">
-                        <small class="text-muted"><a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a></small>
-                    </div>
+
+                    {{-- ✅ Gambar Produk — media picker --}}
+                    @include('layouts.partials.media-input', [
+                        'name'    => 'image_url',
+                        'value'   => '',
+                        'label'   => 'Gambar Produk',
+                        'inputId' => 'new-product-image',
+                        'height'  => '100px',
+                    ])
+
                     <div class="form-group">
                         <label class="font-weight-bold">Urutan</label>
-                        <input type="number" name="order" class="form-control" value="{{ count($products) + 1 }}" min="0">
+                        <input type="number" name="order" class="form-control"
+                               value="{{ count($products) + 1 }}" min="0">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -393,24 +404,33 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="font-weight-bold">Judul</label>
-                        <input type="text" name="title" class="form-control" placeholder="Nama layanan" required>
+                        <input type="text" name="title" class="form-control"
+                               placeholder="Nama layanan" required>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold">Deskripsi Singkat</label>
-                        <textarea name="description" class="form-control" rows="2" placeholder="Tampil di card..."></textarea>
+                        <textarea name="description" class="form-control" rows="2"
+                                  placeholder="Tampil di card..."></textarea>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold">Deskripsi Lengkap</label>
-                        <textarea name="detail_description" class="form-control" rows="3" placeholder="Tampil di popup..."></textarea>
+                        <textarea name="detail_description" class="form-control" rows="3"
+                                  placeholder="Tampil di popup..."></textarea>
                     </div>
-                    <div class="form-group">
-                        <label class="font-weight-bold">URL Icon</label>
-                        <input type="text" name="icon_url" class="form-control" placeholder="dari Media Library">
-                        <small class="text-muted"><a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a></small>
-                    </div>
+
+                    {{-- ✅ Icon Layanan — media picker --}}
+                    @include('layouts.partials.media-input', [
+                        'name'    => 'icon_url',
+                        'value'   => '',
+                        'label'   => 'Icon Layanan',
+                        'inputId' => 'new-service-icon',
+                        'height'  => '100px',
+                    ])
+
                     <div class="form-group">
                         <label class="font-weight-bold">Urutan</label>
-                        <input type="number" name="order" class="form-control" value="{{ count($services) + 1 }}" min="0">
+                        <input type="number" name="order" class="form-control"
+                               value="{{ count($services) + 1 }}" min="0">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -429,20 +449,8 @@
     function switchTab(tabName) {
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-
         document.getElementById(tabName).classList.add('active');
         event.target.classList.add('active');
-    }
-
-    function updatePreview(input, previewId) {
-        const preview = document.getElementById(previewId);
-        if (input.value) {
-            preview.style.backgroundImage = "url('" + input.value + "')";
-            preview.textContent = '';
-        } else {
-            preview.style.backgroundImage = 'none';
-            preview.textContent = 'Belum ada gambar';
-        }
     }
 </script>
 @endpush

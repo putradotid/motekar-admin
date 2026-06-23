@@ -26,21 +26,14 @@
         border-bottom-color: #FF8C00;
         background: #fff8f0;
     }
-    .tab-nav button:hover:not(.active) {
-        color: #495057;
-    }
+    .tab-nav button:hover:not(.active) { color: #495057; }
 
-    .tab-content {
-        display: none;
-    }
+    .tab-content { display: none; }
     .tab-content.active {
         display: block;
         animation: fadeIn 0.3s ease;
     }
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     .section-card {
         border: 1px solid #e3e6f0;
@@ -57,21 +50,6 @@
         padding-bottom: 12px;
         border-bottom: 1px solid #f0f0f0;
     }
-    .img-preview {
-        width: 100%;
-        height: 120px;
-        border-radius: 8px;
-        border: 1px solid #e3e6f0;
-        background-size: cover;
-        background-position: center;
-        background-color: #f8f9fc;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #999;
-        font-size: 12px;
-        margin-bottom: 8px;
-    }
     .empty-state {
         text-align: center;
         color: #6e707e;
@@ -82,16 +60,6 @@
         margin-bottom: 16px;
         color: #d1d5db;
     }
-    .division-badge {
-        display: inline-block;
-        padding: 2px 10px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 600;
-    }
-    .badge-leader { background: #FEF3C7; color: #92400E; }
-    .badge-client_support { background: #DBEAFE; color: #1E40AF; }
-    .badge-developer { background: #D1FAE5; color: #065F46; }
 </style>
 @endpush
 
@@ -99,7 +67,6 @@
 <div id="content">
 <div class="container-fluid">
 
-    {{-- Header --}}
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div>
             <h1 class="h3 mb-0 text-gray-800">Edit Tim Kami</h1>
@@ -183,7 +150,6 @@
                 <i class="fas fa-plus mr-1"></i> Tambah Leader
             </button>
         </div>
-
         @include('admin.partials.team-member-list', ['members' => $leaders, 'division' => 'leader'])
     </div>
 
@@ -196,7 +162,6 @@
                 <i class="fas fa-plus mr-1"></i> Tambah Client Support
             </button>
         </div>
-
         @include('admin.partials.team-member-list', ['members' => $client_support, 'division' => 'client_support'])
     </div>
 
@@ -209,7 +174,6 @@
                 <i class="fas fa-plus mr-1"></i> Tambah Developer
             </button>
         </div>
-
         @include('admin.partials.team-member-list', ['members' => $developers, 'division' => 'developer'])
     </div>
 
@@ -230,21 +194,29 @@
                     <input type="hidden" name="division" id="modal-division" value="leader">
                     <div class="form-group">
                         <label class="font-weight-bold">Divisi</label>
-                        <input type="text" id="modal-division-label" class="form-control" readonly style="background:#f8f9fc;">
+                        <input type="text" id="modal-division-label" class="form-control"
+                               readonly style="background:#f8f9fc;">
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold">Nama <span class="text-danger">*</span></label>
-                        <input type="text" name="name" class="form-control" placeholder="John Doe" required>
+                        <input type="text" name="name" class="form-control"
+                               placeholder="John Doe" required>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold">Jabatan</label>
-                        <input type="text" name="designation" class="form-control" placeholder="CEO, Backend Developer, dll">
+                        <input type="text" name="designation" class="form-control"
+                               placeholder="CEO, Backend Developer, dll">
                     </div>
-                    <div class="form-group">
-                        <label class="font-weight-bold">URL Foto</label>
-                        <input type="text" name="photo" class="form-control" placeholder="dari Media Library">
-                        <small class="text-muted"><a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a></small>
-                    </div>
+
+                    {{-- ✅ Foto — media picker --}}
+                    @include('layouts.partials.media-input', [
+                        'name'    => 'photo',
+                        'value'   => '',
+                        'label'   => 'Foto',
+                        'inputId' => 'new-member-photo',
+                        'height'  => '120px',
+                    ])
+
                     <div class="form-group">
                         <label class="font-weight-bold">Urutan</label>
                         <input type="number" name="order" class="form-control" value="0" min="0">
@@ -278,17 +250,6 @@
             'developer': 'Developer'
         };
         document.getElementById('modal-division-label').value = labels[division] || division;
-    }
-
-    function updatePreview(input, previewId) {
-        const preview = document.getElementById(previewId);
-        if (input.value) {
-            preview.style.backgroundImage = "url('" + input.value + "')";
-            preview.textContent = '';
-        } else {
-            preview.style.backgroundImage = 'none';
-            preview.textContent = 'Belum ada foto';
-        }
     }
 </script>
 @endpush

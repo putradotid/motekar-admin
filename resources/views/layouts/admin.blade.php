@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="api-token" content="{{ session('token') }}">
     <link rel="icon" href="{{ asset('storage/motekar-logo.ico') }}" type="image/x-icon">
     <title>Motekar Admin</title>
 
@@ -22,8 +23,15 @@
 
     <!-- Custom styles css -->
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+
+    @include('layouts.partials.media-picker-modal')
+    
     @stack('styles')
 
+    <script>
+        window.API_URL      = '{{ config('api.url') }}';
+        window.API_BASE_URL = '{{ rtrim(env('API_BASE_URL', 'http://127.0.0.1:8000'), '/') }}';
+    </script>
 
 </head>
 

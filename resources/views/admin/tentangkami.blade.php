@@ -18,21 +18,6 @@
         font-size: 13px;
         margin-bottom: 20px;
     }
-    .img-preview {
-        width: 100%;
-        height: 160px;
-        border-radius: 8px;
-        border: 1px solid #e3e6f0;
-        background-size: cover;
-        background-position: center;
-        background-color: #f8f9fc;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #999;
-        font-size: 12px;
-        margin-bottom: 12px;
-    }
 </style>
 @endpush
 
@@ -40,7 +25,6 @@
 <div id="content">
 <div class="container-fluid">
 
-    {{-- Header --}}
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div>
             <h1 class="h3 mb-0 text-gray-800">Edit Tentang Kami</h1>
@@ -75,11 +59,13 @@
 
             <div class="form-group">
                 <label class="font-weight-bold small">Judul <span class="text-danger">*</span></label>
-                <input type="text" name="title" class="form-control" value="{{ $page['title'] ?? 'Tentang Kami' }}" required>
+                <input type="text" name="title" class="form-control"
+                       value="{{ $page['title'] ?? 'Tentang Kami' }}" required>
             </div>
             <div class="form-group">
                 <label class="font-weight-bold small">Deskripsi</label>
-                <textarea name="description" class="form-control" rows="5" placeholder="Deskripsi perusahaan...">{{ $page['description'] ?? '' }}</textarea>
+                <textarea name="description" class="form-control" rows="5"
+                          placeholder="Deskripsi perusahaan...">{{ $page['description'] ?? '' }}</textarea>
             </div>
         </div>
 
@@ -90,19 +76,15 @@
 
             <div class="row">
                 <div class="col-lg-4">
-                    <label class="font-weight-bold small">Foto Visi & Misi</label>
-                    <div class="img-preview" id="visi-misi-preview"
-                         style="{{ !empty($page['visi_misi_image']) ? 'background-image:url(\''.$page['visi_misi_image'].'\')' : '' }}">
-                        @if (empty($page['visi_misi_image']))
-                            Belum ada gambar
-                        @endif
-                    </div>
-                    <input type="text" name="visi_misi_image" id="visi-misi-input"
-                           class="form-control form-control-sm"
-                           value="{{ $page['visi_misi_image'] ?? '' }}"
-                           placeholder="dari Media Library"
-                           oninput="updatePreview(this, 'visi-misi-preview')">
-                    <small class="text-muted"><a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a></small>
+                    {{-- Foto Visi & Misi — media picker --}}
+                    @include('layouts.partials.media-input', [
+                        'name'    => 'visi_misi_image',
+                        'value'   => $page['visi_misi_image'] ?? '',
+                        'label'   => 'Foto Visi & Misi',
+                        'inputId' => 'visi-misi-image',
+                        'height'  => '160px',
+                        'hint'    => 'Foto yang tampil di samping visi & misi.',
+                    ])
                 </div>
 
                 <div class="col-lg-8">
@@ -110,13 +92,15 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="font-weight-bold small">Visi</label>
-                                <textarea name="vision" class="form-control" rows="6" placeholder="Tulis visi perusahaan...">{{ $page['vision'] ?? '' }}</textarea>
+                                <textarea name="vision" class="form-control" rows="6"
+                                          placeholder="Tulis visi perusahaan...">{{ $page['vision'] ?? '' }}</textarea>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="font-weight-bold small">Misi</label>
-                                <textarea name="mission" class="form-control" rows="6" placeholder="Tulis misi perusahaan...">{{ $page['mission'] ?? '' }}</textarea>
+                                <textarea name="mission" class="form-control" rows="6"
+                                          placeholder="Tulis misi perusahaan...">{{ $page['mission'] ?? '' }}</textarea>
                             </div>
                         </div>
                     </div>
@@ -137,46 +121,50 @@
                 <div class="col-lg-8">
                     <div class="form-group">
                         <label class="font-weight-bold small">Judul Section</label>
-                        <input type="text" name="founder_title" class="form-control" value="{{ $page['founder_title'] ?? 'The Founder' }}" placeholder="The Founder">
+                        <input type="text" name="founder_title" class="form-control"
+                               value="{{ $page['founder_title'] ?? 'The Founder' }}"
+                               placeholder="The Founder">
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold small">Deskripsi / Cerita Founder</label>
-                        <textarea name="founder_description" class="form-control" rows="6" placeholder="Cerita tentang founder...">{{ $page['founder_description'] ?? '' }}</textarea>
+                        <textarea name="founder_description" class="form-control" rows="6"
+                                  placeholder="Cerita tentang founder...">{{ $page['founder_description'] ?? '' }}</textarea>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label class="font-weight-bold small">Nama Pendiri</label>
-                            <input type="text" name="founder_name" class="form-control" value="{{ $page['founder_name'] ?? '' }}" placeholder="John Doe">
+                            <input type="text" name="founder_name" class="form-control"
+                                   value="{{ $page['founder_name'] ?? '' }}"
+                                   placeholder="John Doe">
                         </div>
                         <div class="form-group col-md-6">
                             <label class="font-weight-bold small">Jabatan</label>
-                            <input type="text" name="founder_position" class="form-control" value="{{ $page['founder_position'] ?? '' }}" placeholder="Founder & Chief Executive Officer">
+                            <input type="text" name="founder_position" class="form-control"
+                                   value="{{ $page['founder_position'] ?? '' }}"
+                                   placeholder="Founder & Chief Executive Officer">
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-4">
-                    <label class="font-weight-bold small">Foto Founder</label>
-                    <div class="img-preview" id="founder-preview"
-                         style="{{ !empty($page['founder_image']) ? 'background-image:url(\''.$page['founder_image'].'\')' : '' }}">
-                        @if (empty($page['founder_image']))
-                            Belum ada gambar
-                        @endif
-                    </div>
-                    <input type="text" name="founder_image" id="founder-input"
-                           class="form-control form-control-sm"
-                           value="{{ $page['founder_image'] ?? '' }}"
-                           placeholder="dari Media Library"
-                           oninput="updatePreview(this, 'founder-preview')">
-                    <small class="text-muted"><a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a></small>
+                    {{-- Foto Founder — media picker --}}
+                    @include('layouts.partials.media-input', [
+                        'name'    => 'founder_image',
+                        'value'   => $page['founder_image'] ?? '',
+                        'label'   => 'Foto Founder',
+                        'inputId' => 'founder-image',
+                        'height'  => '200px',
+                        'hint'    => 'Foto pendiri yang tampil di section The Founder.',
+                    ])
                 </div>
             </div>
         </div>
 
-        {{-- Save --}}
+        {{-- Tombol Simpan --}}
         <div class="text-right mb-4">
             <button type="submit" class="btn btn-amber px-5">
-                <i class="fas fa-save mr-1"></i> {{ $page ? 'Simpan Perubahan' : 'Buat Halaman' }}
+                <i class="fas fa-save mr-1"></i>
+                {{ $page ? 'Simpan Perubahan' : 'Buat Halaman' }}
             </button>
         </div>
 
@@ -185,18 +173,3 @@
 </div>
 </div>
 @endsection
-
-@push('scripts')
-<script>
-    function updatePreview(input, previewId) {
-        const preview = document.getElementById(previewId);
-        if (input.value) {
-            preview.style.backgroundImage = "url('" + input.value + "')";
-            preview.textContent = '';
-        } else {
-            preview.style.backgroundImage = 'none';
-            preview.textContent = 'Belum ada gambar';
-        }
-    }
-</script>
-@endpush

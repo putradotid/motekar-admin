@@ -11,10 +11,13 @@
                 @else
                     <small class="text-muted"><i class="fas fa-times-circle mr-1"></i>Nonaktif</small>
                 @endif
-                <form method="POST" action="{{ route('admin.tim-kami.members.destroy', $member['id']) }}" class="d-inline">
+                <form method="POST"
+                      action="{{ route('admin.tim-kami.members.destroy', $member['id']) }}"
+                      class="d-inline">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Hapus?')">
+                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Hapus?')">
                         <i class="fas fa-trash"></i>
                     </button>
                 </form>
@@ -59,20 +62,14 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <label class="font-weight-bold small">Foto</label>
-                    <div class="img-preview" id="member-preview-{{ $member['id'] }}"
-                         style="{{ !empty($member['photo']) ? 'background-image:url(\''.$member['photo'].'\')' : '' }}">
-                        @if (empty($member['photo']))
-                            Belum ada foto
-                        @endif
-                    </div>
-                    <input type="text" name="photo" class="form-control form-control-sm"
-                           value="{{ $member['photo'] }}"
-                           placeholder="dari Media Library"
-                           oninput="updatePreview(this, 'member-preview-{{ $member['id'] }}')">
-                    <small class="text-muted">
-                        <a href="{{ route('admin.media') }}" target="_blank">Buka Media Library</a>
-                    </small>
+                    {{-- ✅ Foto Member — media picker --}}
+                    @include('layouts.partials.media-input', [
+                        'name'    => 'photo',
+                        'value'   => $member['photo'] ?? '',
+                        'label'   => 'Foto',
+                        'inputId' => 'member-photo-' . $member['id'],
+                        'height'  => '140px',
+                    ])
                 </div>
             </div>
 
