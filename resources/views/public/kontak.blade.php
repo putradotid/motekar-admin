@@ -114,21 +114,25 @@
     <div class="container mx-auto px-6">
         <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-10">
             <div class="grid md:grid-cols-[150px_1fr] gap-8 items-center">
-                <div class="flex justify-center">
-                    <img src="{{ asset('storage/assets/beranda2.jpg') }}"
-                         alt="Meeting" class="w-32">
+
+                <div class="flex justify-center flex-shrink-0">
+                    <img src="{{ $cta['icon_url'] ?? asset('storage/hero-logo.png') }}"
+                         alt="icon" class="w-32 object-contain">
                 </div>
+
                 <div>
-                    <h3 class="text-4xl font-bold mb-4">Butuh Konsultasi Teknologi?</h3>
+                    <h3 class="text-4xl font-bold mb-4">
+                        {{ $cta['title'] ?? 'Butuh Konsultasi Teknologi?' }}
+                    </h3>
                     <p class="text-gray-600 text-xl mb-8">
-                        Diskusikan kebutuhan sistem atau solusi digital Anda bersama tim kami
-                        untuk menemukan solusi teknologi yang tepat bagi bisnis.
+                        {{ $cta['description'] ?? 'Diskusikan kebutuhan sistem atau solusi digital Anda bersama tim kami untuk menemukan solusi teknologi yang tepat bagi bisnis.' }}
                     </p>
-                    <a href="{{ route('login') }}"
+                    <a href="{{ $cta['button_url'] ?? route('login') }}"
                        class="inline-block bg-orange-500 text-white font-semibold px-10 py-4 rounded-xl hover:bg-orange-600 transition">
-                        Jadwalkan Meeting
+                        {{ $cta['button_text'] ?? 'Jadwalkan Meeting' }}
                     </a>
                 </div>
+
             </div>
         </div>
     </div>
