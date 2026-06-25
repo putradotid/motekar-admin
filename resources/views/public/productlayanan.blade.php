@@ -2,7 +2,8 @@
 
 @section('content')
 {{-- Hero section --}}
-<section class="bg-gray-300 relative mt-10 px-8 py-16 md:py-24">
+<section class="relative mt-10 px-8 py-16 md:py-24 bg-cover bg-center bg-no-repeat"
+    style="background-image: url('{{ asset('storage/bg-hero.png') }}');">
 
     {{-- Gear Background --}}
     <div class="absolute top-0 right-0 opacity-20">

@@ -1,10 +1,11 @@
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = window.API_URL || 'http://127.0.0.1:8000';
 
 function getToken() {
-    return localStorage.getItem('admin_token'); // ← beda key
+    return document.querySelector('meta[name="api-token"]')?.content || '';
 }
 
-// redirect ke login admin
-if (res.status === 401) {
-    window.location.href = '/admin/login'; // ← beda redirect
+function handleUnauthorized(status) {
+    if (status === 401) {
+        window.location.href = '/login';
+    }
 }
