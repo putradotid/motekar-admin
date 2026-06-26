@@ -18,27 +18,17 @@ use App\Http\Controllers\Admin\ProdukLayananController;
 use App\Http\Controllers\Admin\TentangKamiController;
 use App\Http\Controllers\Admin\TestimoniController;
 use App\Http\Controllers\Admin\TimKamiController;
+use App\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman Public
-Route::get('/', function () {
-    return view('public.beranda');
-})->name('beranda');
-Route::get('/tentang-kami', function () {
-    return view('public.tentangkami');
-})->name('tentang-kami');
-Route::get('/produk-layanan', function () {
-    return view('public.productlayanan');
-})->name('produk-layanan');
-Route::get('/kontak', function () {
-    return view('public.kontak');
-})->name('kontak')  ;
-Route::get('/testimoni', function () {
-    return view('public.testimoni');
-})->name('testimoni');
-Route::get('/tim-kami', function () {
-    return view('public.timkami');
-})->name('tim-kami');
+Route::get('/',              [PublicController::class, 'beranda'])->name('beranda');
+Route::get('/tentang-kami',  [PublicController::class, 'tentangKami'])->name('tentang-kami');
+Route::get('/produk-layanan',[PublicController::class, 'produkLayanan'])->name('produk-layanan');
+Route::get('/testimoni',     [PublicController::class, 'testimoni'])->name('testimoni');
+Route::get('/tim-kami',      [PublicController::class, 'timKami'])->name('tim-kami');
+Route::get('/kontak',  [PublicController::class, 'kontak'])->name('kontak');
+
 Route::get('/hubungi-kami', function () {
     return view('public.contactpublik');
 })->name('hubungi-kami');

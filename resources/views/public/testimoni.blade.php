@@ -48,7 +48,7 @@
 </section>
 
 {{-- Testimonials --}}
-<section class="bg-orange-500 py-24">
+<section class="bg-amber-500 py-24">
     <div class="container mx-auto px-6">
 
         @if(count($testimonials) > 0)
@@ -79,7 +79,7 @@
                                             class="w-full h-[420px] object-cover"
                                         >
                                     @else
-                                        <div class="w-full h-[420px] bg-orange-400 flex items-center justify-center text-white">
+                                        <div class="w-full h-[420px] bg-amber-400 flex items-center justify-center text-white">
                                             Tidak ada foto
                                         </div>
                                     @endif
@@ -143,7 +143,7 @@
 
     <div class="container mx-auto px-6">
 
-        <h2 class="text-center text-6xl font-bold text-blue-700 mb-16">
+        <h2 class="text-center text-6xl font-bold text-blue-900 mb-16">
             Client & Partners
         </h2>
 

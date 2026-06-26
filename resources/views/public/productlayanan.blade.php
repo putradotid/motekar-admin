@@ -22,20 +22,15 @@
 
 {{-- Produk Kami --}}
 <section class="py-20 bg-white">
-
     <div class="container mx-auto px-6">
-
         <h2 class="text-5xl font-bold mb-12">
             Produk Kami
         </h2>
-
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-
             @forelse ($plProducts as $product)
                 <div class="bg-white shadow-lg cursor-pointer hover:shadow-2xl transition"
                      onclick="document.getElementById('modal-product-{{ $product['id'] }}').classList.remove('hidden')">
-
-                    <div class="bg-blue-700 text-white text-center py-4">
+                    <div class="bg-blue-900 text-white text-center py-4 hover:bg-blue-700 transition duration-300">
                         <h3 class="text-2xl font-bold">
                             {{ $product['title'] }}
                         </h3>
@@ -64,27 +59,20 @@
                             </p>
                         @endif
                     </div>
-
                 </div>
             @empty
                 <p class="text-gray-500 col-span-4 text-center">Belum ada produk.</p>
             @endforelse
-
         </div>
-
     </div>
-
 </section>
 
 {{-- Layanan Kami --}}
 <section class="relative bg-[#F6DD8F] py-24 overflow-hidden">
-
     <div class="container mx-auto px-6">
-
         <h2 class="text-5xl font-bold mb-12">
             Layanan Kami
         </h2>
-
         <div class="grid lg:grid-cols-2 gap-6">
 
             @forelse ($plServices as $service)
@@ -114,50 +102,33 @@
                             </p>
                         @endif
                     </div>
-
                 </div>
             @empty
                 <p class="text-gray-500 col-span-2 text-center">Belum ada layanan.</p>
             @endforelse
-
         </div>
-
     </div>
-
 </section>
 
 {{-- Call to Action --}}
 <section class="py-24 bg-white">
-
     <div class="container mx-auto px-6">
-
-        <div class="border-2 border-blue-600 rounded-xl p-12">
-
+        <div class="border-2 border-blue-900 rounded-xl p-12">
             <div class="flex flex-col lg:flex-row justify-between items-center gap-8">
-
                 <div>
                     <h2 class="text-5xl font-bold mb-4">
                         Anda Berminat?
                     </h2>
-
                     <p class="text-gray-600">
                         Mari ciptakan produk yang menjadi solusi untuk negeri bersama kami.
                     </p>
                 </div>
-
-                <a                
-                    href="{{ route('kontak') }}"
-                    class="bg-orange-500 hover:bg-orange-600 text-white px-10 py-4 rounded-xl font-semibold"
-                >
-                    HUBUNGI KAMI
-                </a>
-
+                <a href="{{ route('hubungi-kami') }}"
+                    class="bg-amber-500 hover:bg-amber-600 text-white px-10 py-4 rounded-xl font-semibold"
+                >HUBUNGI KAMI</a>
             </div>
-
         </div>
-
     </div>
-
 </section>
 
 {{-- ==================== MODAL POPUP PRODUK ==================== --}}

@@ -1,7 +1,8 @@
 @extends('layouts.public')
 
 @section('content')
-<section class="bg-[#F8E29A] py-20 overflow-hidden relative">
+<section class="relative mt-10 px-8 py-16 md:py-24 bg-cover bg-center bg-no-repeat"
+    style="background-image: url('{{ asset('storage/bg-hero.png') }}');">
     <div class="container mx-auto px-6">
         <div class="grid md:grid-cols-2 items-center gap-10">
 
@@ -18,8 +19,8 @@
 
             <div>
                 <img
-                    src="{{ asset('storage/assets/contact.png') }}"
-                    class="w-full max-w-xl mx-auto"
+                    src="{{ asset('storage/icon-contact.png') }}"
+                    class="w-52 md:w-52 lg:w-58 h-auto mx-auto"
                     alt="Contact"
                 >
             </div>

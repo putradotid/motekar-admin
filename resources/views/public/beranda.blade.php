@@ -42,12 +42,6 @@
 
                         <div class="max-w-2xl relative z-10">
 
-                            {{-- Icon --}}
-                            @if (!empty($slide['icon_url']))
-                                <img src="{{ $slide['icon_url'] }}"
-                                     class="w-16 h-16 object-contain mb-4" alt="icon">
-                            @endif
-
                             {{-- Title --}}
                             <h1 class="text-4xl md:text-6xl font-bold leading-tight">
                                 {{ $slide['title'] }}
@@ -74,11 +68,20 @@
                         </div>
 
                         {{-- Logo kanan --}}
-                        <div class="hidden md:block absolute right-8 top-1/2 -translate-y-1/2">
-                            <img src="{{ asset('storage/hero-logo.png') }}"
-                                alt="logo"
-                                style="width: 420px; height: 280px; object-fit: contain;">
-                        </div>
+                        @if (!empty($slide['icon_url']))
+                            <div class="hidden md:block absolute right-8 top-1/2 -translate-y-1/2">
+                                <img src="{{ $slide['icon_url'] }}"
+                                    alt="logo"
+                                    style="width: 420px; height: 280px; object-fit: contain;">
+                            </div>
+                        @else
+                            <div class="hidden md:block absolute right-8 top-1/2 -translate-y-1/2">
+                                <img src="{{ asset('storage/hero-logo.png') }}"
+                                    alt="logo"
+                                    style="width: 420px; height: 280px; object-fit: contain;">
+                            </div>
+                        @endif
+                        
 
                     </div>
                 </div>
@@ -202,25 +205,28 @@
 
 {{-- CTA Section --}}
 <section class="bg-gray-100 py-16 md:py-24">
-    <div class="max-w-3xl mx-auto px-6">
-        <div class="bg-white rounded-2xl shadow-lg p-10 flex flex-col md:flex-row items-center gap-8">
-            <div class="w-24 md:w-32 flex flex-shrink-0">
-                <img src="{{ $cta['icon_url'] ?? asset('storage/hero-logo.png') }}"
-                     class="w-full object-contain">
-            </div>
-            <div class="flex-1 text-center md:text-left">
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-900">
-                    {{ $cta['title'] ?? 'Butuh Konsultasi Teknologi?' }}
-                </h2>
-                <p class="mt-4 text-gray-600 text-sm md:text-base leading-relaxed">
-                    {{ $cta['description'] ?? 'Diskusikan kebutuhan sistem atau solusi digital Anda bersama tim kami.' }}
-                </p>
-                <div class="mt-6">
-                    <a href="{{ $cta['button_url'] ?? '#' }}"
-                       class="inline-block bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-lg font-semibold transition">
-                        {{ $cta['button_text'] ?? 'Jadwalkan Meeting' }}
-                    </a>
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="bg-white rounded-2xl shadow-lg p-10">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="w-24 md:w-40 flex-shrink-0">
+                    <img
+                        src="{{ $cta['icon_url'] ?? asset('storage/hero-logo.png') }}"
+                        class="w-full object-contain">
                 </div>
+                <div class="flex-1 text-center md:text-left">
+                    <h2 class="text-3xl md:text-5xl font-bold text-gray-900">
+                        {{ $cta['title'] ?? 'Butuh Konsultasi Teknologi?' }}
+                    </h2>
+                    <p class="mt-5 text-gray-600 text-base md:text-lg leading-relaxed">
+                        {{ $cta['description'] ?? 'Diskusikan kebutuhan sistem atau solusi digital Anda bersama tim kami.' }}
+                    </p>
+                </div>
+            </div>
+            <div class="mt-10 flex justify-center">
+                <a href="{{ $cta['button_url'] ?? '#' }}"
+                   class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-10 py-4 rounded-xl transition duration-300">
+                    {{ $cta['button_text'] ?? 'Hubungi Kami' }}
+                </a>
             </div>
         </div>
     </div>

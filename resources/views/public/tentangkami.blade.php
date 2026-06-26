@@ -105,7 +105,7 @@
 </section>
 
 {{-- Section Founder --}}
-<section class="bg-orange-500 p-16">
+<section class="bg-amber-500 p-16">
     <div class="container mx-auto m-5">
 
         <div class="grid lg:grid-cols-2 gap-16 items-center px-8">

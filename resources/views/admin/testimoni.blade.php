@@ -111,7 +111,9 @@
             <form method="POST"
                   action="{{ $hero ? route('admin.testimoni.hero.update', $hero['id']) : route('admin.testimoni.hero.store') }}">
                 @csrf
-                @if ($hero) @method('PUT') @endif
+                @method('PUT') 
+                @if ($hero) 
+                @endif
 
                 <div class="form-group">
                     <label class="font-weight-bold small">Judul <span class="text-danger">*</span></label>
@@ -147,71 +149,99 @@
                     <div class="col-md-3 mb-3">
                         <div class="section-card h-100">
 
-                            {{-- ✅ Foto Featured Customer — media picker --}}
-                            @include('layouts.partials.media-input', [
-                                'name'    => 'photo',
-                                'value'   => $customer['photo'] ?? '',
-                                'label'   => 'Foto',
-                                'inputId' => 'fc-photo-' . $customer['id'],
-                                'height'  => '120px',
-                            ])
-
                             <form method="POST"
-                                  action="{{ route('admin.testimoni.featured.update', $customer['id']) }}">
+                                action="{{ route('admin.testimoni.featured.update', $customer['id']) }}">
                                 @csrf
                                 @method('PUT')
 
-                                {{-- Hidden input foto dari picker --}}
-                                <input type="hidden" name="photo" id="fc-photo-val-{{ $customer['id'] }}"
-                                       value="{{ $customer['photo'] ?? '' }}">
+                                @include('layouts.partials.media-input', [
+                                    'name'    => 'photo',
+                                    'value'   => $customer['photo'] ?? '',
+                                    'label'   => 'Foto',
+                                    'inputId' => 'fc-photo-' . $customer['id'],
+                                    'height'  => '120px',
+                                ])
 
                                 <div class="form-group mb-2">
                                     <label class="font-weight-bold small">Nama</label>
-                                    <input type="text" name="name" class="form-control form-control-sm"
-                                           value="{{ $customer['name'] }}" required>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        class="form-control form-control-sm"
+                                        value="{{ $customer['name'] }}"
+                                        required>
                                 </div>
+
                                 <div class="form-group mb-2">
                                     <label class="font-weight-bold small">Jabatan</label>
-                                    <input type="text" name="designation" class="form-control form-control-sm"
-                                           value="{{ $customer['designation'] }}"
-                                           placeholder="CEO, PT Motekar">
+                                    <input
+                                        type="text"
+                                        name="designation"
+                                        class="form-control form-control-sm"
+                                        value="{{ $customer['designation'] }}"
+                                        placeholder="CEO, PT Motekar">
                                 </div>
+
                                 <div class="form-row align-items-center mb-2">
                                     <div class="col-6">
-                                        <input type="number" name="order"
-                                               class="form-control form-control-sm"
-                                               value="{{ $customer['order'] }}" min="0"
-                                               placeholder="Urutan">
+                                        <input
+                                            type="number"
+                                            name="order"
+                                            class="form-control form-control-sm"
+                                            value="{{ $customer['order'] }}"
+                                            min="0">
                                     </div>
+
                                     <div class="col-6">
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input"
-                                                   id="fc-active-{{ $customer['id'] }}"
-                                                   name="is_active"
-                                                   {{ $customer['is_active'] ? 'checked' : '' }}>
-                                            <label class="custom-control-label small"
-                                                   for="fc-active-{{ $customer['id'] }}">Aktif</label>
+                                            <input
+                                                type="checkbox"
+                                                class="custom-control-input"
+                                                id="fc-active-{{ $customer['id'] }}"
+                                                name="is_active"
+                                                {{ $customer['is_active'] ? 'checked' : '' }}>
+
+                                            <label
+                                                class="custom-control-label small"
+                                                for="fc-active-{{ $customer['id'] }}">
+                                                Aktif
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-amber btn-sm btn-block">
-                                    <i class="fas fa-save mr-1"></i> Simpan
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-amber btn-sm btn-block">
+                                    <i class="fas fa-save mr-1"></i>
+                                    Simpan
                                 </button>
+
                             </form>
 
-                            <form method="POST"
-                                  action="{{ route('admin.testimoni.featured.destroy', $customer['id']) }}"
-                                  class="mt-2">
+                            <form
+                                method="POST"
+                                action="{{ route('admin.testimoni.featured.destroy', $customer['id']) }}"
+                                class="mt-2">
+
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger btn-block"
-                                        onclick="return confirm('Hapus?')">
-                                    <i class="fas fa-trash mr-1"></i> Hapus
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-outline-danger btn-sm btn-block"
+                                    onclick="return confirm('Hapus data ini?')">
+
+                                    <i class="fas fa-trash mr-1"></i>
+                                    Hapus
+
                                 </button>
+
                             </form>
+
                         </div>
                     </div>
-                @endforeach
+                    @endforeach
             </div>
         @else
             <div class="empty-state">
@@ -299,7 +329,6 @@
                         </div>
 
                         <div class="col-lg-4">
-                            {{-- ✅ Foto Testimoni — media picker --}}
                             @include('layouts.partials.media-input', [
                                 'name'    => 'photo',
                                 'value'   => $item['photo'] ?? '',
@@ -342,7 +371,6 @@
                     <div class="col-md-3 mb-3">
                         <div class="section-card h-100">
 
-                            {{-- ✅ Logo Partner — media picker --}}
                             @include('layouts.partials.media-input', [
                                 'name'    => 'logo_image',
                                 'value'   => $partner['logo_image'] ?? '',
@@ -448,7 +476,6 @@
                         </div>
                     </div>
 
-                    {{-- ✅ Foto — media picker --}}
                     @include('layouts.partials.media-input', [
                         'name'    => 'photo',
                         'value'   => '',
@@ -488,7 +515,6 @@
                         <input type="text" name="name" class="form-control" placeholder="Nama perusahaan">
                     </div>
 
-                    {{-- ✅ Logo — media picker --}}
                     @include('layouts.partials.media-input', [
                         'name'     => 'logo_image',
                         'value'    => '',
@@ -535,7 +561,6 @@
                                placeholder="CEO, PT Motekar">
                     </div>
 
-                    {{-- ✅ Foto — media picker --}}
                     @include('layouts.partials.media-input', [
                         'name'    => 'photo',
                         'value'   => '',

@@ -66,8 +66,8 @@
                 @if ($wa)
                     <a href="https://wa.me/{{ $waLink }}" target="_blank"
                        class="mt-8 inline-flex items-center gap-4 bg-white px-8 py-4 rounded-2xl shadow-md hover:shadow-lg transition">
-                        <span class="text-4xl">🟢</span>
-                        <span class="font-bold text-green-600 text-lg">Chat Lewat WhatsApp</span>
+                        <i class="fab fa-whatsapp text-4xl text-green-500"></i>
+                        <span class="font-bold text-green-500 text-lg">Chat Lewat WhatsApp</span>
                     </a>
                 @endif
             </div>
@@ -110,29 +110,29 @@
 </section>
 
 {{-- CTA --}}
-<section class="bg-gray-100 py-20">
-    <div class="container mx-auto px-6">
-        <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-10">
-            <div class="grid md:grid-cols-[150px_1fr] gap-8 items-center">
-
-                <div class="flex justify-center flex-shrink-0">
-                    <img src="{{ $cta['icon_url'] ?? asset('storage/hero-logo.png') }}"
-                         alt="icon" class="w-32 object-contain">
+<section class="bg-gray-100 py-16 md:py-24">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="bg-white rounded-2xl shadow-lg p-10">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="w-24 md:w-40 flex-shrink-0">
+                    <img
+                        src="{{ $cta['icon_url'] ?? asset('storage/hero-logo.png') }}"
+                        class="w-full object-contain">
                 </div>
-
-                <div>
-                    <h3 class="text-4xl font-bold mb-4">
+                <div class="flex-1 text-center md:text-left">
+                    <h2 class="text-3xl md:text-5xl font-bold text-gray-900">
                         {{ $cta['title'] ?? 'Butuh Konsultasi Teknologi?' }}
-                    </h3>
-                    <p class="text-gray-600 text-xl mb-8">
-                        {{ $cta['description'] ?? 'Diskusikan kebutuhan sistem atau solusi digital Anda bersama tim kami untuk menemukan solusi teknologi yang tepat bagi bisnis.' }}
+                    </h2>
+                    <p class="mt-5 text-gray-600 text-base md:text-lg leading-relaxed">
+                        {{ $cta['description'] ?? 'Diskusikan kebutuhan sistem atau solusi digital Anda bersama tim kami.' }}
                     </p>
-                    <a href="{{ $cta['button_url'] ?? route('login') }}"
-                       class="inline-block bg-orange-500 text-white font-semibold px-10 py-4 rounded-xl hover:bg-orange-600 transition">
-                        {{ $cta['button_text'] ?? 'Jadwalkan Meeting' }}
-                    </a>
                 </div>
-
+            </div>
+            <div class="mt-10 flex justify-center">
+                <a href="{{ $cta['button_url'] ?? '#' }}"
+                   class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-10 py-4 rounded-xl transition duration-300">
+                    {{ $cta['button_text'] ?? 'Hubungi Kami' }}
+                </a>
             </div>
         </div>
     </div>

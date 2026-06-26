@@ -35,7 +35,7 @@
 {{-- Section 3 — The Leader --}}
 <section class="bg-white py-24">
     <div class="container mx-auto px-6">
-        <h2 class="text-center text-6xl font-bold text-blue-700 mb-20">
+        <h2 class="text-center text-6xl font-bold text-blue-900 mb-20">
             The Leader
         </h2>
 
@@ -51,7 +51,7 @@
                                 Tidak ada foto
                             </div>
                         @endif
-                        <h3 class="text-4xl font-bold mt-6 text-orange-500">
+                        <h3 class="text-4xl font-bold mt-6 text-amber-500">
                             {{ $member['name'] }}
                         </h3>
                         @if (!empty($member['designation']))
@@ -67,7 +67,7 @@
 </section>
 
 {{-- Section 4 — Client Support --}}
-<section class="bg-orange-500 py-24">
+<section class="bg-amber-500 py-24">
     <div class="container mx-auto px-6">
         <h2 class="text-center text-6xl font-bold text-white mb-20">
             Client Support
@@ -81,7 +81,7 @@
                             <img src="{{ $member['photo'] }}" alt="{{ $member['name'] }}"
                                  class="w-56 h-72 object-cover rounded-lg shadow-lg mx-auto">
                         @else
-                            <div class="w-56 h-72 bg-orange-400 rounded-lg shadow-lg mx-auto flex items-center justify-center text-white text-sm">
+                            <div class="w-56 h-72 bg-amber-400 rounded-lg shadow-lg mx-auto flex items-center justify-center text-white text-sm">
                                 Tidak ada foto
                             </div>
                         @endif
@@ -101,7 +101,7 @@
 </section>
 
 {{-- Section 5 — Developer --}}
-<section class="bg-orange-500 pb-24">
+<section class="bg-amber-500 pb-24">
     <div class="container mx-auto px-6">
         <h2 class="text-center text-6xl font-bold text-white mb-20">
             Developer
@@ -115,7 +115,7 @@
                             <img src="{{ $member['photo'] }}" alt="{{ $member['name'] }}"
                                  class="w-56 h-72 object-cover rounded-lg shadow-lg mx-auto">
                         @else
-                            <div class="w-56 h-72 bg-orange-400 rounded-lg shadow-lg mx-auto flex items-center justify-center text-white text-sm">
+                            <div class="w-56 h-72 bg-amber-400 rounded-lg shadow-lg mx-auto flex items-center justify-center text-white text-sm">
                                 Tidak ada foto
                             </div>
                         @endif
